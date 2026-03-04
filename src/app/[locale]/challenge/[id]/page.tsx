@@ -67,7 +67,16 @@ export default function ChallengePage() {
     <div className="min-h-screen bg-slate-50">
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="flex items-center justify-between px-6 py-3 max-w-6xl mx-auto">
-          <Link href="/" className="text-xl font-bold tracking-tight text-slate-900">Caliber</Link>
+          <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-slate-900">
+              <svg width="28" height="28" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                <rect width="512" height="512" rx="108" fill="#3730A3"/>
+                <path d="M136 316 A150 150 0 1 1 376 316" stroke="rgba(255,255,255,0.25)" strokeWidth="36" strokeLinecap="round" fill="none"/>
+                <path d="M136 316 A150 150 0 1 1 348 178" stroke="white" strokeWidth="36" strokeLinecap="round" fill="none"/>
+                <line x1="256" y1="256" x2="340" y2="186" stroke="white" strokeWidth="14" strokeLinecap="round"/>
+                <circle cx="256" cy="256" r="20" fill="white"/>
+              </svg>
+              Caliber
+            </Link>
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
             <Link href="/assess"><Button size="sm">{t("common.getStarted")}</Button></Link>
