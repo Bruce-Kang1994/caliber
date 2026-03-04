@@ -1,0 +1,28 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: rounded square, deep indigo -->
+  <rect width="512" height="512" rx="108" fill="#3730A3"/>
+
+  <!-- Gauge arc (270° arc, opening at bottom) -->
+  <path d="M136 316 A150 150 0 1 1 376 316" stroke="rgba(255,255,255,0.25)" stroke-width="36" stroke-linecap="round" fill="none"/>
+
+  <!-- Filled arc portion (showing ~75% / high score) -->
+  <path d="M136 316 A150 150 0 1 1 348 178" stroke="white" stroke-width="36" stroke-linecap="round" fill="none"/>
+
+  <!-- Needle pointing to ~75% position on the arc -->
+  <line x1="256" y1="256" x2="340" y2="186" stroke="white" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Center dot -->
+  <circle cx="256" cy="256" r="20" fill="white"/>
+
+  <!-- Small tick marks on the gauge -->
+  <!-- 0% mark (bottom-left) -->
+  <line x1="122" y1="308" x2="138" y2="300" stroke="rgba(255,255,255,0.4)" stroke-width="6" stroke-linecap="round"/>
+  <!-- 25% mark (left) -->
+  <line x1="110" y1="216" x2="128" y2="220" stroke="rgba(255,255,255,0.4)" stroke-width="6" stroke-linecap="round"/>
+  <!-- 50% mark (top) -->
+  <line x1="256" y1="96" x2="256" y2="114" stroke="rgba(255,255,255,0.4)" stroke-width="6" stroke-linecap="round"/>
+  <!-- 75% mark (right) -->
+  <line x1="402" y1="216" x2="384" y2="220" stroke="rgba(255,255,255,0.4)" stroke-width="6" stroke-linecap="round"/>
+  <!-- 100% mark (bottom-right) -->
+  <line x1="390" y1="308" x2="374" y2="300" stroke="rgba(255,255,255,0.4)" stroke-width="6" stroke-linecap="round"/>
+</svg>
