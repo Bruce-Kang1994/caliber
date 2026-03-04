@@ -283,62 +283,29 @@ export default function LandingPage() {
         </section>
       </FadeInSection>
 
-      {/* Report Preview */}
+      {/* Social Proof Bar */}
       <FadeInSection>
-        <section className="bg-slate-50 border-y border-slate-100">
-          <div className="max-w-5xl mx-auto px-6 py-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-slate-900 mb-4">
-              {t("landing.reportPreviewTitle")}
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6 mt-12">
-              {/* Score Preview */}
-              <Card className="border-0 shadow-md hover:shadow-lg transition-shadow bg-white">
-                <CardContent className="pt-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
-                    <span className="text-white text-xl font-bold">82</span>
-                  </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">
-                    {t("landing.reportPreviewScore")}
-                  </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">
-                    {t("landing.reportPreviewScoreDesc")}
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Radar Preview */}
-              <Card className="border-0 shadow-md hover:shadow-lg transition-shadow bg-white">
-                <CardContent className="pt-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4">
-                    <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">
-                    {t("landing.reportPreviewRadar")}
-                  </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">
-                    {t("landing.reportPreviewRadarDesc")}
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Insights Preview */}
-              <Card className="border-0 shadow-md hover:shadow-lg transition-shadow bg-white">
-                <CardContent className="pt-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 flex items-center justify-center mb-4">
-                    <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">
-                    {t("landing.reportPreviewInsights")}
-                  </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">
-                    {t("landing.reportPreviewInsightsDesc")}
-                  </p>
-                </CardContent>
-              </Card>
+        <section className="border-y border-slate-100 bg-slate-50/50">
+          <div className="max-w-4xl mx-auto px-6 py-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-slate-500">
+              <span className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                </svg>
+                {t("landing.proofFramework")}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                </svg>
+                {t("landing.proofEvidence")}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                </svg>
+                {t("landing.proofUpgrade")}
+              </span>
             </div>
           </div>
         </section>
@@ -367,34 +334,6 @@ export default function LandingPage() {
                 </p>
               </div>
             ))}
-          </div>
-        </section>
-      </FadeInSection>
-
-      {/* Why Caliber */}
-      <FadeInSection>
-        <section className="bg-slate-50 border-y border-slate-100">
-          <div className="max-w-5xl mx-auto px-6 py-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-slate-900 mb-12">
-              {t("landing.whyCaliberTitle")}
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((n) => (
-                <div key={n} className="text-center">
-                  <div className={`w-12 h-12 rounded-2xl ${n === 1 ? "bg-blue-100" : n === 2 ? "bg-emerald-100" : "bg-violet-100"} flex items-center justify-center mx-auto mb-4`}>
-                    <span className={`text-lg font-bold ${n === 1 ? "text-blue-600" : n === 2 ? "text-emerald-600" : "text-violet-600"}`}>
-                      {n}
-                    </span>
-                  </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">
-                    {t(`landing.whyCaliber${n}Title`)}
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {t(`landing.whyCaliber${n}Desc`)}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
       </FadeInSection>
