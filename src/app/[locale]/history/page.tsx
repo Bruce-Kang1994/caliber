@@ -41,6 +41,7 @@ export default function HistoryPage() {
   const { user, loading: authLoading } = useAuth();
   const [assessments, setAssessments] = useState<AssessmentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (authLoading) return;
@@ -140,11 +141,63 @@ export default function HistoryPage() {
 
         {!loading && assessments.length > 0 && (
           <div className="space-y-4">
+            {assessments.length >= 2 && (
+              <div className="flex items-center justify-between bg-white rounded-xl border border-slate-200 p-4">
+                <p className="text-sm text-slate-600">
+                  {selected.size === 0
+                    ? t("history.selectToCompare")
+                    : selected.size === 1
+                    ? t("history.selectOneMore")
+                    : t("history.readyToCompare")}
+                </p>
+                <div className="flex gap-2">
+                  {selected.size > 0 && (
+                    <Button variant="ghost" size="sm" onClick={() => setSelected(new Set())}>
+                      {t("history.clearSelection")}
+                    </Button>
+                  )}
+                  {selected.size === 2 && (
+                    <Link href={`/history/compare?a=${[...selected][0]}&b=${[...selected][1]}`}>
+                      <Button size="sm">{t("history.compare")}</Button>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
             {assessments.map((assessment) => (
-              <Card key={assessment.id} className="hover:shadow-md transition-shadow">
+              <Card
+                key={assessment.id}
+                className={`hover:shadow-md transition-shadow ${selected.has(assessment.id) ? "ring-2 ring-primary" : ""}`}
+              >
                 <CardContent className="py-5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
+                      {assessments.length >= 2 && (
+                        <button
+                          onClick={() => {
+                            setSelected((prev) => {
+                              const next = new Set(prev);
+                              if (next.has(assessment.id)) {
+                                next.delete(assessment.id);
+                              } else if (next.size < 2) {
+                                next.add(assessment.id);
+                              }
+                              return next;
+                            });
+                          }}
+                          className={`w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+                            selected.has(assessment.id)
+                              ? "bg-primary border-primary text-white"
+                              : "border-slate-300 hover:border-slate-400"
+                          }`}
+                        >
+                          {selected.has(assessment.id) && (
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </button>
+                      )}
                       <div className={`w-14 h-14 rounded-xl flex items-center justify-center font-bold text-lg ${getScoreColor(assessment.overall_score)}`}>
                         {Math.round(assessment.overall_score)}
                       </div>

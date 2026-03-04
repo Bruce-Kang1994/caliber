@@ -88,11 +88,13 @@ export async function POST(req: NextRequest) {
 
       // Save to DB if user is logged in
       let assessmentId: string | null = null;
+      let shareToken: string | null = null;
       if (userId) {
-        assessmentId = await saveAssessment(userId, role, inputMethod || "manual", experiences, result, locale);
+        const saved = await saveAssessment(userId, role, inputMethod || "manual", experiences, result, locale);
+        if (saved) { assessmentId = saved.id; shareToken = saved.shareToken; }
       }
 
-      return NextResponse.json({ result, assessmentId });
+      return NextResponse.json({ result, assessmentId, shareToken });
     }
 
     const { system, user } = buildAssessmentPrompt(
@@ -192,11 +194,13 @@ export async function POST(req: NextRequest) {
 
     // Save to DB if user is logged in
     let assessmentId: string | null = null;
+    let shareToken: string | null = null;
     if (userId) {
-      assessmentId = await saveAssessment(userId, role, inputMethod || "manual", experiences, result, locale);
+      const saved = await saveAssessment(userId, role, inputMethod || "manual", experiences, result, locale);
+      if (saved) { assessmentId = saved.id; shareToken = saved.shareToken; }
     }
 
-    return NextResponse.json({ result, assessmentId });
+    return NextResponse.json({ result, assessmentId, shareToken });
   } catch (error) {
     console.error("Analysis error:", error);
     const errMsg = error instanceof Error ? error.message : String(error);
@@ -214,7 +218,7 @@ async function saveAssessment(
   experienceData: unknown,
   result: AssessmentResult,
   locale: string
-): Promise<string | null> {
+): Promise<{ id: string; shareToken: string } | null> {
   try {
     const supabase = await createClient();
     const shareToken = nanoid(12);
@@ -232,7 +236,7 @@ async function saveAssessment(
         share_token: shareToken,
         is_public: false,
       })
-      .select("id")
+      .select("id, share_token")
       .single();
 
     if (error) {
@@ -240,7 +244,7 @@ async function saveAssessment(
       return null;
     }
 
-    return data.id;
+    return { id: data.id, shareToken: data.share_token };
   } catch (err) {
     console.error("Save assessment error:", err);
     return null;

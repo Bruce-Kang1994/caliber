@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ function CheckIcon({ className }: { className?: string }) {
 
 export default function PricingPage() {
   const t = useTranslations();
+  const [loading, setLoading] = useState<"single" | "pro" | null>(null);
 
   const freeFeatures = t.raw("pricing.freePlanFeatures") as string[];
   const singleFeatures = t.raw("pricing.singlePlanFeatures") as string[];
@@ -36,6 +38,34 @@ export default function PricingPage() {
     { q: t("pricing.faq3Q"), a: t("pricing.faq3A") },
     { q: t("pricing.faq4Q"), a: t("pricing.faq4A") },
   ];
+
+  async function handleCheckout(plan: "single" | "pro") {
+    setLoading(plan);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan }),
+      });
+
+      if (res.status === 401) {
+        // Not logged in — redirect to sign in
+        window.location.href = "/auth/login?redirect=/pricing";
+        return;
+      }
+
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong");
+      }
+    } catch {
+      alert("Network error. Please try again.");
+    } finally {
+      setLoading(null);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -118,8 +148,19 @@ export default function PricingPage() {
                 ))}
               </ul>
               <div className="mt-8">
-                <Button className="w-full" disabled>
-                  {t("pricing.comingSoon")}
+                <Button
+                  className="w-full"
+                  onClick={() => handleCheckout("single")}
+                  disabled={loading !== null}
+                >
+                  {loading === "single" ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      {t("pricing.getFullReport")}
+                    </span>
+                  ) : (
+                    t("pricing.getFullReport")
+                  )}
                 </Button>
               </div>
             </CardContent>
@@ -153,8 +194,20 @@ export default function PricingPage() {
                 ))}
               </ul>
               <div className="mt-8">
-                <Button variant="outline" className="w-full" disabled>
-                  {t("pricing.comingSoon")}
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleCheckout("pro")}
+                  disabled={loading !== null}
+                >
+                  {loading === "pro" ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
+                      {t("pricing.upgrade")}
+                    </span>
+                  ) : (
+                    t("pricing.upgrade")
+                  )}
                 </Button>
               </div>
             </CardContent>

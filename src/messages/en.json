@@ -259,7 +259,25 @@
     "resume": "Resume Upload",
     "manual": "Manual Input",
     "deleteConfirm": "Are you sure you want to delete this assessment?",
-    "deleted": "Assessment deleted"
+    "deleted": "Assessment deleted",
+    "selectToCompare": "Select 2 assessments to compare progress",
+    "selectOneMore": "Select one more to compare",
+    "readyToCompare": "Ready to compare!",
+    "clearSelection": "Clear",
+    "compare": "Compare"
+  },
+  "compare": {
+    "title": "Progress Comparison",
+    "subtitle": "See how you've grown between assessments",
+    "before": "Before",
+    "after": "After",
+    "change": "Change",
+    "points": "points",
+    "radarTitle": "Category Radar Overlay",
+    "breakdown": "Category Breakdown",
+    "category": "Category",
+    "archetypeChange": "Archetype Evolution",
+    "takeAnother": "Take Another Assessment"
   },
   "admin": {
     "title": "Admin Dashboard",
@@ -296,6 +314,21 @@
     "notFound": "Report not found",
     "notFoundDesc": "This report may have been deleted or the link is invalid.",
     "tryYourOwn": "Try Your Own Assessment",
-    "ctaText": "Want to know your own PM caliber?"
+    "ctaText": "Want to know your own PM caliber?",
+    "downloadCard": "Download Share Card",
+    "downloadImage": "Download Image",
+    "challengeTitle": "Challenge a Friend",
+    "challengeDesc": "Think you can beat my score?",
+    "challengeCta": "Send Challenge",
+    "challengeAccept": "Accept Challenge",
+    "challengeScored": "scored",
+    "challengeYourTurn": "Your turn! Take the assessment to see how you compare."
+  },
+  "paywall": {
+    "unlockTitle": "Unlock Full Report",
+    "unlockDesc": "Get detailed analysis of all 15 dimensions, evidence-based justifications, and a personalized action plan.",
+    "unlockCta": "Unlock for $4.99",
+    "freePreview": "Free Preview",
+    "fullReport": "Full Report"
   }
 }

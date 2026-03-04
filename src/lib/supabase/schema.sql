@@ -61,6 +61,35 @@ CREATE POLICY "Public assessments are viewable"
 
 -- Admin policies (service role bypasses RLS)
 
+-- User subscriptions (payment tiers)
+CREATE TABLE user_subscriptions (
+  user_id UUID PRIMARY KEY REFERENCES profiles(id) ON DELETE CASCADE,
+  tier TEXT NOT NULL DEFAULT 'free' CHECK (tier IN ('free', 'single', 'pro')),
+  lemonsqueezy_order_id TEXT,
+  lemonsqueezy_subscription_id TEXT,
+  lemonsqueezy_status TEXT,
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own subscription"
+  ON user_subscriptions FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Email leads collection
+CREATE TABLE email_leads (
+  email TEXT PRIMARY KEY,
+  score NUMERIC(4,1),
+  archetype TEXT,
+  locale TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE email_leads ENABLE ROW LEVEL SECURITY;
+-- email_leads only writable via service role (admin client)
+
 -- Auto-create profile on user signup
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$

@@ -259,7 +259,25 @@
     "resume": "履歴書アップロード",
     "manual": "手動入力",
     "deleteConfirm": "この評価を削除してもよろしいですか？",
-    "deleted": "評価が削除されました"
+    "deleted": "評価が削除されました",
+    "selectToCompare": "2つの評価を選択して比較",
+    "selectOneMore": "もう1つ選択してください",
+    "readyToCompare": "比較の準備ができました！",
+    "clearSelection": "クリア",
+    "compare": "比較"
+  },
+  "compare": {
+    "title": "成長比較",
+    "subtitle": "評価間の成長を確認しましょう",
+    "before": "以前",
+    "after": "以後",
+    "change": "変化",
+    "points": "ポイント",
+    "radarTitle": "カテゴリーレーダー比較",
+    "breakdown": "カテゴリー詳細",
+    "category": "カテゴリー",
+    "archetypeChange": "アーキタイプの変化",
+    "takeAnother": "もう一度評価する"
   },
   "admin": {
     "title": "管理ダッシュボード",
@@ -296,6 +314,21 @@
     "notFound": "レポートが見つかりません",
     "notFoundDesc": "このレポートは削除されたか、リンクが無効です。",
     "tryYourOwn": "自分の評価を始める",
-    "ctaText": "あなたのPM実力を知りたいですか？"
+    "ctaText": "あなたのPM実力を知りたいですか？",
+    "downloadCard": "シェアカードをダウンロード",
+    "downloadImage": "画像をダウンロード",
+    "challengeTitle": "友達にチャレンジ",
+    "challengeDesc": "私のスコアを超えられる？",
+    "challengeCta": "チャレンジを送信",
+    "challengeAccept": "チャレンジを受ける",
+    "challengeScored": "のスコア",
+    "challengeYourTurn": "あなたの番です！評価を受けてどう比べるか見てみましょう。"
+  },
+  "paywall": {
+    "unlockTitle": "フルレポートを解除",
+    "unlockDesc": "全15ディメンションの詳細分析、エビデンスベースのスコア根拠、パーソナライズされたアクションプランを取得できます。",
+    "unlockCta": "¥790で解除",
+    "freePreview": "無料プレビュー",
+    "fullReport": "フルレポート"
   }
 }

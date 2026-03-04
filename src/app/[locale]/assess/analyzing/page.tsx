@@ -75,6 +75,9 @@ function AnalyzingContent() {
         if (data.assessmentId) {
           resultData._assessmentId = data.assessmentId;
         }
+        if (data.shareToken) {
+          resultData._shareToken = data.shareToken;
+        }
         sessionStorage.setItem("assessmentResult", JSON.stringify(resultData));
 
         setTimeout(() => {

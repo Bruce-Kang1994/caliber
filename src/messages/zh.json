@@ -259,7 +259,25 @@
     "resume": "简历上传",
     "manual": "手动填写",
     "deleteConfirm": "确定要删除这条评估记录吗？",
-    "deleted": "评估已删除"
+    "deleted": "评估已删除",
+    "selectToCompare": "选择2条评估记录进行对比",
+    "selectOneMore": "再选一条进行对比",
+    "readyToCompare": "可以开始对比了！",
+    "clearSelection": "清除",
+    "compare": "对比"
+  },
+  "compare": {
+    "title": "成长对比",
+    "subtitle": "看看你在不同评估之间的进步",
+    "before": "之前",
+    "after": "之后",
+    "change": "变化",
+    "points": "分",
+    "radarTitle": "分类雷达图对比",
+    "breakdown": "分类详情",
+    "category": "分类",
+    "archetypeChange": "原型变化",
+    "takeAnother": "再做一次评估"
   },
   "admin": {
     "title": "管理后台",
@@ -296,6 +314,21 @@
     "notFound": "报告未找到",
     "notFoundDesc": "该报告可能已被删除或链接无效。",
     "tryYourOwn": "开始你的评估",
-    "ctaText": "想知道你的PM实力水准吗？"
+    "ctaText": "想知道你的PM实力水准吗？",
+    "downloadCard": "下载分享卡",
+    "downloadImage": "下载图片",
+    "challengeTitle": "挑战好友",
+    "challengeDesc": "你觉得你能超过我的分数吗？",
+    "challengeCta": "发送挑战",
+    "challengeAccept": "接受挑战",
+    "challengeScored": "得了",
+    "challengeYourTurn": "轮到你了！做个评估看看你的实力如何。"
+  },
+  "paywall": {
+    "unlockTitle": "解锁完整报告",
+    "unlockDesc": "获取全部15个维度的详细分析、基于证据的评分依据和个性化行动计划。",
+    "unlockCta": "解锁 ¥34.99",
+    "freePreview": "免费预览",
+    "fullReport": "完整报告"
   }
 }

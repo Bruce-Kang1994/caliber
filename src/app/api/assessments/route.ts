@@ -4,12 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(req: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     const shareToken = searchParams.get("share");
@@ -27,6 +21,13 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
       }
       return NextResponse.json({ assessment: data });
+    }
+
+    // All other operations require authentication
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get single assessment by ID
