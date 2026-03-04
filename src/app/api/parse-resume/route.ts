@@ -34,13 +34,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ experiences: MOCK_EXPERIENCES });
     }
 
-    // Extract text from PDF using pdf-parse v2
+    // Extract text from PDF using unpdf (serverless compatible)
     const arrayBuffer = await pdf.arrayBuffer();
-    const { PDFParse } = await import("pdf-parse");
-    const parser = new PDFParse({ data: new Uint8Array(arrayBuffer) });
-    const textResult = await parser.getText();
-    const textContent = textResult.text;
-    await parser.destroy();
+    const { extractText } = await import("unpdf");
+    const { text: textPages } = await extractText(new Uint8Array(arrayBuffer));
+    const textContent = Array.isArray(textPages) ? textPages.join("\n") : String(textPages);
 
     if (!textContent || textContent.trim().length < 50) {
       return NextResponse.json(
