@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import { routing } from "@/i18n/routing";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = localFont({
+  src: [
+    { path: "../fonts/Inter-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/Inter-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/Inter-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/Inter-Bold.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -50,7 +55,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${geistSans.variable} font-sans antialiased`}
+        className={`${inter.variable} font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
           <ErrorBoundary>

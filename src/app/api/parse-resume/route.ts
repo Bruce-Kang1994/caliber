@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PDFParse } from "pdf-parse";
 import { deepseek } from "@/lib/deepseek";
 import { buildResumeParsePrompt } from "@/lib/prompts";
 import { MOCK_EXPERIENCES } from "@/lib/mock-data";
@@ -35,8 +34,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ experiences: MOCK_EXPERIENCES });
     }
 
-    // Extract text from PDF using pdf-parse v3
+    // Extract text from PDF using pdf-parse v2
     const arrayBuffer = await pdf.arrayBuffer();
+    const { PDFParse } = await import("pdf-parse");
     const parser = new PDFParse({ data: new Uint8Array(arrayBuffer) });
     const textResult = await parser.getText();
     const textContent = textResult.text;
