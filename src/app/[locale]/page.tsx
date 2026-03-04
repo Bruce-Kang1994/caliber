@@ -12,15 +12,10 @@ import {
   SlidersHorizontal,
   BarChart3,
   TrendingUp,
-  Target,
   FileText,
-  Upload,
   ArrowRight,
-  CheckCircle2,
-  Sparkles,
 } from "lucide-react";
 
-/* ───────── Scroll reveal ───────── */
 function Reveal({
   children,
   className = "",
@@ -30,13 +25,11 @@ function Reveal({
   className?: string;
   delay?: number;
 }) {
-  const { ref, inView } = useInView(0.08);
+  const { ref, inView } = useInView(0.1);
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-      } ${className}`}
+      className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
@@ -44,47 +37,48 @@ function Reveal({
   );
 }
 
-/* ───────── Radar chart (hero card) ───────── */
-const RADAR_DATA = [
+// Static sample data for the report preview card
+const SAMPLE_RADAR = [
   { label: "Product", score: 4.2 },
   { label: "Business", score: 3.5 },
   { label: "AI", score: 4.0 },
-  { label: "Soft", score: 3.8 },
+  { label: "Soft Skills", score: 3.8 },
   { label: "Global", score: 3.2 },
 ];
 
-function MiniRadar({ size = 130 }: { size?: number }) {
+function MiniRadar() {
+  const size = 120;
   const cx = size / 2;
   const cy = size / 2;
-  const r = size * 0.38;
+  const r = 42;
+  const levels = 5;
 
-  const pts = RADAR_DATA.map((d, i) => {
-    const a = (Math.PI * 2 * i) / RADAR_DATA.length - Math.PI / 2;
+  const points = SAMPLE_RADAR.map((d, i) => {
+    const angle = (Math.PI * 2 * i) / SAMPLE_RADAR.length - Math.PI / 2;
     const ratio = d.score / 5;
-    return { x: cx + r * ratio * Math.cos(a), y: cy + r * ratio * Math.sin(a) };
+    return {
+      x: cx + r * ratio * Math.cos(angle),
+      y: cy + r * ratio * Math.sin(angle),
+    };
   });
 
+  const polygon = points.map((p) => `${p.x},${p.y}`).join(" ");
+
   return (
-    <svg width={size} height={size} className="mx-auto" role="img" aria-label="Capability radar chart">
-      {/* Grid rings */}
-      {[1, 2, 3, 4, 5].map((l) => {
-        const lr = (r * l) / 5;
-        const g = RADAR_DATA.map((_, i) => {
-          const a = (Math.PI * 2 * i) / RADAR_DATA.length - Math.PI / 2;
-          return `${cx + lr * Math.cos(a)},${cy + lr * Math.sin(a)}`;
+    <svg width={size} height={size} className="mx-auto">
+      {/* Grid */}
+      {Array.from({ length: levels }, (_, l) => {
+        const lr = (r * (l + 1)) / levels;
+        const gridPoints = SAMPLE_RADAR.map((_, i) => {
+          const angle = (Math.PI * 2 * i) / SAMPLE_RADAR.length - Math.PI / 2;
+          return `${cx + lr * Math.cos(angle)},${cy + lr * Math.sin(angle)}`;
         }).join(" ");
-        return <polygon key={l} points={g} fill="none" stroke="#e2e8f0" strokeWidth={0.5} />;
+        return <polygon key={l} points={gridPoints} fill="none" stroke="#e2e8f0" strokeWidth={0.5} />;
       })}
-      {/* Data polygon */}
-      <polygon
-        points={pts.map((p) => `${p.x},${p.y}`).join(" ")}
-        fill="#6366f1"
-        fillOpacity={0.12}
-        stroke="#6366f1"
-        strokeWidth={1.5}
-      />
-      {pts.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r={2.5} fill="#6366f1" />
+      {/* Data */}
+      <polygon points={polygon} fill="#2563eb" fillOpacity={0.15} stroke="#2563eb" strokeWidth={1.5} />
+      {points.map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r={2} fill="#2563eb" />
       ))}
     </svg>
   );
@@ -92,31 +86,27 @@ function MiniRadar({ size = 130 }: { size?: number }) {
 
 function MiniBarChart() {
   const bars = [
-    { label: "Req", v: 4.2 },
-    { label: "Design", v: 3.8 },
-    { label: "Arch", v: 3.5 },
-    { label: "0→1", v: 4.5 },
-    { label: "Data", v: 3.2 },
+    { label: "Req", value: 4.2, color: "#2563eb" },
+    { label: "Design", value: 3.8, color: "#2563eb" },
+    { label: "Arch", value: 3.5, color: "#2563eb" },
+    { label: "0→1", value: 4.5, color: "#10b981" },
+    { label: "Data", value: 3.2, color: "#f59e0b" },
   ];
   return (
-    <div className="flex items-end gap-1.5 h-14 justify-center">
+    <div className="flex items-end gap-1.5 h-16 justify-center">
       {bars.map((b, i) => (
         <div key={i} className="flex flex-col items-center gap-0.5">
           <div
-            className="w-[18px] rounded-t transition-all"
-            style={{
-              height: `${(b.v / 5) * 44}px`,
-              background: b.v >= 4.5 ? "#10b981" : b.v >= 3.5 ? "#6366f1" : "#94a3b8",
-            }}
+            className="w-5 rounded-t-sm transition-all"
+            style={{ height: `${(b.value / 5) * 48}px`, backgroundColor: b.color }}
           />
-          <span className="text-[9px] text-slate-400 leading-none">{b.label}</span>
+          <span className="text-[9px] text-slate-400">{b.label}</span>
         </div>
       ))}
     </div>
   );
 }
 
-/* ───────── Main page ───────── */
 export default function LandingPage() {
   const t = useTranslations();
 
@@ -131,189 +121,90 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white">
       <AppHeader showNav showAuth showCta />
 
-      {/* ════════════════════ HERO ════════════════════ */}
-      <section className="relative overflow-hidden bg-[#131228]">
-        {/* Subtle grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-        {/* Glow orbs */}
-        <div className="absolute top-[-20%] left-[10%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.15)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute bottom-[-10%] right-[5%] w-[30vw] h-[30vw] max-w-[400px] max-h-[400px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.10)_0%,transparent_70%)] pointer-events-none" />
-
-        <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-20">
-          <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center">
-            {/* Left — Copy */}
-            <div>
-              <Reveal>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.07] border border-white/[0.10] text-[13px] text-indigo-300 mb-8">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                  </span>
-                  {t("landing.heroTrust")}
-                </div>
-              </Reveal>
-
-              <Reveal delay={80}>
-                <h1 className="text-[2.5rem] md:text-5xl lg:text-[3.25rem] font-bold tracking-[-0.04em] text-white leading-[1.12] whitespace-pre-line">
-                  {t("landing.heroTitle")}
-                </h1>
-              </Reveal>
-
-              <Reveal delay={160}>
-                <p className="mt-6 text-lg text-slate-400 max-w-lg leading-relaxed">
-                  {t("landing.heroSubtitle")}
-                </p>
-              </Reveal>
-
-              <Reveal delay={240}>
-                <div className="mt-8 flex flex-col sm:flex-row items-start gap-3">
-                  <Link href="/assess">
-                    <Button
-                      size="lg"
-                      className="cursor-pointer text-[15px] px-7 h-12 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#131228]"
-                    >
-                      {t("common.getStarted")}
-                      <ArrowRight className="ml-1.5 w-4 h-4" />
-                    </Button>
-                  </Link>
-                  <Link href="/pricing">
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="cursor-pointer text-[15px] px-7 h-12 rounded-xl border-white/10 text-slate-300 hover:bg-white/[0.06] hover:text-white transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-white/30"
-                    >
-                      {t("common.pricing")}
-                    </Button>
-                  </Link>
-                </div>
-              </Reveal>
-
-              {/* Inline social proof */}
-              <Reveal delay={320}>
-                <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-slate-500">
-                  {[
-                    t("landing.proofFramework"),
-                    t("landing.proofEvidence"),
-                    t("landing.proofUpgrade"),
-                  ].map((txt) => (
-                    <span key={txt} className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      {txt}
-                    </span>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Right — Product preview card */}
-            <Reveal delay={200} className="hidden lg:block">
-              <div className="relative">
-                {/* Floating badge — top right */}
-                <div className="absolute -top-3 -right-2 z-10 bg-white rounded-xl px-3.5 py-2 shadow-lg shadow-black/10 border border-slate-100 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-indigo-500" />
-                  <span className="text-xs font-semibold text-slate-800">AI-Powered</span>
-                </div>
-
-                <Card className="border-0 shadow-2xl shadow-black/30 bg-[#1a1940] text-white overflow-hidden ring-1 ring-white/[0.08]">
-                  <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
-                  <CardContent className="py-7 px-6">
-                    <div className="grid grid-cols-3 gap-6 items-center">
-                      {/* Score */}
-                      <div className="text-center">
-                        <p className="text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1.5">
-                          Caliber Score
-                        </p>
-                        <div className="text-4xl font-bold tracking-tight text-white">82</div>
-                        <div className="text-slate-500 text-xs mt-0.5">/100</div>
-                        <Badge className="mt-2 bg-indigo-500/15 text-indigo-300 border border-indigo-500/20 text-[10px] px-2">
-                          Advanced
-                        </Badge>
-                      </div>
-                      {/* Radar */}
-                      <div className="text-center">
-                        <p className="text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">
-                          Capability Radar
-                        </p>
-                        <MiniRadar size={110} />
-                      </div>
-                      {/* Archetype */}
-                      <div className="text-center">
-                        <p className="text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1.5">
-                          PM Archetype
-                        </p>
-                        <div className="text-sm font-bold text-white mb-1">The Strategist</div>
-                        <MiniBarChart />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Floating badge — bottom left */}
-                <div className="absolute -bottom-3 -left-2 z-10 bg-white rounded-xl px-3.5 py-2 shadow-lg shadow-black/10 border border-slate-100 flex items-center gap-2">
-                  <Target className="w-4 h-4 text-emerald-500" />
-                  <div>
-                    <div className="text-[10px] text-slate-500">Dimensions</div>
-                    <div className="text-xs font-bold text-slate-800">15 analyzed</div>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
+      {/* Hero Section — light gradient (deployed version) */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-violet-50" />
+        <div className="relative max-w-4xl mx-auto px-6 pt-24 pb-20 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 mb-8 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {t("landing.heroTrust")}
+          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 whitespace-pre-line leading-[1.15] animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both [animation-delay:150ms]">
+            {t("landing.heroTitle")}
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both [animation-delay:300ms]">
+            {t("landing.heroSubtitle")}
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both [animation-delay:450ms]">
+            <Link href="/assess">
+              <Button size="lg" className="text-base px-8 h-12 rounded-xl shadow-lg shadow-blue-600/20">
+                {t("common.getStarted")}
+              </Button>
+            </Link>
+            <Link href="/pricing">
+              <Button size="lg" variant="outline" className="text-base px-8 h-12 rounded-xl">
+                {t("common.pricing")}
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Mobile-only report card (shown below hero on mobile) */}
-      <div className="lg:hidden px-6 -mt-4 mb-8">
-        <Reveal>
-          <Card className="border-0 shadow-xl bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-hidden">
-            <CardContent className="py-6">
-              <div className="grid grid-cols-3 gap-4 items-center">
+      {/* Sample Report Preview Card — below Hero (deployed version) */}
+      <Reveal>
+        <section className="max-w-4xl mx-auto px-6 -mt-4 mb-12">
+          <Card className="border-0 shadow-xl bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <CardContent className="py-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                {/* Score */}
                 <div className="text-center">
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Score</p>
-                  <div className="text-3xl font-bold">82</div>
-                  <div className="text-slate-400 text-xs">/100</div>
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Caliber Score</p>
+                  <div className="text-5xl font-bold">82</div>
+                  <div className="text-slate-400 text-sm">/100</div>
+                  <Badge className="mt-2 bg-blue-500/20 text-blue-300 border-0 text-xs">Advanced</Badge>
                 </div>
+                {/* Mini Radar */}
                 <div className="text-center">
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Radar</p>
-                  <MiniRadar size={90} />
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Capability Radar</p>
+                  <MiniRadar />
                 </div>
+                {/* Archetype */}
                 <div className="text-center">
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Type</p>
-                  <div className="text-xs font-bold">Strategist</div>
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">PM Archetype</p>
+                  <div className="text-lg font-bold text-white">The Strategist</div>
                   <MiniBarChart />
                 </div>
               </div>
             </CardContent>
           </Card>
-        </Reveal>
-      </div>
+        </section>
+      </Reveal>
 
-      {/* ════════════════════ STATS ════════════════════ */}
-      <section className="border-b border-slate-100">
-        <div className="max-w-5xl mx-auto px-6 py-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, idx) => (
-              <Reveal key={idx} delay={idx * 80}>
-                <div className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+      {/* Stats Bar (deployed version) */}
+      <Reveal>
+        <section className="border-y border-slate-100 bg-slate-50/50">
+          <div className="max-w-5xl mx-auto px-6 py-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {stats.map((stat, idx) => (
+                <div key={idx} className="text-center">
+                  <div className="text-3xl md:text-4xl font-bold text-slate-900">
                     {stat.number}
                   </div>
-                  <div className="mt-1.5 text-sm text-slate-500 leading-snug">{stat.label}</div>
+                  <div className="mt-1 text-sm text-slate-500">{stat.label}</div>
                 </div>
-              </Reveal>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
-      {/* ════════════════════ FEATURES — Bento Grid ════════════════════ */}
+      {/* ════════════ FEATURES — Bento Grid (from V3) ════════════ */}
       <section className="max-w-5xl mx-auto px-6 py-24">
         <div className="grid md:grid-cols-5 gap-4">
           {/* Feature 1 — large (spans 3 cols) */}
@@ -449,53 +340,64 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ════════════════════ HOW IT WORKS ════════════════════ */}
-      <section className="bg-slate-50 border-y border-slate-100">
-        <div className="max-w-4xl mx-auto px-6 py-24">
-          <Reveal>
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-slate-900 tracking-tight mb-4">
-              {t("landing.howItWorks")}
-            </h2>
-            <p className="text-center text-slate-500 mb-16 max-w-md mx-auto">
-              From input to full report in under 5 minutes
-            </p>
-          </Reveal>
+      {/* Social Proof Bar (deployed version) */}
+      <Reveal>
+        <section className="border-y border-slate-100 bg-slate-50/50">
+          <div className="max-w-4xl mx-auto px-6 py-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-slate-500">
+              <span className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                </svg>
+                {t("landing.proofFramework")}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                </svg>
+                {t("landing.proofEvidence")}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                </svg>
+                {t("landing.proofUpgrade")}
+              </span>
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connecting line (desktop) */}
-            <div className="hidden md:block absolute top-12 left-[18%] right-[18%] h-px bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-200" />
-
-            {[
-              { step: 1, icon: Target, color: "bg-indigo-500" },
-              { step: 2, icon: Upload, color: "bg-indigo-500" },
-              { step: 3, icon: FileText, color: "bg-emerald-500" },
-            ].map(({ step, icon: Icon, color }, idx) => (
-              <Reveal key={step} delay={idx * 120}>
-                <div className="relative text-center">
-                  <div
-                    className={`w-14 h-14 rounded-2xl ${color} text-white flex items-center justify-center mx-auto mb-5 shadow-lg shadow-indigo-500/10 relative z-10 transition-transform duration-200 hover:scale-105`}
-                  >
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <div className="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-2">
-                    Step {step}
-                  </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">
-                    {t(`landing.step${step}Title`)}
-                  </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed max-w-[260px] mx-auto">
-                    {t(`landing.step${step}Desc`)}
-                  </p>
+      {/* How It Works (deployed version) */}
+      <Reveal>
+        <section className="max-w-4xl mx-auto px-6 py-20">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-slate-900 mb-16">
+            {t("landing.howItWorks")}
+          </h2>
+          <div className="grid md:grid-cols-3 gap-12">
+            {[1, 2, 3].map((step) => (
+              <div key={step} className="relative text-center">
+                <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-bold mx-auto mb-5">
+                  {step}
                 </div>
-              </Reveal>
+                {step < 3 && (
+                  <div className="hidden md:block absolute top-5 left-[60%] w-[80%] h-px bg-slate-200" />
+                )}
+                <h3 className="font-semibold text-slate-900 mb-2">
+                  {t(`landing.step${step}Title`)}
+                </h3>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  {t(`landing.step${step}Desc`)}
+                </p>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
-      {/* ════════════════════ FINAL CTA ════════════════════ */}
-      <section className="py-24 px-6">
-        <Reveal>
+      {/* ════════════ FINAL CTA — clean white (from V3) ════════════ */}
+      <Reveal>
+        <section className="py-24 px-6">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
               {t("landing.ctaTitle")}
@@ -516,8 +418,8 @@ export default function LandingPage() {
               {t("landing.heroTrust")}
             </p>
           </div>
-        </Reveal>
-      </section>
+        </section>
+      </Reveal>
 
       <AppFooter />
     </div>
