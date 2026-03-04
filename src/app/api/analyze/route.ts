@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     const weights = ROLE_WEIGHTS[role];
 
     // Mock mode for testing without API credits
-    const USE_MOCK = process.env.USE_MOCK === "true";
+    const USE_MOCK = process.env.USE_MOCK?.trim() === "true";
     if (USE_MOCK) {
       await new Promise((r) => setTimeout(r, 2000));
       const mockResult = getMockAssessmentResult(locale);
