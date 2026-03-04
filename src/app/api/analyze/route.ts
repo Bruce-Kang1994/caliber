@@ -33,8 +33,6 @@ const analyzeRequestSchema = z.object({
   locale: z.enum(["en", "zh", "ja", "ko"]).default("en"),
 });
 
-const USE_MOCK = process.env.USE_MOCK === "true";
-
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
@@ -82,6 +80,7 @@ export async function POST(req: NextRequest) {
     const weights = ROLE_WEIGHTS[role];
 
     // Mock mode for testing without API credits
+    const USE_MOCK = process.env.USE_MOCK === "true";
     if (USE_MOCK) {
       await new Promise((r) => setTimeout(r, 2000));
       const mockResult = getMockAssessmentResult(locale);

@@ -4,11 +4,11 @@ import { buildResumeParsePrompt } from "@/lib/prompts";
 import { MOCK_EXPERIENCES } from "@/lib/mock-data";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
-const USE_MOCK = process.env.USE_MOCK === "true";
-
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  const USE_MOCK = process.env.USE_MOCK === "true";
+  console.log("[parse-resume] USE_MOCK:", process.env.USE_MOCK, "→", USE_MOCK);
   try {
     // Rate limiting: 10 requests per hour per IP
     const ip = getClientIp(req.headers);
