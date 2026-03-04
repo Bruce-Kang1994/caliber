@@ -234,7 +234,7 @@ async function saveAssessment(
         overall_score: result.weightedScore,
         locale,
         share_token: shareToken,
-        is_public: false,
+        is_public: true,
       })
       .select("id, share_token")
       .single();
