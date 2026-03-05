@@ -47,7 +47,7 @@ function AnalyzingContent() {
       if (elapsed > 12) setCurrentStep((s) => Math.max(s, 3));
     }, 300);
 
-    // Call AI assessment API
+    // Call AI assessment API (streaming NDJSON)
     async function analyze() {
       try {
         const res = await fetch("/api/analyze", {
@@ -63,21 +63,56 @@ function AnalyzingContent() {
         });
 
         if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || "Analysis failed");
+          let errMsg = "Analysis failed";
+          try { const err = await res.json(); errMsg = err.error || errMsg; } catch { /* noop */ }
+          throw new Error(errMsg);
         }
 
-        const data = await res.json();
+        // Read NDJSON stream
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        let finalData: { result?: Record<string, unknown>; assessmentId?: string; shareToken?: string } | null = null;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          // Process complete NDJSON lines
+          const lines = buffer.split("\n");
+          buffer = lines.pop() || "";
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const msg = JSON.parse(line);
+              if (msg.type === "progress") {
+                if (msg.step === 2) setCurrentStep((s) => Math.max(s, 1));
+                if (msg.step === 3) setCurrentStep((s) => Math.max(s, 2));
+              } else if (msg.type === "result") {
+                finalData = msg;
+                setCurrentStep(steps.length - 1);
+              } else if (msg.type === "error") {
+                throw new Error(msg.error);
+              }
+            } catch (e) {
+              if (e instanceof Error && e.message !== "Analysis failed") throw e;
+            }
+          }
+        }
+
+        if (!finalData?.result) {
+          throw new Error("No assessment result received");
+        }
 
         // Store result and navigate
         setProgress(100);
-        setCurrentStep(steps.length - 1);
-        const resultData = { ...data.result, _locale: locale };
-        if (data.assessmentId) {
-          resultData._assessmentId = data.assessmentId;
+        const resultData = { ...finalData.result, _locale: locale } as Record<string, unknown>;
+        if (finalData.assessmentId) {
+          resultData._assessmentId = finalData.assessmentId;
         }
-        if (data.shareToken) {
-          resultData._shareToken = data.shareToken;
+        if (finalData.shareToken) {
+          resultData._shareToken = finalData.shareToken;
         }
         sessionStorage.setItem("assessmentResult", JSON.stringify(resultData));
 

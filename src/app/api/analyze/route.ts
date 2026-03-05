@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
     if (USE_MOCK) {
       await new Promise((r) => setTimeout(r, 2000));
       const mockResult = getMockAssessmentResult(locale);
-      const result = { ...mockResult, roleType: role };
+      const result = { ...mockResult, roleType: role, level };
 
       // Save to DB if user is logged in
       let assessmentId: string | null = null;
@@ -105,111 +105,152 @@ export async function POST(req: NextRequest) {
       level
     );
 
-    const response = await deepseek.chat.completions.create({
-      model: "deepseek-chat",
-      max_tokens: 4000,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: user },
-      ],
+    // Use streaming to avoid Vercel function timeout (~38-60s for DeepSeek)
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (data: Record<string, unknown>) => {
+          controller.enqueue(encoder.encode(JSON.stringify(data) + "\n"));
+        };
+
+        try {
+          send({ type: "progress", step: 1 });
+
+          // Stream from DeepSeek and accumulate chunks
+          const streamResponse = await deepseek.chat.completions.create({
+            model: "deepseek-chat",
+            max_tokens: 4000,
+            stream: true,
+            messages: [
+              { role: "system", content: system },
+              { role: "user", content: user },
+            ],
+          });
+
+          let text = "";
+          let chunkCount = 0;
+          for await (const chunk of streamResponse) {
+            const delta = chunk.choices[0]?.delta?.content || "";
+            text += delta;
+            chunkCount++;
+            // Send progress updates periodically to keep connection alive
+            if (chunkCount % 20 === 0) {
+              send({ type: "progress", step: 2, tokens: chunkCount });
+            }
+          }
+
+          send({ type: "progress", step: 3 });
+
+          if (!text) {
+            send({ type: "error", error: "No response from AI" });
+            controller.close();
+            return;
+          }
+
+          let jsonStr = text;
+          const codeBlockMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
+          if (codeBlockMatch) {
+            jsonStr = codeBlockMatch[1];
+          }
+
+          const assessment = JSON.parse(jsonStr.trim());
+
+          // Validate and clamp AI-returned scores to valid range
+          const validatedScores: Record<string, number> = {};
+          for (const dim of DIMENSIONS) {
+            const raw = assessment.scores?.[dim.key];
+            const score = typeof raw === "number" ? raw : 1.0;
+            validatedScores[dim.key] = Math.max(1.0, Math.min(5.0, Math.round(score * 10) / 10));
+          }
+
+          // Always recalculate weighted score from validated scores
+          let totalScore = 0;
+          let totalWeight = 0;
+          for (const dim of DIMENSIONS) {
+            const score = validatedScores[dim.key] || 1.0;
+            const weight = weights[dim.key] || 1;
+            totalScore += score * weight;
+            totalWeight += weight;
+          }
+          const weightedScore = Math.round((totalScore / (totalWeight * 5)) * 100);
+
+          // Assign PM archetype based on score distribution
+          const { key: archetypeKey, profile: archetypeProfileData } = assignArchetype(validatedScores);
+
+          // Validate topStrengths array
+          const topStrengths = Array.isArray(assessment.topStrengths)
+            ? assessment.topStrengths.slice(0, 3).map((s: Record<string, unknown>) => ({
+                dimension: s.dimension || "",
+                dimensionName: s.dimensionName || "",
+                score: typeof s.score === "number" ? Math.max(1.0, Math.min(5.0, s.score)) : 1.0,
+                evidence: s.evidence || "",
+              }))
+            : [];
+
+          // Validate topWeaknesses array
+          const topWeaknesses = Array.isArray(assessment.topWeaknesses)
+            ? assessment.topWeaknesses.slice(0, 3).map((w: Record<string, unknown>) => ({
+                dimension: w.dimension || "",
+                dimensionName: w.dimensionName || "",
+                score: typeof w.score === "number" ? Math.max(1.0, Math.min(5.0, w.score)) : 1.0,
+                upgradeAdvice: w.upgradeAdvice || "",
+                actionItems: Array.isArray(w.actionItems) ? w.actionItems : [],
+              }))
+            : [];
+
+          const result: AssessmentResult = {
+            roleType: role,
+            level,
+            weightedScore,
+            archetype: archetypeKey as AssessmentResult["archetype"],
+            archetypeProfile: archetypeProfileData.length >= 2
+              ? {
+                  primary: { key: archetypeProfileData[0].key, label: archetypeProfileData[0].label, percentage: archetypeProfileData[0].percentage } as ArchetypeProfile["primary"],
+                  secondary: { key: archetypeProfileData[1].key, label: archetypeProfileData[1].label, percentage: archetypeProfileData[1].percentage } as ArchetypeProfile["secondary"],
+                }
+              : undefined,
+            summary: assessment.summary || "",
+            scores: validatedScores as AssessmentResult["scores"],
+            justifications: assessment.justifications || {},
+            topStrengths,
+            topWeaknesses,
+            undervaluedExperiences: Array.isArray(assessment.undervaluedExperiences)
+              ? assessment.undervaluedExperiences
+              : [],
+            missingElements: Array.isArray(assessment.missingElements)
+              ? assessment.missingElements
+              : [],
+            nextSteps: Array.isArray(assessment.nextSteps)
+              ? assessment.nextSteps.slice(0, 3)
+              : [],
+            timestamp: new Date().toISOString(),
+          };
+
+          // Save to DB if user is logged in
+          let assessmentId: string | null = null;
+          let shareToken: string | null = null;
+          if (userId) {
+            const saved = await saveAssessment(userId, role, inputMethod || "manual", experiences, result, locale);
+            if (saved) { assessmentId = saved.id; shareToken = saved.shareToken; }
+          }
+
+          send({ type: "result", result, assessmentId, shareToken });
+        } catch (err) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          send({ type: "error", error: `Assessment failed: ${errMsg}` });
+        } finally {
+          controller.close();
+        }
+      },
     });
 
-    const text = response.choices[0]?.message?.content;
-    if (!text) {
-      return NextResponse.json(
-        { error: "No response from AI" },
-        { status: 500 }
-      );
-    }
-
-    let jsonStr = text;
-    const codeBlockMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeBlockMatch) {
-      jsonStr = codeBlockMatch[1];
-    }
-
-    const assessment = JSON.parse(jsonStr.trim());
-
-    // Validate and clamp AI-returned scores to valid range
-    const validatedScores: Record<string, number> = {};
-    for (const dim of DIMENSIONS) {
-      const raw = assessment.scores?.[dim.key];
-      const score = typeof raw === "number" ? raw : 1.0;
-      validatedScores[dim.key] = Math.max(1.0, Math.min(5.0, Math.round(score * 10) / 10));
-    }
-
-    // Always recalculate weighted score from validated scores
-    let totalScore = 0;
-    let totalWeight = 0;
-    for (const dim of DIMENSIONS) {
-      const score = validatedScores[dim.key] || 1.0;
-      const weight = weights[dim.key] || 1;
-      totalScore += score * weight;
-      totalWeight += weight;
-    }
-    const weightedScore = Math.round((totalScore / (totalWeight * 5)) * 100);
-
-    // Assign PM archetype based on score distribution
-    const { key: archetypeKey, profile: archetypeProfileData } = assignArchetype(validatedScores);
-
-    // Validate topStrengths array
-    const topStrengths = Array.isArray(assessment.topStrengths)
-      ? assessment.topStrengths.slice(0, 3).map((s: Record<string, unknown>) => ({
-          dimension: s.dimension || "",
-          dimensionName: s.dimensionName || "",
-          score: typeof s.score === "number" ? Math.max(1.0, Math.min(5.0, s.score)) : 1.0,
-          evidence: s.evidence || "",
-        }))
-      : [];
-
-    // Validate topWeaknesses array
-    const topWeaknesses = Array.isArray(assessment.topWeaknesses)
-      ? assessment.topWeaknesses.slice(0, 3).map((w: Record<string, unknown>) => ({
-          dimension: w.dimension || "",
-          dimensionName: w.dimensionName || "",
-          score: typeof w.score === "number" ? Math.max(1.0, Math.min(5.0, w.score)) : 1.0,
-          upgradeAdvice: w.upgradeAdvice || "",
-          actionItems: Array.isArray(w.actionItems) ? w.actionItems : [],
-        }))
-      : [];
-
-    const result: AssessmentResult = {
-      roleType: role,
-      level,
-      weightedScore,
-      archetype: archetypeKey as AssessmentResult["archetype"],
-      archetypeProfile: archetypeProfileData.length >= 2
-        ? {
-            primary: { key: archetypeProfileData[0].key, label: archetypeProfileData[0].label, percentage: archetypeProfileData[0].percentage } as ArchetypeProfile["primary"],
-            secondary: { key: archetypeProfileData[1].key, label: archetypeProfileData[1].label, percentage: archetypeProfileData[1].percentage } as ArchetypeProfile["secondary"],
-          }
-        : undefined,
-      summary: assessment.summary || "",
-      scores: validatedScores as AssessmentResult["scores"],
-      justifications: assessment.justifications || {},
-      topStrengths,
-      topWeaknesses,
-      undervaluedExperiences: Array.isArray(assessment.undervaluedExperiences)
-        ? assessment.undervaluedExperiences
-        : [],
-      missingElements: Array.isArray(assessment.missingElements)
-        ? assessment.missingElements
-        : [],
-      nextSteps: Array.isArray(assessment.nextSteps)
-        ? assessment.nextSteps.slice(0, 3)
-        : [],
-      timestamp: new Date().toISOString(),
-    };
-
-    // Save to DB if user is logged in
-    let assessmentId: string | null = null;
-    let shareToken: string | null = null;
-    if (userId) {
-      const saved = await saveAssessment(userId, role, inputMethod || "manual", experiences, result, locale);
-      if (saved) { assessmentId = saved.id; shareToken = saved.shareToken; }
-    }
-
-    return NextResponse.json({ result, assessmentId, shareToken });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "application/x-ndjson",
+        "Cache-Control": "no-cache",
+        "Transfer-Encoding": "chunked",
+      },
+    });
   } catch (error) {
     console.error("Analysis error:", error);
     const errMsg = error instanceof Error ? error.message : String(error);
