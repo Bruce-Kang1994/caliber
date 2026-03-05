@@ -112,21 +112,17 @@ CRITICAL: ALL text values MUST be in ${lang}. JSON keys stay in English.
 ${BARS_SCALES}
 
 RULES:
-1. Score 1.0-5.0 based on evidence anchored to BARS. Reference specific projects/metrics.
-2. Use "upgrade-style" for weaknesses: "your Y (4.0) + Z practice could lift X from 2.0→3.5"
-3. Insufficient info → conservative score, note what's missing
-4. Calibrate to ${levelInfo.label}: 1.0=no evidence, 3.0=meets expectations, 5.0=outstanding
-5. BE CONCISE. One sentence per justification. Short actionItems.
+1. Score 1.0-5.0 based on evidence anchored to BARS
+2. Calibrate to ${levelInfo.label}: 1.0=no evidence, 3.0=meets expectations, 5.0=outstanding
+3. Insufficient info → conservative score
+4. CONCISE. Short sentences only.
 
 OUTPUT (strict JSON, no markdown, no code blocks):
 {
-  "summary": "<1 sentence PM profile>",
+  "summary": "<1 sentence>",
   "scores": {"<dim-key>": <1.0-5.0>, ...all 16},
-  "justifications": {"<dim-key>": "<1 sentence with evidence>", ...all 16},
   "topStrengths": [{"dimension":"<key>","dimensionName":"<name>","score":<n>,"evidence":"<1 sentence>"}],
   "topWeaknesses": [{"dimension":"<key>","dimensionName":"<name>","score":<n>,"upgradeAdvice":"<1 sentence>","actionItems":["<short>"]}],
-  "undervaluedExperiences": ["<1 sentence>"],
-  "missingElements": ["<1 sentence>"],
   "nextSteps": ["<short>","<short>","<short>"]
 }`;
 

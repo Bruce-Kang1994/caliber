@@ -119,7 +119,8 @@ export async function POST(req: NextRequest) {
           // Stream from DeepSeek and accumulate chunks
           const streamResponse = await deepseek.chat.completions.create({
             model: "deepseek-chat",
-            max_tokens: 2500,
+            max_tokens: 1500,
+            temperature: 0,
             stream: true,
             messages: [
               { role: "system", content: system },
@@ -211,7 +212,10 @@ export async function POST(req: NextRequest) {
               : undefined,
             summary: assessment.summary || "",
             scores: validatedScores as AssessmentResult["scores"],
-            justifications: assessment.justifications || {},
+            // Justifications removed from AI output to save tokens; pass through if available
+            justifications: Object.fromEntries(
+              DIMENSIONS.map((d) => [d.key, assessment.justifications?.[d.key] || ""])
+            ) as AssessmentResult["justifications"],
             topStrengths,
             topWeaknesses,
             undervaluedExperiences: Array.isArray(assessment.undervaluedExperiences)
