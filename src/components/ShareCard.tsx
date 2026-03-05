@@ -49,17 +49,15 @@ export function ShareCard({ result }: ShareCardProps) {
   const handleDownload = async () => {
     setGenerating(true);
     try {
-      const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(cardRef.current!, {
-        scale: 3,
-        useCORS: true,
-        logging: false,
-        backgroundColor: null,
+      const { toPng } = await import("html-to-image");
+      const dataUrl = await toPng(cardRef.current!, {
+        pixelRatio: 3,
+        quality: 0.95,
       });
 
       const link = document.createElement("a");
       link.download = `Caliber-${format === "story" ? "Story" : "Card"}-${score}.png`;
-      link.href = canvas.toDataURL("image/png");
+      link.href = dataUrl;
       link.click();
     } catch {
       // silently fail

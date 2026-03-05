@@ -136,36 +136,39 @@ function ReportContent() {
   const handleExportPdf = async () => {
     setExporting(true);
     try {
-      const html2canvas = (await import("html2canvas")).default;
+      const { toPng } = await import("html-to-image");
       const jsPDF = (await import("jspdf")).default;
       if (!reportRef.current) return;
-      const canvas = await html2canvas(reportRef.current, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
+
+      // Filter out buttons from the snapshot
+      const filter = (node: HTMLElement) => {
+        if (node.tagName === "BUTTON") return false;
+        return true;
+      };
+
+      const dataUrl = await toPng(reportRef.current, {
+        quality: 0.95,
+        pixelRatio: 2,
         backgroundColor: "#f8fafc",
-        removeContainer: true,
-        ignoreElements: (el) => {
-          if (el.tagName === "BUTTON") return true;
-          const htmlEl = el as HTMLElement;
-          if (htmlEl.getAttribute?.("data-html2canvas-ignore") === "true") return true;
-          return false;
-        },
+        filter,
       });
-      const imgData = canvas.toDataURL("image/png");
+
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise((resolve) => { img.onload = resolve; });
+
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      const pdfHeight = (img.height * pdfWidth) / img.width;
       const pageHeight = pdf.internal.pageSize.getHeight();
       let heightLeft = pdfHeight;
       let position = 0;
-      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
+      pdf.addImage(dataUrl, "PNG", 0, position, pdfWidth, pdfHeight);
       heightLeft -= pageHeight;
       while (heightLeft > 0) {
         position -= pageHeight;
         pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
+        pdf.addImage(dataUrl, "PNG", 0, position, pdfWidth, pdfHeight);
         heightLeft -= pageHeight;
       }
       pdf.save(`Caliber-Report-${new Date().toISOString().slice(0, 10)}.pdf`);
