@@ -140,17 +140,24 @@ function ReportContent() {
       const jsPDF = (await import("jspdf")).default;
       if (!reportRef.current) return;
 
-      // Filter out buttons from the snapshot
       const filter = (node: HTMLElement) => {
         if (node.tagName === "BUTTON") return false;
         return true;
       };
 
+      // Capture at a fixed width optimized for A4 portrait
+      const captureWidth = 800;
       const dataUrl = await toPng(reportRef.current, {
         quality: 0.95,
         pixelRatio: 2,
         backgroundColor: "#f8fafc",
         filter,
+        width: captureWidth,
+        style: {
+          width: `${captureWidth}px`,
+          maxWidth: `${captureWidth}px`,
+          padding: "24px",
+        },
       });
 
       const img = new Image();
@@ -158,17 +165,18 @@ function ReportContent() {
       await new Promise((resolve) => { img.onload = resolve; });
 
       const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (img.height * pdfWidth) / img.width;
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      let heightLeft = pdfHeight;
-      let position = 0;
-      pdf.addImage(dataUrl, "PNG", 0, position, pdfWidth, pdfHeight);
+      const margin = 10;
+      const contentWidth = pdf.internal.pageSize.getWidth() - margin * 2;
+      const contentHeight = (img.height * contentWidth) / img.width;
+      const pageHeight = pdf.internal.pageSize.getHeight() - margin * 2;
+      let heightLeft = contentHeight;
+      let position = margin;
+      pdf.addImage(dataUrl, "PNG", margin, position, contentWidth, contentHeight);
       heightLeft -= pageHeight;
       while (heightLeft > 0) {
-        position -= pageHeight;
         pdf.addPage();
-        pdf.addImage(dataUrl, "PNG", 0, position, pdfWidth, pdfHeight);
+        position = margin - (contentHeight - heightLeft);
+        pdf.addImage(dataUrl, "PNG", margin, position, contentWidth, contentHeight);
         heightLeft -= pageHeight;
       }
       pdf.save(`Caliber-Report-${new Date().toISOString().slice(0, 10)}.pdf`);
