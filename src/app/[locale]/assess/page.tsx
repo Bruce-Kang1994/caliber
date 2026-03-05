@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/card";
 import { AppHeader } from "@/components/AppHeader";
 import { StepIndicatorBar } from "@/components/StepIndicator";
-import { PM_ROLES } from "@/lib/constants";
-import type { PMRole } from "@/lib/types";
+import { PM_ROLES, PM_LEVELS } from "@/lib/constants";
+import type { PMRole, PMLevel } from "@/lib/types";
 
 const ROLE_ICONS: Record<string, React.ReactNode> = {
   Building2: (
@@ -46,6 +46,7 @@ const ROLE_ICONS: Record<string, React.ReactNode> = {
 export default function SelectRolePage() {
   const t = useTranslations();
   const [selectedRole, setSelectedRole] = useState<PMRole | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<PMLevel>("mid");
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -105,12 +106,43 @@ export default function SelectRolePage() {
           ))}
         </div>
 
+        {/* Level Selection */}
+        {selectedRole && (
+          <div className="mt-10 animate-in fade-in slide-in-from-top-2 duration-300">
+            <h2 className="text-xl font-bold text-slate-900 text-center mb-2">
+              {t("levels.title")}
+            </h2>
+            <p className="text-center text-slate-600 mb-6">{t("levels.subtitle")}</p>
+            <div className="grid gap-3">
+              {PM_LEVELS.map((lvl) => (
+                <Card
+                  key={lvl.id}
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    selectedLevel === lvl.id
+                      ? "ring-2 ring-blue-600 bg-blue-50"
+                      : "hover:border-slate-300"
+                  }`}
+                  onClick={() => setSelectedLevel(lvl.id)}
+                >
+                  <CardHeader className="flex flex-row items-center justify-between py-4">
+                    <div>
+                      <CardTitle className="text-base">{t(`levels.${lvl.id}`)}</CardTitle>
+                      <CardDescription className="mt-0.5">{t(`levels.${lvl.id}-desc`)}</CardDescription>
+                    </div>
+                    <span className="text-xs text-slate-400 shrink-0 ml-4">{lvl.yearsRange}</span>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="mt-8 flex justify-between">
           <Link href="/">
             <Button variant="outline">{t("common.back")}</Button>
           </Link>
           <Link
-            href={selectedRole ? `/assess/input?role=${selectedRole}` : "#"}
+            href={selectedRole ? `/assess/input?role=${selectedRole}&level=${selectedLevel}` : "#"}
           >
             <Button disabled={!selectedRole}>{t("common.next")}</Button>
           </Link>

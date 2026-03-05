@@ -93,17 +93,18 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
     "product-design": 4.0,
     "system-architecture": 3.5,
     "zero-to-one": 3.5,
-    "data-driven": 2.5,
-    "business-decomposition": 4.0,
-    commercialization: 1.5,
-    growth: 2.0,
-    "ai-product-design": 2.0,
-    "ai-tech-understanding": 3.0,
-    "ai-tool-application": 4.0,
     "user-research": 3.0,
+    "data-experimentation": 2.5,
+    "business-decomposition": 4.0,
+    "commercialization-growth": 1.5,
+    "product-vision": 3.0,
+    "stakeholder-management": 3.0,
     "project-management": 3.5,
     "self-awareness": 1.5,
+    "ai-product-design": 2.0,
+    "ai-tech-application": 3.5,
     "cross-cultural": 2.0,
+    "product-sense": 2.0,
   },
   justifications: {
     "requirement-analysis":
@@ -114,28 +115,30 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
       "VIPKID after-sales restructuring involved multi-system coordination (user-facing, CS workbench, warehouse, finance). Academic China required integrating blockchain for certificates. Shows ability to think in systems.",
     "zero-to-one":
       "Academic China achievement dissemination module was built from 0-to-1 with measurable outcomes (+57% conversion, 1890 users). However, this was within an existing platform, not a standalone product launch.",
-    "data-driven":
-      "Resume shows data outcomes (72h→48h, +57%, -65%) but candidate self-reported lacking data-driven decision habits during VIPKID. Data appears to be post-hoc reporting rather than driving product decisions.",
-    "business-decomposition":
-      "Excellent example at Zhuang Xiaomi: decomposed 30% churn rate into 3 quantified root causes (44% opacity, 38% communication cost, 18% trust deficit) and designed targeted solutions for each. This is textbook business problem decomposition.",
-    commercialization:
-      "No evidence of pricing strategy, monetization model design, or revenue optimization experience across any role. This is a critical gap for an AI PM targeting commercial products.",
-    growth:
-      "Limited to one data point: 700+ customers from a single credit card campaign at China Merchants Bank. No internet product growth experience (acquisition funnels, retention optimization, experimentation frameworks).",
-    "ai-product-design":
-      "Academic China included AIGC detection features, which shows exposure to AI capabilities in product context. However, no experience designing AI-native products where AI is the core value proposition.",
-    "ai-tech-understanding":
-      "CS undergraduate + CS master's degree provides strong technical foundation. Currently using Claude Code and mainstream AI models extensively. Understands model differences. Lacks production-level prompt engineering or AI architecture experience.",
-    "ai-tool-application":
-      "Heavy practical user: uses AI for market research, competitive analysis, product decisions, prototype generation, and growth planning. This puts the candidate in the top tier of PM AI tool adoption.",
     "user-research":
       "Conducted 20 user interviews for PostMem startup. Zhuang Xiaomi project showed user-centric analysis with quantified pain point attribution. Has foundations but hasn't built systematic research practices.",
+    "data-experimentation":
+      "Resume shows data outcomes (72h→48h, +57%, -65%) but candidate self-reported lacking data-driven decision habits during VIPKID. Data appears to be post-hoc reporting rather than driving product decisions. No evidence of structured experimentation frameworks or A/B testing methodology.",
+    "business-decomposition":
+      "Excellent example at Zhuang Xiaomi: decomposed 30% churn rate into 3 quantified root causes (44% opacity, 38% communication cost, 18% trust deficit) and designed targeted solutions for each. This is textbook business problem decomposition.",
+    "commercialization-growth":
+      "No evidence of pricing strategy, monetization model design, or revenue optimization experience across any role. Growth experience limited to one data point: 700+ customers from a single credit card campaign at China Merchants Bank. No internet product growth experience (acquisition funnels, retention optimization, experimentation frameworks). This is a critical gap for an AI PM targeting commercial products.",
+    "product-vision":
+      "PostMem startup demonstrates ability to articulate a product vision and identify a market opportunity. Academic China also required defining a product direction within a complex stakeholder environment. However, no evidence of long-term roadmap thinking or vision-driven prioritization across multiple cycles.",
+    "stakeholder-management":
+      "Coordinated with legal teams for standardized agreements at Academic China and managed cross-functional alignment across sales, warehouse, and finance at VIPKID. Shows functional stakeholder coordination, though no evidence of executive-level influence or managing competing stakeholder priorities strategically.",
     "project-management":
       "Multiple project owner experiences across companies. Coordinated cross-functional teams (sales, legal, warehouse, finance). Demonstrated ability to manage complex multi-stakeholder projects.",
     "self-awareness":
       "Significant gap identified: systematically undervalues own experience. Described VIPKID's after-sales system restructuring (major project) as 'CRM tool building' (minor work). Called Academic China experience 'no real capability improvement' despite strong quantitative results.",
+    "ai-product-design":
+      "Academic China included AIGC detection features, which shows exposure to AI capabilities in product context. However, no experience designing AI-native products where AI is the core value proposition.",
+    "ai-tech-application":
+      "CS undergraduate + CS master's degree provides strong technical foundation. Currently using Claude Code and mainstream AI models extensively, with deep understanding of model differences and capabilities. Heavy practical user: applies AI tools for market research, competitive analysis, product decisions, prototype generation, and growth planning — placing the candidate in the top tier of PM AI tool adoption. Lacks production-level prompt engineering or AI architecture experience.",
     "cross-cultural":
       "Master's degree from University of Science Malaysia provides cross-cultural exposure. Currently building AI product for overseas market. But no shipped international product yet.",
+    "product-sense":
+      "Entire career has been B2B-focused with no C2C product experience. No demonstrated ability to intuitively evaluate consumer-facing product decisions, identify user delight moments, or assess product-market fit from a consumer lens. PostMem represents an opportunity to develop this skill, but it remains unproven.",
   },
   topStrengths: [
     {
@@ -153,23 +156,24 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
         "Designed complex multi-system products: VIPKID after-sales system (user self-service + auto-review + CS workbench + warehouse + finance integration), Academic China platform (5 core capabilities + 3 business scenarios + back-office system). Consistently delivers comprehensive, well-structured B2B product architectures.",
     },
     {
-      dimension: "ai-tool-application",
-      dimensionName: "AI Tool Application",
-      score: 4.0,
+      dimension: "ai-tech-application",
+      dimensionName: "AI Technology & Tool Application",
+      score: 3.5,
       evidence:
-        "Extensively uses AI tools for core PM work: market research, competitive analysis, product decisions, prototype generation, and growth planning. Currently using Claude Code as primary development tool. This level of AI integration into PM workflow is significantly above average.",
+        "Combines strong technical foundations (CS undergraduate + master's) with extensive practical AI tool usage for core PM work: market research, competitive analysis, product decisions, prototype generation, and growth planning. Currently using Claude Code as primary development tool. This level of AI integration into PM workflow is significantly above average.",
     },
   ],
   topWeaknesses: [
     {
-      dimension: "commercialization",
-      dimensionName: "Commercialization",
+      dimension: "commercialization-growth",
+      dimensionName: "Commercialization & Growth",
       score: 1.5,
       upgradeAdvice:
-        "Your business decomposition skill is already at 4.0 — apply that same structured thinking to commercial model design. Break down pricing the way you broke down Zhuang Xiaomi's churn rate: analyze competitor pricing tiers, map user willingness-to-pay segments, and model unit economics. Your analytical framework is strong; you just haven't pointed it at monetization yet.",
+        "Your business decomposition skill is already at 4.0 — apply that same structured thinking to commercial model design and growth strategy. Break down pricing the way you broke down Zhuang Xiaomi's churn rate: analyze competitor pricing tiers, map user willingness-to-pay segments, and model unit economics. Then extend that analytical rigor to acquisition funnels and retention metrics. Your framework is strong; you just haven't pointed it at monetization and growth yet.",
       actionItems: [
         "Design a complete pricing model for PostMem as a practice exercise — including free tier, paid tiers, and the reasoning behind each price point",
         "Study 3 successful AI SaaS products' pricing pages and reverse-engineer their pricing logic",
+        "Define PostMem's north star metric and set up basic analytics tracking before launch",
       ],
     },
     {
@@ -184,14 +188,14 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
       ],
     },
     {
-      dimension: "growth",
-      dimensionName: "Growth",
+      dimension: "product-sense",
+      dimensionName: "Product Sense",
       score: 2.0,
       upgradeAdvice:
-        "You have strong user research foundations (20 interviews for PostMem) and data analysis skills from your CS background. Growth is the natural extension: turn your user insights into acquisition hypotheses and your technical skills into experiment tracking. Start small — define one north star metric for PostMem and run 2-3 growth experiments this month.",
+        "Your entire career has been B2B-focused, which means you haven't had opportunities to develop the intuitive consumer product judgment that C2C roles demand. Product sense is built through repeated exposure: studying why successful consumer products feel 'right,' deconstructing user delight moments, and making quick product bets with real user feedback. PostMem is your ideal training ground — treat every feature decision as a chance to sharpen your C2C intuition.",
       actionItems: [
-        "Define PostMem's north star metric and set up basic analytics tracking before launch",
-        "Design and document 3 growth experiments with clear hypotheses, success metrics, and timelines",
+        "Do a weekly teardown of one consumer product you admire — document what makes key interactions feel intuitive and where friction exists",
+        "For each PostMem feature decision, write a one-paragraph 'product instinct check' before validating with data — then compare your intuition against actual user behavior to calibrate your product sense over time",
       ],
     },
   ],
@@ -225,34 +229,36 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
     "product-design": 4.0,
     "system-architecture": 3.5,
     "zero-to-one": 3.5,
-    "data-driven": 2.5,
-    "business-decomposition": 4.0,
-    commercialization: 1.5,
-    growth: 2.0,
-    "ai-product-design": 2.0,
-    "ai-tech-understanding": 3.0,
-    "ai-tool-application": 4.0,
     "user-research": 3.0,
+    "data-experimentation": 2.5,
+    "business-decomposition": 4.0,
+    "commercialization-growth": 1.5,
+    "product-vision": 3.0,
+    "stakeholder-management": 3.0,
     "project-management": 3.5,
     "self-awareness": 1.5,
+    "ai-product-design": 2.0,
+    "ai-tech-application": 3.5,
     "cross-cultural": 2.0,
+    "product-sense": 2.0,
   },
   justifications: {
     "requirement-analysis": "在VIPKID（拆解售后痛点）和学术中国（多场景需求定义）中展现了扎实的需求分析能力。",
     "product-design": "多个项目中表现强劲：VIPKID售后系统、学术中国平台、装小蜜监理工作台。",
     "system-architecture": "VIPKID售后重构涉及多系统协调，学术中国需要集成区块链。具备系统思维能力。",
     "zero-to-one": "学术中国成果传播模块从0到1搭建，成果显著（+57%转化，1890用户）。",
-    "data-driven": "简历展示了数据结果，但数据更多是事后汇报而非驱动产品决策。",
-    "business-decomposition": "装小蜜案例堪称教科书级：将30%流失率拆解为3个量化根因并逐一设计解决方案。",
-    commercialization: "没有定价策略、商业模式设计或收入优化的经验。这是AI PM的关键短板。",
-    growth: "仅有招商银行一次营销活动（700+新客户）。缺乏互联网产品增长经验。",
-    "ai-product-design": "学术中国包含AIGC检测功能，但没有设计过AI原生产品的经验。",
-    "ai-tech-understanding": "计算机本科+硕士提供了强技术基础。大量使用Claude Code和主流AI模型。",
-    "ai-tool-application": "深度AI工具用户：用AI做市场调研、竞品分析、产品决策、原型生成和增长规划。",
     "user-research": "为PostMem做了20次用户访谈。装小蜜项目展示了用户导向的分析方法。",
+    "data-experimentation": "简历展示了数据结果，但数据更多是事后汇报而非驱动产品决策。缺乏结构化实验框架或A/B测试方法论的证据。",
+    "business-decomposition": "装小蜜案例堪称教科书级：将30%流失率拆解为3个量化根因并逐一设计解决方案。",
+    "commercialization-growth": "没有定价策略、商业模式设计或收入优化的经验。增长经验仅有招商银行一次营销活动（700+新客户），缺乏互联网产品增长经验（获客漏斗、留存优化、实验框架）。这是AI PM的关键短板。",
+    "product-vision": "PostMem创业展示了表达产品愿景和识别市场机会的能力。学术中国也需要在复杂利益相关者环境中定义产品方向。但缺乏长期路线图思维或跨多个周期的愿景驱动优先级排序的证据。",
+    "stakeholder-management": "在学术中国协调法务团队完成标准化协议，在VIPKID管理销售、仓储、财务的跨职能对齐。展示了职能层面的利益相关者协调能力，但缺乏高管层面影响力或战略性管理竞争性利益相关者优先级的证据。",
     "project-management": "多个项目负责人经验，协调跨职能团队（销售、法务、仓储、财务）。",
     "self-awareness": "系统性低估自身经验。将VIPKID售后系统重构描述为'CRM工具搭建'。",
+    "ai-product-design": "学术中国包含AIGC检测功能，但没有设计过AI原生产品的经验。",
+    "ai-tech-application": "计算机本科+硕士提供了强技术基础，大量使用Claude Code和主流AI模型，深入理解模型差异和能力。深度AI工具用户：用AI做市场调研、竞品分析、产品决策、原型生成和增长规划——AI融入PM工作流的程度处于行业领先水平。缺乏生产级提示工程或AI架构经验。",
     "cross-cultural": "马来西亚理科大学硕士学位提供了跨文化背景。正在构建面向海外市场的AI产品。",
+    "product-sense": "整个职业生涯聚焦B端，缺乏C端产品经验。没有展示出直觉性评估消费者产品决策、识别用户愉悦时刻或从消费者视角判断产品市场契合度的能力。PostMem是培养此能力的机会，但目前尚未验证。",
   },
   topStrengths: [
     {
@@ -270,23 +276,24 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
         "设计了多个复杂多系统产品：VIPKID售后系统（用户自助+自动审核+客服工作台+仓储+财务集成），学术中国平台（5大核心能力+3个业务场景+后台管理系统）。持续交付全面、结构清晰的B2B产品架构。",
     },
     {
-      dimension: "ai-tool-application",
-      dimensionName: "AI工具应用",
-      score: 4.0,
+      dimension: "ai-tech-application",
+      dimensionName: "AI技术与工具应用",
+      score: 3.5,
       evidence:
-        "广泛使用AI工具完成核心PM工作：市场调研、竞品分析、产品决策、原型生成和增长规划。目前使用Claude Code作为主力开发工具。这种AI融入PM工作流的程度显著高于平均水平。",
+        "结合扎实的技术基础（计算机本科+硕士）与广泛的AI工具实践应用：市场调研、竞品分析、产品决策、原型生成和增长规划。目前使用Claude Code作为主力开发工具。这种AI融入PM工作流的程度显著高于平均水平。",
     },
   ],
   topWeaknesses: [
     {
-      dimension: "commercialization",
-      dimensionName: "商业化",
+      dimension: "commercialization-growth",
+      dimensionName: "商业化与增长",
       score: 1.5,
       upgradeAdvice:
-        "你的业务拆解能力已达4.0分——把同样的结构化思维用到商业模式设计上。像拆解装小蜜流失率一样拆解定价：分析竞品定价层级，绘制用户支付意愿分布，建模单位经济。你的分析框架很强，只是还没对准变现方向。",
+        "你的业务拆解能力已达4.0分——把同样的结构化思维用到商业模式设计和增长策略上。像拆解装小蜜流失率一样拆解定价：分析竞品定价层级，绘制用户支付意愿分布，建模单位经济。然后将同样的分析严谨性延伸到获客漏斗和留存指标。你的分析框架很强，只是还没对准变现和增长方向。",
       actionItems: [
         "为PostMem设计一套完整的定价模型作为练习——包括免费层、付费层以及每个定价点背后的逻辑",
         "研究3个成功AI SaaS产品的定价页面，逆向拆解它们的定价逻辑",
+        "定义PostMem的北极星指标，在上线前搭建基础数据追踪",
       ],
     },
     {
@@ -301,14 +308,14 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
       ],
     },
     {
-      dimension: "growth",
-      dimensionName: "增长",
+      dimension: "product-sense",
+      dimensionName: "产品感觉",
       score: 2.0,
       upgradeAdvice:
-        "你有扎实的用户研究基础（PostMem的20次访谈）和CS背景的数据分析能力。增长是自然延伸：把用户洞察转化为获客假设，把技术能力转化为实验追踪。从小处开始——为PostMem定义一个北极星指标，本月跑2-3个增长实验。",
+        "你的整个职业生涯都聚焦B端，这意味着你还没有机会培养C端岗位所要求的直觉性消费者产品判断力。产品感觉是通过反复接触来建立的：研究成功消费者产品为什么用起来'对'，拆解用户愉悦时刻，并通过真实用户反馈来做快速产品决策。PostMem是你理想的训练场——把每一个功能决策都当作磨练C端直觉的机会。",
       actionItems: [
-        "定义PostMem的北极星指标，在上线前搭建基础数据追踪",
-        "设计并文档化3个增长实验，明确假设、成功指标和时间线",
+        "每周拆解一个你欣赏的消费者产品——记录关键交互为什么感觉直觉化，以及摩擦点在哪里",
+        "为PostMem的每个功能决策写一段'产品直觉检验'——先写下直觉判断，再用数据验证，通过对比来逐步校准你的产品感觉",
       ],
     },
   ],

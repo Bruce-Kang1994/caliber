@@ -7,7 +7,7 @@ import { getMockAssessmentResult } from "@/lib/mock-data";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import { nanoid } from "nanoid";
-import type { PMRole, AssessmentResult } from "@/lib/types";
+import type { PMRole, ArchetypeProfile, AssessmentResult } from "@/lib/types";
 
 // Zod schemas for input validation
 const projectSchema = z.object({
@@ -28,6 +28,7 @@ const experienceSchema = z.object({
 
 const analyzeRequestSchema = z.object({
   roleType: z.enum(["b2b-pm", "c2c-pm", "ai-pm", "growth-pm", "data-pm"]),
+  level: z.enum(["junior", "mid", "senior", "director"]).default("mid"),
   experiences: z.array(experienceSchema).min(1).max(10),
   inputMethod: z.enum(["resume", "manual", "upload"]).optional().default("manual"),
   locale: z.enum(["en", "zh", "ja", "ko"]).default("en"),
@@ -75,7 +76,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { roleType, experiences, inputMethod, locale } = parseResult.data;
+    const { roleType, level, experiences, inputMethod, locale } = parseResult.data;
     const role = roleType as PMRole;
     const weights = ROLE_WEIGHTS[role];
 
@@ -100,7 +101,8 @@ export async function POST(req: NextRequest) {
     const { system, user } = buildAssessmentPrompt(
       role,
       JSON.stringify(experiences, null, 2),
-      locale
+      locale,
+      level
     );
 
     const response = await deepseek.chat.completions.create({
@@ -148,7 +150,7 @@ export async function POST(req: NextRequest) {
     const weightedScore = Math.round((totalScore / (totalWeight * 5)) * 100);
 
     // Assign PM archetype based on score distribution
-    const { key: archetypeKey } = assignArchetype(validatedScores);
+    const { key: archetypeKey, profile: archetypeProfileData } = assignArchetype(validatedScores);
 
     // Validate topStrengths array
     const topStrengths = Array.isArray(assessment.topStrengths)
@@ -173,8 +175,15 @@ export async function POST(req: NextRequest) {
 
     const result: AssessmentResult = {
       roleType: role,
+      level,
       weightedScore,
       archetype: archetypeKey as AssessmentResult["archetype"],
+      archetypeProfile: archetypeProfileData.length >= 2
+        ? {
+            primary: { key: archetypeProfileData[0].key, label: archetypeProfileData[0].label, percentage: archetypeProfileData[0].percentage } as ArchetypeProfile["primary"],
+            secondary: { key: archetypeProfileData[1].key, label: archetypeProfileData[1].label, percentage: archetypeProfileData[1].percentage } as ArchetypeProfile["secondary"],
+          }
+        : undefined,
       summary: assessment.summary || "",
       scores: validatedScores as AssessmentResult["scores"],
       justifications: assessment.justifications || {},

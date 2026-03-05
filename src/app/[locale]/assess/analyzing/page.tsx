@@ -55,6 +55,7 @@ function AnalyzingContent() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             roleType: parsed.roleType,
+            level: parsed.level || "mid",
             experiences: parsed.experiences,
             inputMethod: parsed.inputMethod || "manual",
             locale,

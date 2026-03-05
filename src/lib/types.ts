@@ -5,6 +5,9 @@
 // --- PM Role Types ---
 export type PMRole = "b2b-pm" | "c2c-pm" | "ai-pm" | "growth-pm" | "data-pm";
 
+// --- PM Seniority Levels ---
+export type PMLevel = "junior" | "mid" | "senior" | "director";
+
 export interface PMRoleConfig {
   id: PMRole;
   name: string;
@@ -12,28 +15,38 @@ export interface PMRoleConfig {
   icon: string;
 }
 
-// --- Assessment Dimensions ---
+export interface PMLevelConfig {
+  id: PMLevel;
+  name: string;
+  description: string;
+  yearsRange: string;
+}
+
+// --- Assessment Dimensions (16 total, v2.0) ---
+// Framework sources: Ravi Mehta/Reforge, SVPG/Marty Cagan, Google/Meta PM rubrics
 export type DimensionKey =
-  | "requirement-analysis"
-  | "product-design"
-  | "system-architecture"
-  | "zero-to-one"
-  | "data-driven"
-  | "business-decomposition"
-  | "commercialization"
-  | "growth"
-  | "ai-product-design"
-  | "ai-tech-understanding"
-  | "ai-tool-application"
-  | "user-research"
-  | "project-management"
-  | "self-awareness"
-  | "cross-cultural";
+  | "requirement-analysis"    // Product Execution — Ravi Mehta: Feature Specification
+  | "product-design"          // Product Execution — Ravi Mehta: UX Design + SVPG: Product Discovery
+  | "system-architecture"     // Product Execution — Google: Technical Insight
+  | "zero-to-one"             // Product Execution — Ravi Mehta: Product Delivery
+  | "user-research"           // Customer Insight — Ravi Mehta: Voice of Customer + SVPG: User Knowledge
+  | "data-experimentation"    // Customer Insight — Ravi Mehta: Fluency with Data + Experimentation methodology
+  | "business-decomposition"  // Product Strategy — SVPG: Business Knowledge
+  | "commercialization-growth" // Product Strategy — Ravi Mehta: Business Outcome + Strategic Impact
+  | "product-vision"          // Product Strategy — Ravi Mehta: Product Vision & Roadmapping [NEW]
+  | "stakeholder-management"  // Influencing People — Ravi Mehta: Stakeholder Management [NEW]
+  | "project-management"      // Influencing People — retained from v1
+  | "self-awareness"          // Influencing People — retained from v1
+  | "ai-product-design"       // AI & Emerging — Caliber original (2026 forward-looking)
+  | "ai-tech-application"     // AI & Emerging — merged: AI Tech Understanding + AI Tool Application
+  | "cross-cultural"          // AI & Emerging — Caliber original (Asia-Pacific positioning)
+  | "product-sense";          // AI & Emerging — Meta: Product Sense [NEW]
 
 export interface Dimension {
   key: DimensionKey;
   name: string;
   description: string;
+  source: string; // theoretical framework source
 }
 
 // --- Work Experience ---
@@ -56,6 +69,7 @@ export interface ProjectDetail {
 // --- Assessment Input ---
 export interface AssessmentInput {
   roleType: PMRole;
+  level: PMLevel;
   experiences: WorkExperience[];
   inputMethod: "resume" | "manual";
 }
@@ -64,10 +78,17 @@ export interface AssessmentInput {
 // --- PM Archetypes ---
 export type PMArchetype = "craftsperson" | "visionary" | "operator" | "growth-hacker" | "strategist";
 
+export interface ArchetypeProfile {
+  primary: { key: PMArchetype; label: string; percentage: number };
+  secondary: { key: PMArchetype; label: string; percentage: number };
+}
+
 export interface AssessmentResult {
   roleType: PMRole;
+  level?: PMLevel;
   weightedScore: number;
   archetype?: PMArchetype;
+  archetypeProfile?: ArchetypeProfile;
   archetypeDescription?: string;
   summary: string;
   scores: Record<DimensionKey, number>;

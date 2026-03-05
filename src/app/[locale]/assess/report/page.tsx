@@ -130,7 +130,7 @@ function ReportContent() {
     fullMark: 5,
   }));
 
-  const level = getScoreLevel(result.weightedScore, t);
+  const scoreLevel = getScoreLevel(result.weightedScore, t);
   const limits = getTierLimits(userTier);
 
   const handleExportPdf = async () => {
@@ -138,27 +138,31 @@ function ReportContent() {
     try {
       const { toPng } = await import("html-to-image");
       const jsPDF = (await import("jspdf")).default;
-      if (!reportRef.current) return;
+      const el = reportRef.current;
+      if (!el) return;
 
-      const filter = (node: HTMLElement) => {
-        if (node.tagName === "BUTTON") return false;
-        return true;
-      };
+      // Temporarily shrink the element to A4-friendly width for capture
+      const origStyle = el.getAttribute("style") || "";
+      el.style.width = "750px";
+      el.style.maxWidth = "750px";
+      el.style.padding = "20px";
+      el.style.margin = "0";
+      // Force reflow so the browser recalculates layout
+      el.getBoundingClientRect();
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-      // Capture at a fixed width optimized for A4 portrait
-      const captureWidth = 800;
-      const dataUrl = await toPng(reportRef.current, {
+      const filter = (node: HTMLElement) => node.tagName !== "BUTTON";
+
+      const dataUrl = await toPng(el, {
         quality: 0.95,
         pixelRatio: 2,
         backgroundColor: "#f8fafc",
         filter,
-        width: captureWidth,
-        style: {
-          width: `${captureWidth}px`,
-          maxWidth: `${captureWidth}px`,
-          padding: "24px",
-        },
       });
+
+      // Restore original style
+      if (origStyle) el.setAttribute("style", origStyle);
+      else el.removeAttribute("style");
 
       const img = new Image();
       img.src = dataUrl;
@@ -269,8 +273,20 @@ function ReportContent() {
                 <h2 className="text-3xl sm:text-4xl font-bold text-white">{t(`report.archetype_${result.archetype}`)}</h2>
                 <div className="w-8 h-0.5 bg-primary/60 mx-auto mt-4 mb-4 rounded-full" />
                 <p className="text-base text-slate-300 max-w-md mx-auto leading-relaxed">{t(`report.archetype_${result.archetype}_desc`)}</p>
-                <div className={`inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full ${level.bg} ${level.border} border`}>
-                  <span className={`text-sm font-semibold ${level.color}`}>{level.label}</span>
+                {/* Composite archetype profile */}
+                {result.archetypeProfile && (
+                  <div className="flex items-center justify-center gap-3 mt-4">
+                    <span className="text-sm text-white/90 font-medium">
+                      {result.archetypeProfile.primary.percentage}% {t(`report.archetype_${result.archetypeProfile.primary.key}`)}
+                    </span>
+                    <span className="text-slate-500">/</span>
+                    <span className="text-sm text-slate-400">
+                      {result.archetypeProfile.secondary.percentage}% {t(`report.archetype_${result.archetypeProfile.secondary.key}`)}
+                    </span>
+                  </div>
+                )}
+                <div className={`inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full ${scoreLevel.bg} ${scoreLevel.border} border`}>
+                  <span className={`text-sm font-semibold ${scoreLevel.color}`}>{scoreLevel.label}</span>
                 </div>
                 <p className="text-sm text-slate-400 mt-3">Caliber Score: <span className="text-white font-semibold">{displayScore}</span>/100</p>
               </>
@@ -281,8 +297,8 @@ function ReportContent() {
                   <span className="text-5xl sm:text-7xl font-bold">{displayScore}</span>
                   <span className="text-2xl text-slate-400 mb-3">/100</span>
                 </div>
-                <div className={`inline-flex items-center gap-2 mt-4 px-4 py-1.5 rounded-full ${level.bg} ${level.border} border`}>
-                  <span className={`text-sm font-semibold ${level.color}`}>{level.label}</span>
+                <div className={`inline-flex items-center gap-2 mt-4 px-4 py-1.5 rounded-full ${scoreLevel.bg} ${scoreLevel.border} border`}>
+                  <span className={`text-sm font-semibold ${scoreLevel.color}`}>{scoreLevel.label}</span>
                 </div>
               </>
             )}

@@ -18,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { AppHeader } from "@/components/AppHeader";
 import { StepIndicatorBar } from "@/components/StepIndicator";
-import type { PMRole, WorkExperience, ProjectDetail } from "@/lib/types";
+import type { PMRole, PMLevel, WorkExperience, ProjectDetail } from "@/lib/types";
 
 function emptyProject(): ProjectDetail {
   return { name: "", background: "", actions: "", results: "" };
@@ -41,6 +41,7 @@ function InputPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const role = (searchParams.get("role") || "ai-pm") as PMRole;
+  const level = (searchParams.get("level") || "mid") as PMLevel;
 
   const [tab, setTab] = useState<"upload" | "manual">("upload");
   const [experiences, setExperiences] = useState<WorkExperience[]>([
@@ -190,9 +191,9 @@ function InputPageContent() {
     // Store in sessionStorage and navigate to analyzing page
     sessionStorage.setItem(
       "assessmentInput",
-      JSON.stringify({ roleType: role, experiences, inputMethod: tab })
+      JSON.stringify({ roleType: role, level, experiences, inputMethod: tab })
     );
-    router.push(`/assess/analyzing?role=${role}`);
+    router.push(`/assess/analyzing?role=${role}&level=${level}`);
   };
 
   return (
