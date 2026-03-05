@@ -42,6 +42,15 @@ export default function HistoryDetailPage() {
       });
   }, [user, authLoading, params.id]);
 
+  // Store in sessionStorage and redirect to the full report page
+  // This reuses the existing rich report rendering
+  useEffect(() => {
+    if (result) {
+      sessionStorage.setItem("assessmentResult", JSON.stringify({ ...result, _locale: "en" }));
+      window.location.href = `/${params.locale || "en"}/assess/report?role=${result.roleType}&from=history`;
+    }
+  }, [result, params.locale]);
+
   if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -70,15 +79,6 @@ export default function HistoryDetailPage() {
       </div>
     );
   }
-
-  // Store in sessionStorage and redirect to the full report page
-  // This reuses the existing rich report rendering
-  useEffect(() => {
-    if (result) {
-      sessionStorage.setItem("assessmentResult", JSON.stringify({ ...result, _locale: "en" }));
-      window.location.href = `/${params.locale || "en"}/assess/report?role=${result.roleType}&from=history`;
-    }
-  }, [result, params.locale]);
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center">
