@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
           // Stream from DeepSeek and accumulate chunks
           const streamResponse = await deepseek.chat.completions.create({
             model: "deepseek-chat",
-            max_tokens: 4000,
+            max_tokens: 2500,
             stream: true,
             messages: [
               { role: "system", content: system },
