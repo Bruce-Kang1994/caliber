@@ -139,23 +139,38 @@ function ReportContent() {
       const html2canvas = (await import("html2canvas")).default;
       const jsPDF = (await import("jspdf")).default;
       if (!reportRef.current) return;
-      const canvas = await html2canvas(reportRef.current, { scale: 2, useCORS: true, logging: false });
+      const canvas = await html2canvas(reportRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: "#f8fafc",
+        removeContainer: true,
+        ignoreElements: (el) => {
+          if (el.tagName === "BUTTON") return true;
+          const htmlEl = el as HTMLElement;
+          if (htmlEl.getAttribute?.("data-html2canvas-ignore") === "true") return true;
+          return false;
+        },
+      });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      const pageHeight = pdf.internal.pageSize.getHeight();
       let heightLeft = pdfHeight;
       let position = 0;
       pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-      heightLeft -= pdf.internal.pageSize.getHeight();
+      heightLeft -= pageHeight;
       while (heightLeft > 0) {
-        position -= pdf.internal.pageSize.getHeight();
+        position -= pageHeight;
         pdf.addPage();
         pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-        heightLeft -= pdf.internal.pageSize.getHeight();
+        heightLeft -= pageHeight;
       }
       pdf.save(`Caliber-Report-${new Date().toISOString().slice(0, 10)}.pdf`);
-    } catch {
+    } catch (err) {
+      console.error("PDF export error:", err);
       alert("Failed to export PDF. Please try again.");
     } finally {
       setExporting(false);
@@ -267,7 +282,7 @@ function ReportContent() {
         <Card className="mb-8 border-0 shadow-md">
           <CardHeader><CardTitle>{t("report.radarTitle")}</CardTitle></CardHeader>
           <CardContent>
-            <div className="h-[300px] sm:h-[400px]"><AssessmentRadarChart data={radarData} /></div>
+            <div className="h-[300px] sm:h-[400px]" data-html2canvas-ignore="true"><AssessmentRadarChart data={radarData} /></div>
             <div className="mt-6 space-y-4">
               {categoryKeys.map((cat) => (
                 <div key={cat}>
