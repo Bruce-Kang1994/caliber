@@ -18,7 +18,7 @@ interface Props {
 export function AssessmentRadarChart({ data }: Props) {
   return (
     <div className="w-full h-[300px] sm:h-[420px]">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
         <RechartsRadar
           data={data}
           cx="50%"

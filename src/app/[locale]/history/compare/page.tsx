@@ -201,7 +201,7 @@ export default function ComparePage() {
           <CardContent className="py-6">
             <h3 className="text-lg font-semibold text-slate-900 mb-4 text-center">{t("compare.radarTitle")}</h3>
             <div className="w-full h-[350px] sm:h-[420px]">
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <RechartsRadar data={radarData} cx="50%" cy="50%" outerRadius="70%">
                   <PolarGrid stroke="#e2e8f0" />
                   <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 11, fill: "#64748b" }} />
