@@ -76,23 +76,51 @@ function InputPageContent() {
         });
 
         if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || "Failed to parse resume");
+          let errMsg = "Failed to parse resume";
+          try { const err = await res.json(); errMsg = err.error || errMsg; } catch { /* noop */ }
+          throw new Error(errMsg);
         }
 
-        const data = await res.json();
-        if (data.experiences && data.experiences.length > 0) {
-          setExperiences(data.experiences);
-          // Auto-expand experiences that have project data from resume parsing
-          const expanded = new Set<number>();
-          data.experiences.forEach((exp: WorkExperience, i: number) => {
-            if (exp.projects?.length > 0 || exp.achievements?.length > 0) {
-              expanded.add(i);
+        // Read NDJSON stream from resume parser
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        let parsed = false;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          const lines = buffer.split("\n");
+          buffer = lines.pop() || "";
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const msg = JSON.parse(line);
+              if (msg.type === "result" && msg.experiences?.length > 0) {
+                setExperiences(msg.experiences);
+                const expanded = new Set<number>();
+                msg.experiences.forEach((exp: WorkExperience, i: number) => {
+                  if (exp.projects?.length > 0 || exp.achievements?.length > 0) {
+                    expanded.add(i);
+                  }
+                });
+                setExpandedExps(expanded);
+                setUploadSuccess(true);
+                setTab("manual");
+                parsed = true;
+              } else if (msg.type === "error") {
+                throw new Error(msg.error);
+              }
+            } catch (e) {
+              if (e instanceof Error && e.message !== "Failed to parse resume") throw e;
             }
-          });
-          setExpandedExps(expanded);
-          setUploadSuccess(true);
-          setTab("manual"); // Switch to manual tab to review/edit
+          }
+        }
+
+        if (!parsed) {
+          throw new Error("Failed to extract experiences from resume");
         }
       } catch (err) {
         setUploadError(

@@ -46,74 +46,109 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Use DeepSeek to parse the resume text
+    // Use DeepSeek to parse the resume text (streaming to keep connection alive)
     const prompt = buildResumeParsePrompt(locale);
 
-    const response = await deepseek.chat.completions.create({
-      model: "deepseek-chat",
-      max_tokens: 4000,
-      messages: [
-        {
-          role: "user",
-          content: `${prompt}\n\n---\nRESUME CONTENT:\n${textContent.slice(0, 8000)}`,
-        },
-      ],
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (data: Record<string, unknown>) => {
+          controller.enqueue(encoder.encode(JSON.stringify(data) + "\n"));
+        };
+
+        try {
+          send({ type: "progress", step: "extracting" });
+
+          const streamResponse = await deepseek.chat.completions.create({
+            model: "deepseek-chat",
+            max_tokens: 2000,
+            stream: true,
+            messages: [
+              {
+                role: "user",
+                content: `${prompt}\n\n---\nRESUME CONTENT:\n${textContent.slice(0, 8000)}`,
+              },
+            ],
+          });
+
+          let text = "";
+          let chunkCount = 0;
+          for await (const chunk of streamResponse) {
+            const delta = chunk.choices[0]?.delta?.content || "";
+            text += delta;
+            chunkCount++;
+            if (chunkCount % 15 === 0) {
+              send({ type: "progress", step: "parsing", tokens: chunkCount });
+            }
+          }
+
+          if (!text) {
+            send({ type: "error", error: "No response from AI" });
+            controller.close();
+            return;
+          }
+
+          const jsonMatch = text.match(/\[[\s\S]*\]/);
+          if (!jsonMatch) {
+            send({ type: "error", error: "Failed to extract structured data from resume" });
+            controller.close();
+            return;
+          }
+
+          const experiences = JSON.parse(jsonMatch[0]);
+
+          const mapped = experiences.map(
+            (exp: {
+              company?: string;
+              title?: string;
+              duration?: string;
+              responsibilities?: string;
+              projects?: Array<{
+                name?: string;
+                background?: string;
+                actions?: string;
+                results?: string;
+              }>;
+              achievements?: string[];
+            }) => ({
+              company: exp.company || "",
+              title: exp.title || "",
+              duration: exp.duration || "",
+              responsibilities: exp.responsibilities || "",
+              projects: (exp.projects || []).map(
+                (p: {
+                  name?: string;
+                  background?: string;
+                  actions?: string;
+                  results?: string;
+                }) => ({
+                  name: p.name || "",
+                  background: p.background || "",
+                  actions: p.actions || "",
+                  results: p.results || "",
+                })
+              ),
+              achievements: exp.achievements || [],
+            })
+          );
+
+          send({ type: "result", experiences: mapped });
+        } catch (err) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          send({ type: "error", error: `Failed to parse resume: ${errMsg}` });
+        } finally {
+          controller.close();
+        }
+      },
     });
 
-    const text = response.choices[0]?.message?.content;
-    if (!text) {
-      return NextResponse.json(
-        { error: "No response from AI" },
-        { status: 500 }
-      );
-    }
-
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) {
-      return NextResponse.json(
-        { error: "Failed to extract structured data from resume" },
-        { status: 500 }
-      );
-    }
-
-    const experiences = JSON.parse(jsonMatch[0]);
-
-    const mapped = experiences.map(
-      (exp: {
-        company?: string;
-        title?: string;
-        duration?: string;
-        responsibilities?: string;
-        projects?: Array<{
-          name?: string;
-          background?: string;
-          actions?: string;
-          results?: string;
-        }>;
-        achievements?: string[];
-      }) => ({
-        company: exp.company || "",
-        title: exp.title || "",
-        duration: exp.duration || "",
-        responsibilities: exp.responsibilities || "",
-        projects: (exp.projects || []).map(
-          (p: {
-            name?: string;
-            background?: string;
-            actions?: string;
-            results?: string;
-          }) => ({
-            name: p.name || "",
-            background: p.background || "",
-            actions: p.actions || "",
-            results: p.results || "",
-          })
-        ),
-        achievements: exp.achievements || [],
-      })
-    );
-
-    return NextResponse.json({ experiences: mapped });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "application/x-ndjson",
+        "Cache-Control": "no-cache",
+        "Transfer-Encoding": "chunked",
+      },
+    });
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("Resume parse error:", errMsg, error);
