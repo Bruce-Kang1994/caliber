@@ -1,11 +1,23 @@
 import OpenAI from "openai";
 
-// AI provider selection: OpenAI (fast from Vercel US) or DeepSeek (cheap)
-// Set AI_PROVIDER=openai in Vercel env, or defaults to deepseek for local dev
+// AI provider selection via AI_PROVIDER env var:
+//   "groq"     → Groq (free, fast, US servers) — recommended for Vercel
+//   "openai"   → OpenAI (GPT-4o-mini, cheap, US servers)
+//   "deepseek" → DeepSeek (default, for local dev)
 
 const provider = process.env.AI_PROVIDER || "deepseek";
 
 function createClient(): { client: OpenAI; model: string } {
+  if (provider === "groq") {
+    return {
+      client: new OpenAI({
+        baseURL: "https://api.groq.com/openai/v1",
+        apiKey: process.env.GROQ_API_KEY || "",
+      }),
+      model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
+    };
+  }
+
   if (provider === "openai") {
     return {
       client: new OpenAI({
