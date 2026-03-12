@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deepseek } from "@/lib/deepseek";
+import { aiClient, aiModel } from "@/lib/ai-client";
 import { buildResumeParsePrompt } from "@/lib/prompts";
 import { MOCK_EXPERIENCES } from "@/lib/mock-data";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
@@ -75,8 +75,8 @@ export async function POST(req: NextRequest) {
         try {
           send({ type: "progress", step: "extracting" });
 
-          const streamResponse = await deepseek.chat.completions.create({
-            model: "deepseek-chat",
+          const streamResponse = await aiClient.chat.completions.create({
+            model: aiModel,
             max_tokens: 2000,
             stream: true,
             messages: [

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { deepseek } from "@/lib/deepseek";
+import { aiClient, aiModel } from "@/lib/ai-client";
 import { buildAssessmentPrompt } from "@/lib/prompts";
 import { ROLE_WEIGHTS, DIMENSIONS, assignArchetype } from "@/lib/constants";
 import { getMockAssessmentResult } from "@/lib/mock-data";
@@ -137,8 +137,8 @@ export async function POST(req: NextRequest) {
           send({ type: "progress", step: 1 });
 
           // Stream from DeepSeek and accumulate chunks
-          const streamResponse = await deepseek.chat.completions.create({
-            model: "deepseek-chat",
+          const streamResponse = await aiClient.chat.completions.create({
+            model: aiModel,
             max_tokens: 2400,
             temperature: 0,
             stream: true,

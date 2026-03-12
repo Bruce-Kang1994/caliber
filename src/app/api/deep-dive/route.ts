@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { deepseek } from "@/lib/deepseek";
+import { aiClient, aiModel } from "@/lib/ai-client";
 import { buildDeepDiveSystemPrompt } from "@/lib/deep-dive";
 import { DIMENSIONS } from "@/lib/constants";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
@@ -148,8 +148,8 @@ export async function POST(req: NextRequest) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          const streamResponse = await deepseek.chat.completions.create({
-            model: "deepseek-chat",
+          const streamResponse = await aiClient.chat.completions.create({
+            model: aiModel,
             max_tokens: 500,
             temperature: 0.3,
             stream: true,
