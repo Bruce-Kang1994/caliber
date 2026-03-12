@@ -88,57 +88,41 @@ WRITING QUALITY RULES:
 
 RETURN STRICT JSON ONLY (no markdown, no code fences):
 {
-  "summary": "<2-3 sentences summarizing profile, strengths, and core gaps>",
+  "summary": "<2 sentences: profile + core gaps>",
   "scores": {"<key>": <1.0-5.0>, "...all 16 dimensions": 0},
-  "justifications": {"<key>": "<1-2 sentence evidence-based explanation for every one of the 16 dimensions>"},
+  "justifications": {"<key>": "<1 sentence per dimension>"},
   "topStrengths": [
-    {
-      "dimension": "<key>",
-      "dimensionName": "<localized display name>",
-      "score": <n>,
-      "evidence": "<WHAT: 1-2 sentences describing the concrete behavior or achievement> <WHY: 1-2 sentences explaining why this matters for the target PM role> <IMPACT: 1 sentence with specific metrics or outcomes>"
-    }
+    {"dimension": "<key>", "dimensionName": "<localized>", "score": <n>, "evidence": "<WHAT: 1 sentence> <WHY: 1 sentence> <IMPACT: 1 sentence with metrics>"}
   ],
   "topWeaknesses": [
     {
-      "dimension": "<key>",
-      "dimensionName": "<localized display name>",
-      "score": <n>,
-      "upgradeAdvice": "<4-6 sentence explanation connecting current gap, why it matters, and how existing strengths can help close it>",
+      "dimension": "<key>", "dimensionName": "<localized>", "score": <n>,
+      "upgradeAdvice": "<2-3 sentences connecting gap to existing strengths>",
       "actionItems": [
-        {"action": "<what to do>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "artifact": "<measurable deliverable or outcome>"},
-        {"action": "<what to do>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "artifact": "<measurable deliverable or outcome>"},
-        {"action": "<what to do>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "artifact": "<measurable deliverable or outcome>"}
+        {"action": "<concise action>", "timeframe": "<this week|2 weeks|1 month|3 months|ongoing>", "artifact": "<deliverable>"},
+        {"action": "<concise action>", "timeframe": "<...>", "artifact": "<deliverable>"},
+        {"action": "<concise action>", "timeframe": "<...>", "artifact": "<deliverable>"}
       ]
     }
   ],
-  "undervaluedExperiences": [
-    "<2-3 sentence explanation of an experience the candidate is underselling and why it should be framed differently>",
-    "<...>",
-    "<...>"
-  ],
-  "missingElements": [
-    "<2-3 sentence explanation of an important missing proof point for the target role>",
-    "<...>",
-    "<...>"
-  ],
+  "undervaluedExperiences": ["<1 sentence each>", "<...>", "<...>"],
+  "missingElements": ["<1 sentence each>", "<...>", "<...>"],
   "nextSteps": [
-    {"action": "<specific action>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "rationale": "<1 sentence why this step matters most>"},
-    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"},
-    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"},
-    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"},
-    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"}
+    {"action": "<concise>", "timeframe": "<this week|2 weeks|1 month|3 months|ongoing>", "rationale": "<1 sentence>"},
+    {"action": "<...>", "timeframe": "<...>", "rationale": "<...>"},
+    {"action": "<...>", "timeframe": "<...>", "rationale": "<...>"}
   ]
 }
 
+CRITICAL: Keep output COMPACT. Use short sentences. Avoid filler words. Total output must stay under 2000 tokens.
+
 CONTENT RULES:
-- Fill all 16 scores.
-- Fill all 16 justifications (keep each to 1-2 sentences to save space for important sections).
-- Return exactly 3 topStrengths and exactly 3 topWeaknesses.
-- Each weakness must include exactly 3 actionItems as structured objects with action/timeframe/artifact.
-- Return exactly 3 undervaluedExperiences and exactly 3 missingElements when possible from available evidence.
-- Return exactly 5 nextSteps as structured objects with action/timeframe/rationale, ordered by impact.
-- If evidence is missing, say so explicitly instead of inventing details.`;
+- Fill all 16 scores and all 16 justifications (1 sentence each — this is critical for saving tokens).
+- Return exactly 3 topStrengths (3 sentences each: WHAT + WHY + IMPACT).
+- Return exactly 3 topWeaknesses, each with exactly 3 structured actionItems.
+- Return exactly 3 undervaluedExperiences and 3 missingElements (1 sentence each).
+- Return exactly 3 nextSteps as structured objects, ordered by impact.
+- If evidence is missing, say so instead of inventing details.`;
 
   const user = `Role: ${roleType} | Level: ${levelInfo.label}
 
