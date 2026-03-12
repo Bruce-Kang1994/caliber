@@ -90,23 +90,22 @@ RETURN STRICT JSON ONLY (no markdown, no code fences):
 {
   "summary": "<2 sentences: profile + core gaps>",
   "scores": {"<key>": <1.0-5.0>, "...all 16 dimensions": 0},
-  "justifications": {"<key>": "<1 sentence per dimension>"},
   "topStrengths": [
-    {"dimension": "<key>", "dimensionName": "<localized>", "score": <n>, "evidence": "<WHAT: 1 sentence> <WHY: 1 sentence> <IMPACT: 1 sentence with metrics>"}
+    {"dimension": "<key>", "dimensionName": "<localized>", "score": <n>, "evidence": "<WHAT+WHY+IMPACT in 2-3 sentences>"}
   ],
   "topWeaknesses": [
     {
       "dimension": "<key>", "dimensionName": "<localized>", "score": <n>,
-      "upgradeAdvice": "<2-3 sentences connecting gap to existing strengths>",
+      "upgradeAdvice": "<2 sentences>",
       "actionItems": [
-        {"action": "<concise action>", "timeframe": "<this week|2 weeks|1 month|3 months|ongoing>", "artifact": "<deliverable>"},
-        {"action": "<concise action>", "timeframe": "<...>", "artifact": "<deliverable>"},
-        {"action": "<concise action>", "timeframe": "<...>", "artifact": "<deliverable>"}
+        {"action": "<concise>", "timeframe": "<this week|2 weeks|1 month|3 months|ongoing>", "artifact": "<deliverable>"},
+        {"action": "<concise>", "timeframe": "<...>", "artifact": "<deliverable>"},
+        {"action": "<concise>", "timeframe": "<...>", "artifact": "<deliverable>"}
       ]
     }
   ],
-  "undervaluedExperiences": ["<1 sentence each>", "<...>", "<...>"],
-  "missingElements": ["<1 sentence each>", "<...>", "<...>"],
+  "undervaluedExperiences": ["<1 sentence>", "<1 sentence>", "<1 sentence>"],
+  "missingElements": ["<1 sentence>", "<1 sentence>", "<1 sentence>"],
   "nextSteps": [
     {"action": "<concise>", "timeframe": "<this week|2 weeks|1 month|3 months|ongoing>", "rationale": "<1 sentence>"},
     {"action": "<...>", "timeframe": "<...>", "rationale": "<...>"},
@@ -114,15 +113,12 @@ RETURN STRICT JSON ONLY (no markdown, no code fences):
   ]
 }
 
-CRITICAL: Keep output COMPACT. Use short sentences. Avoid filler words. Total output must stay under 2000 tokens.
+CRITICAL: Keep output COMPACT. Total output MUST be under 1500 tokens. Use short sentences. No filler.
 
-CONTENT RULES:
-- Fill all 16 scores and all 16 justifications (1 sentence each — this is critical for saving tokens).
-- Return exactly 3 topStrengths (3 sentences each: WHAT + WHY + IMPACT).
-- Return exactly 3 topWeaknesses, each with exactly 3 structured actionItems.
-- Return exactly 3 undervaluedExperiences and 3 missingElements (1 sentence each).
-- Return exactly 3 nextSteps as structured objects, ordered by impact.
-- If evidence is missing, say so instead of inventing details.`;
+RULES:
+- Fill all 16 dimension scores. Do NOT include justifications object (omit it entirely to save tokens).
+- Exactly 3 topStrengths, 3 topWeaknesses (each with 3 actionItems), 3 undervaluedExperiences, 3 missingElements, 3 nextSteps.
+- If evidence is missing, say so instead of inventing.`;
 
   const user = `Role: ${roleType} | Level: ${levelInfo.label}
 
