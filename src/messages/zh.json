@@ -131,6 +131,13 @@
     "nextStepsTitle": "下一步行动",
     "nextStepsSubtitle": "现在就可以做的具体事情",
     "actionItems": "行动建议",
+    "timeframeThisWeek": "本周",
+    "timeframe2Weeks": "2周内",
+    "timeframe1Month": "1个月内",
+    "timeframe3Months": "3个月内",
+    "timeframeOngoing": "持续进行",
+    "deliverable": "交付物",
+    "rationale": "为什么重要",
     "downloadPdf": "下载PDF报告",
     "shareReport": "分享报告",
     "startNew": "重新评估",
@@ -163,7 +170,8 @@
       "每月1次评估",
       "总分 + PM原型",
       "5大类雷达图",
-      "Top 1 长板 + Top 1 短板（摘要版）"
+      "Top 1 长板 + Top 1 短板（摘要版）",
+      "1个维度深度诊断体验"
     ],
     "singlePlan": "单次报告",
     "singlePlanPrice": "¥29.9",
@@ -173,7 +181,8 @@
       "证据支撑的评分说明",
       "被低估经历挖掘",
       "个性化行动计划",
-      "PDF报告导出"
+      "PDF报告导出",
+      "全维度深度诊断"
     ],
     "proPlan": "专业版",
     "proPlanPrice": "¥99",
@@ -183,6 +192,7 @@
       "无限次评估",
       "包含单次报告全部功能",
       "评估历史和成长追踪",
+      "全维度深度诊断",
       "优先AI处理",
       "简历重写建议（即将上线）",
       "模拟面试准备（即将上线）"
@@ -343,5 +353,22 @@
     "unlockCta": "解锁 ¥29.9",
     "freePreview": "免费预览",
     "fullReport": "完整报告"
+  },
+  "deepDive": {
+    "title": "深度诊断",
+    "button": "追问校准",
+    "reviewed": "已校准",
+    "buttonTip": "AI面试官深度追问，挖掘你的真实能力",
+    "paidOnly": "升级后解锁更多维度的深度诊断",
+    "exchange": "对话 {current}/{max} 轮",
+    "complete": "诊断完成",
+    "inputPlaceholder": "描述你的具体经历...",
+    "backToReport": "返回报告",
+    "lastRecord": "上次校准记录",
+    "before": "调整前",
+    "after": "调整后",
+    "evidenceLabel": "调整依据",
+    "gapsLabel": "待提升",
+    "suggestionLabel": "提升建议"
   }
 }

@@ -31,7 +31,7 @@ const analyzeRequestSchema = z.object({
   level: z.enum(["junior", "mid", "senior", "director"]).default("mid"),
   experiences: z.array(experienceSchema).min(1).max(10),
   inputMethod: z.enum(["resume", "manual", "upload"]).optional().default("manual"),
-  locale: z.enum(["en", "zh", "ja", "ko"]).default("en"),
+  locale: z.enum(["en", "zh", "ja", "ko", "fr", "es"]).default("en"),
 });
 
 export const maxDuration = 60;
@@ -83,7 +83,6 @@ export async function POST(req: NextRequest) {
     // Mock mode for testing without API credits
     const USE_MOCK = process.env.USE_MOCK?.trim() === "true";
     if (USE_MOCK) {
-      await new Promise((r) => setTimeout(r, 2000));
       const mockResult = getMockAssessmentResult(locale);
       const result = { ...mockResult, roleType: role, level };
 
@@ -95,7 +94,26 @@ export async function POST(req: NextRequest) {
         if (saved) { assessmentId = saved.id; shareToken = saved.shareToken; }
       }
 
-      return NextResponse.json({ result, assessmentId, shareToken });
+      // Return NDJSON stream format (same as real API) so the client parser works
+      const mockEncoder = new TextEncoder();
+      const mockStream = new ReadableStream({
+        async start(controller) {
+          const send = (data: Record<string, unknown>) => {
+            controller.enqueue(mockEncoder.encode(JSON.stringify(data) + "\n"));
+          };
+          send({ type: "progress", step: 1 });
+          await new Promise((r) => setTimeout(r, 500));
+          send({ type: "progress", step: 2 });
+          await new Promise((r) => setTimeout(r, 500));
+          send({ type: "progress", step: 3 });
+          await new Promise((r) => setTimeout(r, 500));
+          send({ type: "result", result, assessmentId, shareToken });
+          controller.close();
+        },
+      });
+      return new Response(mockStream, {
+        headers: { "Content-Type": "application/x-ndjson", "Cache-Control": "no-cache" },
+      });
     }
 
     const { system, user } = buildAssessmentPrompt(
@@ -119,7 +137,7 @@ export async function POST(req: NextRequest) {
           // Stream from DeepSeek and accumulate chunks
           const streamResponse = await deepseek.chat.completions.create({
             model: "deepseek-chat",
-            max_tokens: 1500,
+            max_tokens: 3000,
             temperature: 0,
             stream: true,
             messages: [
@@ -195,7 +213,15 @@ export async function POST(req: NextRequest) {
                 dimensionName: w.dimensionName || "",
                 score: typeof w.score === "number" ? Math.max(1.0, Math.min(5.0, w.score)) : 1.0,
                 upgradeAdvice: w.upgradeAdvice || "",
-                actionItems: Array.isArray(w.actionItems) ? w.actionItems : [],
+                actionItems: Array.isArray(w.actionItems)
+                  ? w.actionItems.map((item: unknown) => {
+                      if (typeof item === "object" && item !== null && "action" in item) {
+                        const obj = item as Record<string, unknown>;
+                        return { action: String(obj.action || ""), timeframe: String(obj.timeframe || ""), artifact: String(obj.artifact || "") };
+                      }
+                      return String(item);
+                    })
+                  : [],
               }))
             : [];
 
@@ -225,7 +251,13 @@ export async function POST(req: NextRequest) {
               ? assessment.missingElements
               : [],
             nextSteps: Array.isArray(assessment.nextSteps)
-              ? assessment.nextSteps.slice(0, 3)
+              ? assessment.nextSteps.map((step: unknown) => {
+                  if (typeof step === "object" && step !== null && "action" in step) {
+                    const obj = step as Record<string, unknown>;
+                    return { action: String(obj.action || ""), timeframe: String(obj.timeframe || ""), rationale: String(obj.rationale || "") };
+                  }
+                  return String(step);
+                })
               : [],
             timestamp: new Date().toISOString(),
           };

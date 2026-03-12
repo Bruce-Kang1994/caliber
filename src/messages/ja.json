@@ -131,6 +131,13 @@
     "nextStepsTitle": "次のステップ",
     "nextStepsSubtitle": "今すぐ実行できる具体的なアクション",
     "actionItems": "アクション項目",
+    "timeframeThisWeek": "今週",
+    "timeframe2Weeks": "2週間以内",
+    "timeframe1Month": "1ヶ月以内",
+    "timeframe3Months": "3ヶ月以内",
+    "timeframeOngoing": "継続的に",
+    "deliverable": "成果物",
+    "rationale": "なぜ重要か",
     "downloadPdf": "PDFレポートをダウンロード",
     "shareReport": "レポートを共有",
     "startNew": "新しい評価を開始",
@@ -163,7 +170,8 @@
       "月1回の評価",
       "総合スコア + PMアーキタイプ",
       "5カテゴリーレーダーチャート",
-      "トップ1の強みと課題（サマリー版）"
+      "トップ1の強みと課題（サマリー版）",
+      "1項目の深掘り診断体験"
     ],
     "singlePlan": "単発レポート",
     "singlePlanPrice": "$4.99",
@@ -173,7 +181,8 @@
       "エビデンス付きスコア説明",
       "過小評価された経験の発掘",
       "パーソナライズされたアクションプラン",
-      "PDFレポートエクスポート"
+      "PDFレポートエクスポート",
+      "全項目の深掘り診断"
     ],
     "proPlan": "プロプラン",
     "proPlanPrice": "$19",
@@ -183,6 +192,7 @@
       "無制限の評価",
       "単発レポートの全機能を含む",
       "評価履歴と成長トラッキング",
+      "全項目の深掘り診断",
       "優先AI処理",
       "履歴書リライト提案（近日公開）",
       "模擬面接準備（近日公開）"
@@ -343,5 +353,22 @@
     "unlockCta": "$4.99で解除",
     "freePreview": "無料プレビュー",
     "fullReport": "フルレポート"
+  },
+  "deepDive": {
+    "title": "深掘り診断",
+    "button": "追問校正",
+    "reviewed": "校正済み",
+    "buttonTip": "AI面接官が深掘りして、あなたの本当の実力を発掘します",
+    "paidOnly": "アップグレードしてより多くの次元を深掘りしましょう",
+    "exchange": "ラウンド {current}/{max}",
+    "complete": "完了",
+    "inputPlaceholder": "具体的な経験を説明してください...",
+    "backToReport": "レポートに戻る",
+    "lastRecord": "前回の校正記録",
+    "before": "変更前",
+    "after": "変更後",
+    "evidenceLabel": "根拠",
+    "gapsLabel": "改善点",
+    "suggestionLabel": "アドバイス"
   }
 }

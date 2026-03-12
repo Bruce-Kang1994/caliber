@@ -45,7 +45,11 @@ export default function PricingPage() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan }),
+        body: JSON.stringify({
+          plan,
+          locale: window.location.pathname.match(/^\/(en|zh|ja|ko|fr|es)/)?.[1] || "en",
+          from: document.referrer.includes("/assess/report") ? "report" : "pricing",
+        }),
       });
 
       if (res.status === 401) {

@@ -1,4 +1,4 @@
-import type { AssessmentResult, WorkExperience } from "./types";
+import type { AssessmentResult, WorkExperience, ActionItemV2, NextStepV2 } from "./types";
 
 // Mock resume parse result (based on Bruce's real resume)
 export const MOCK_EXPERIENCES: WorkExperience[] = [
@@ -171,10 +171,10 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
       upgradeAdvice:
         "Your business decomposition skill is already at 4.0 — apply that same structured thinking to commercial model design and growth strategy. Break down pricing the way you broke down Zhuang Xiaomi's churn rate: analyze competitor pricing tiers, map user willingness-to-pay segments, and model unit economics. Then extend that analytical rigor to acquisition funnels and retention metrics. Your framework is strong; you just haven't pointed it at monetization and growth yet.",
       actionItems: [
-        "Design a complete pricing model for PostMem as a practice exercise — including free tier, paid tiers, and the reasoning behind each price point",
-        "Study 3 successful AI SaaS products' pricing pages and reverse-engineer their pricing logic",
-        "Define PostMem's north star metric and set up basic analytics tracking before launch",
-      ],
+        { action: "Design a complete pricing model for PostMem — including free tier, paid tiers, and the reasoning behind each price point", timeframe: "2 weeks", artifact: "A pricing doc with tier breakdown, willingness-to-pay analysis, and unit economics model" },
+        { action: "Study 3 successful AI SaaS products' pricing pages and reverse-engineer their pricing logic", timeframe: "1 month", artifact: "Competitive pricing teardown document with comparison table" },
+        { action: "Define PostMem's north star metric and set up basic analytics tracking before launch", timeframe: "this week", artifact: "Analytics dashboard with north star metric tracked" },
+      ] as ActionItemV2[],
     },
     {
       dimension: "self-awareness",
@@ -183,9 +183,10 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
       upgradeAdvice:
         "Your Academic China project delivered +57% publishing conversion and 5000+ blockchain certificates — these are strong results for any PM. Yet you described this experience as having 'no real capability improvement.' Similarly, you called your VIPKID work 'CRM building' when it was actually a multi-system after-sales restructuring. Reframe each experience using the STAR method to capture its full value.",
       actionItems: [
-        "Rewrite each work experience using Background → Action → Result → Learning structure, ensuring every achievement is quantified",
-        "Practice describing your top 3 projects in 2-minute pitches — record yourself and listen back to identify where you undersell",
-      ],
+        { action: "Rewrite each work experience using Background → Action → Result → Learning structure, ensuring every achievement is quantified", timeframe: "this week", artifact: "Revised resume with STAR-formatted experience descriptions" },
+        { action: "Practice describing your top 3 projects in 2-minute pitches — record yourself and listen back to identify where you undersell", timeframe: "2 weeks", artifact: "3 recorded pitch videos with self-review notes" },
+        { action: "Ask a trusted colleague to review your resume and flag places where you undersell yourself", timeframe: "1 month", artifact: "Peer-reviewed resume with highlighted improvements" },
+      ] as ActionItemV2[],
     },
     {
       dimension: "product-sense",
@@ -194,9 +195,10 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
       upgradeAdvice:
         "Your entire career has been B2B-focused, which means you haven't had opportunities to develop the intuitive consumer product judgment that C2C roles demand. Product sense is built through repeated exposure: studying why successful consumer products feel 'right,' deconstructing user delight moments, and making quick product bets with real user feedback. PostMem is your ideal training ground — treat every feature decision as a chance to sharpen your C2C intuition.",
       actionItems: [
-        "Do a weekly teardown of one consumer product you admire — document what makes key interactions feel intuitive and where friction exists",
-        "For each PostMem feature decision, write a one-paragraph 'product instinct check' before validating with data — then compare your intuition against actual user behavior to calibrate your product sense over time",
-      ],
+        { action: "Do a weekly teardown of one consumer product you admire — document what makes key interactions feel intuitive and where friction exists", timeframe: "ongoing", artifact: "Weekly product teardown notes (at least 4 entries)" },
+        { action: "For each PostMem feature decision, write a 'product instinct check' before validating with data", timeframe: "ongoing", artifact: "Instinct-vs-data log comparing predictions to actual user behavior" },
+        { action: "Interview 5 target users about their current workflow and pain points to build consumer empathy", timeframe: "2 weeks", artifact: "User interview synthesis document with key insights" },
+      ] as ActionItemV2[],
     },
   ],
   undervaluedExperiences: [
@@ -210,10 +212,12 @@ export const MOCK_ASSESSMENT_RESULT: AssessmentResult = {
     "No growth metrics: You lack quantified growth achievements (DAU/MAU growth, retention improvement, CAC optimization). This is expected given your B2B background but needs addressing for AI PM roles.",
   ],
   nextSteps: [
-    "Rewrite your resume using the STAR framework: For each role, clearly separate YOUR decisions and actions from the team's work, and ensure every achievement has a specific number attached. Pay special attention to reframing Academic China as a flagship project, not a footnote.",
-    "Launch PostMem MVP within the next 4 weeks and focus on getting your first 100 users. This single action fills three gaps simultaneously: C2C experience, 0-to-1 with real users, and growth metrics. Document everything — the numbers become your interview stories.",
-    "Build a pricing model for PostMem before launch. Even if you start free, having a well-reasoned pricing strategy ready demonstrates commercialization thinking. Study how Notion, Otter.ai, and Mem.ai structure their pricing.",
-  ],
+    { action: "Rewrite your resume using the STAR framework — clearly separate YOUR decisions from the team's work, ensure every achievement has a specific number", timeframe: "this week", rationale: "Your current resume undersells strong projects like Academic China; fixing this is the highest-ROI move for interviews" },
+    { action: "Launch PostMem MVP and focus on getting your first 100 users", timeframe: "1 month", rationale: "This single action fills three gaps simultaneously: C2C experience, 0-to-1 with real users, and growth metrics" },
+    { action: "Build a pricing model for PostMem — even if you start free, have the strategy ready", timeframe: "2 weeks", rationale: "Demonstrates commercialization thinking, which is your largest gap at 1.5/5.0" },
+    { action: "Set up basic analytics (north star metric + retention cohorts) before PostMem launch", timeframe: "2 weeks", rationale: "Without data infrastructure, you can't build the data-driven decision habit you currently lack" },
+    { action: "Do weekly consumer product teardowns and document your product instinct predictions vs actual outcomes", timeframe: "ongoing", rationale: "Builds the C2C product sense you need for AI PM roles through deliberate practice" },
+  ] as NextStepV2[],
   timestamp: new Date().toISOString(),
 };
 
@@ -291,10 +295,10 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
       upgradeAdvice:
         "你的业务拆解能力已达4.0分——把同样的结构化思维用到商业模式设计和增长策略上。像拆解装小蜜流失率一样拆解定价：分析竞品定价层级，绘制用户支付意愿分布，建模单位经济。然后将同样的分析严谨性延伸到获客漏斗和留存指标。你的分析框架很强，只是还没对准变现和增长方向。",
       actionItems: [
-        "为PostMem设计一套完整的定价模型作为练习——包括免费层、付费层以及每个定价点背后的逻辑",
-        "研究3个成功AI SaaS产品的定价页面，逆向拆解它们的定价逻辑",
-        "定义PostMem的北极星指标，在上线前搭建基础数据追踪",
-      ],
+        { action: "为PostMem设计一套完整的定价模型——包括免费层、付费层以及每个定价点背后的逻辑", timeframe: "2 weeks", artifact: "定价文档：层级拆解、支付意愿分析、单位经济模型" },
+        { action: "研究3个成功AI SaaS产品的定价页面，逆向拆解它们的定价逻辑", timeframe: "1 month", artifact: "竞品定价拆解文档，含对比表格" },
+        { action: "定义PostMem的北极星指标，在上线前搭建基础数据追踪", timeframe: "this week", artifact: "已配置的数据看板，包含北极星指标追踪" },
+      ] as ActionItemV2[],
     },
     {
       dimension: "self-awareness",
@@ -303,9 +307,10 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
       upgradeAdvice:
         "你的学术中国项目实现了+57%发布转化率和5000+区块链证书——这对任何PM来说都是强结果。但你把这段经历描述为'没有真正的能力提升'。同样，你把VIPKID的工作称为'CRM搭建'，实际上是一次多系统售后重构。用STAR方法重新描述每段经历，呈现其完整价值。",
       actionItems: [
-        "用 背景→行动→结果→收获 结构重写每段工作经历，确保每个成就都有具体数字",
-        "练习用2分钟讲述你的Top 3项目——录下来回听，找到你低估自己的地方",
-      ],
+        { action: "用 背景→行动→结果→收获 结构重写每段工作经历，确保每个成就都有具体数字", timeframe: "this week", artifact: "STAR格式重写的简历" },
+        { action: "练习用2分钟讲述你的Top 3项目——录下来回听，找到你低估自己的地方", timeframe: "2 weeks", artifact: "3段录制的项目陈述视频+自评笔记" },
+        { action: "请一位信任的同事审阅你的简历，标出你低估自己的地方", timeframe: "1 month", artifact: "同行评审后的简历，标注改进点" },
+      ] as ActionItemV2[],
     },
     {
       dimension: "product-sense",
@@ -314,9 +319,10 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
       upgradeAdvice:
         "你的整个职业生涯都聚焦B端，这意味着你还没有机会培养C端岗位所要求的直觉性消费者产品判断力。产品感觉是通过反复接触来建立的：研究成功消费者产品为什么用起来'对'，拆解用户愉悦时刻，并通过真实用户反馈来做快速产品决策。PostMem是你理想的训练场——把每一个功能决策都当作磨练C端直觉的机会。",
       actionItems: [
-        "每周拆解一个你欣赏的消费者产品——记录关键交互为什么感觉直觉化，以及摩擦点在哪里",
-        "为PostMem的每个功能决策写一段'产品直觉检验'——先写下直觉判断，再用数据验证，通过对比来逐步校准你的产品感觉",
-      ],
+        { action: "每周拆解一个你欣赏的消费者产品——记录关键交互为什么感觉直觉化，以及摩擦点在哪里", timeframe: "ongoing", artifact: "每周产品拆解笔记（至少4篇）" },
+        { action: "为PostMem的每个功能决策写一段'产品直觉检验'——先写下直觉判断，再用数据验证", timeframe: "ongoing", artifact: "直觉-vs-数据对比日志" },
+        { action: "访谈5位目标用户，了解他们当前的工作流和痛点，培养C端同理心", timeframe: "2 weeks", artifact: "用户访谈综合文档，含关键洞察" },
+      ] as ActionItemV2[],
     },
   ],
   undervaluedExperiences: [
@@ -330,10 +336,12 @@ export const MOCK_ASSESSMENT_RESULT_ZH: AssessmentResult = {
     "缺乏增长指标：你没有量化的增长成就（DAU/MAU增长、留存提升、获客成本优化）。这在B2B背景下可以理解，但转AI PM必须补上。",
   ],
   nextSteps: [
-    "用STAR框架重写简历：每段经历清楚区分你个人的决策和行动与团队的工作，确保每个成就都有具体数字。特别注意将学术中国重新定位为旗舰项目。",
-    "4周内上线PostMem MVP，目标是获取前100个用户。这一个行动同时填补三个短板：C端经验、真实用户的0到1、增长指标。记录一切——数字就是你的面试故事。",
-    "在上线前为PostMem设计定价模型。即使一开始免费，有一个经过深思熟虑的定价策略也能展示商业化思维。参考Notion、Otter.ai和Mem.ai的定价方式。",
-  ],
+    { action: "用STAR框架重写简历——每段经历清楚区分你个人的决策和行动，确保每个成就都有具体数字", timeframe: "this week", rationale: "你当前的简历严重低估了学术中国等强项目，修改简历是面试前ROI最高的行动" },
+    { action: "上线PostMem MVP，目标获取前100个用户", timeframe: "1 month", rationale: "这一个行动同时填补三个短板：C端经验、真实用户的0到1、增长指标" },
+    { action: "为PostMem设计定价模型——即使一开始免费，也要准备好定价策略", timeframe: "2 weeks", rationale: "展示商业化思维，这是你最大的短板（1.5/5.0）" },
+    { action: "在PostMem上线前搭建基础数据体系（北极星指标+留存队列）", timeframe: "2 weeks", rationale: "没有数据基础设施，就无法养成你目前缺乏的数据驱动决策习惯" },
+    { action: "每周做消费者产品拆解，记录你的产品直觉预测和实际结果对比", timeframe: "ongoing", rationale: "通过刻意练习建立AI PM岗位需要的C端产品感觉" },
+  ] as NextStepV2[],
   timestamp: new Date().toISOString(),
 };
 

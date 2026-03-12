@@ -27,10 +27,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No PDF uploaded" }, { status: 400 });
     }
 
-    // Mock mode for testing without API credits
+    // Mock mode for testing without API credits — return NDJSON stream (same as real API)
     if (USE_MOCK) {
-      await new Promise((r) => setTimeout(r, 1500));
-      return NextResponse.json({ experiences: MOCK_EXPERIENCES });
+      const mockEncoder = new TextEncoder();
+      const mockStream = new ReadableStream({
+        async start(controller) {
+          const send = (data: Record<string, unknown>) => {
+            controller.enqueue(mockEncoder.encode(JSON.stringify(data) + "\n"));
+          };
+          send({ type: "progress", step: "extracting" });
+          await new Promise((r) => setTimeout(r, 800));
+          send({ type: "progress", step: "parsing" });
+          await new Promise((r) => setTimeout(r, 700));
+          send({ type: "result", experiences: MOCK_EXPERIENCES });
+          controller.close();
+        },
+      });
+      return new Response(mockStream, {
+        headers: { "Content-Type": "application/x-ndjson", "Cache-Control": "no-cache" },
+      });
     }
 
     // Extract text from PDF using unpdf (serverless compatible)

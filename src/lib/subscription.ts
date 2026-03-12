@@ -15,6 +15,7 @@ export const FREE_TIER_LIMITS = {
   allowPdfExport: false,
   maxStrengths: 1,
   maxWeaknesses: 1,
+  maxDeepDives: 1,
 } as const;
 
 export const PAID_TIER_LIMITS = {
@@ -28,6 +29,7 @@ export const PAID_TIER_LIMITS = {
   allowPdfExport: true,
   maxStrengths: 3,
   maxWeaknesses: 3,
+  maxDeepDives: 16,
 } as const;
 
 export function getTierLimits(tier: UserTier) {

@@ -62,7 +62,7 @@ export default function CompareOverviewPage() {
         </div>
 
         <div className="grid gap-6">
-          {variants.map((v, idx) => {
+          {variants.map((v) => {
             const Icon = v.icon;
             return (
               <Link

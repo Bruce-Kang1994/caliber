@@ -16,6 +16,8 @@ const LOCALE_LABELS: Record<Locale, string> = {
   zh: "中文",
   ja: "日本語",
   ko: "한국어",
+  fr: "Français",
+  es: "Español",
 };
 
 export function LanguageSwitcher() {

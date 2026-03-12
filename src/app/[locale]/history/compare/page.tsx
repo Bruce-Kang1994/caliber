@@ -54,24 +54,13 @@ export default function ComparePage() {
   const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
   const [data, setData] = useState<CompareData | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const idA = searchParams.get("a");
   const idB = searchParams.get("b");
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!user) {
-      setError("Please sign in to compare assessments.");
-      setLoading(false);
-      return;
-    }
-    if (!idA || !idB) {
-      setError("Two assessment IDs are required for comparison.");
-      setLoading(false);
-      return;
-    }
+    if (authLoading || !user || !idA || !idB) return;
 
     Promise.all([
       fetch(`/api/assessments?id=${idA}`).then((r) => r.json()),
@@ -99,13 +88,17 @@ export default function ComparePage() {
           olderRole: older.target_role,
           newerRole: newer.target_role,
         });
-        setLoading(false);
       })
       .catch(() => {
         setError("Failed to load assessments.");
-        setLoading(false);
       });
   }, [user, authLoading, idA, idB]);
+
+  const pageError =
+    !user ? "Please sign in to compare assessments."
+    : !idA || !idB ? "Two assessment IDs are required for comparison."
+    : error;
+  const loading = authLoading || (!!user && !!idA && !!idB && !error && !data);
 
   if (loading || authLoading) {
     return (
@@ -115,12 +108,12 @@ export default function ComparePage() {
     );
   }
 
-  if (error || !data) {
+  if (pageError || !data) {
     return (
       <div className="min-h-screen bg-slate-50">
         <AppHeader showNav showAuth />
         <div className="max-w-md mx-auto px-6 py-16 text-center">
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">{error || "Not found"}</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-2">{pageError || "Not found"}</h2>
           <Link href="/history">
             <Button className="mt-4">{t("common.back")}</Button>
           </Link>

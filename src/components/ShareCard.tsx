@@ -6,14 +6,6 @@ import { Button } from "@/components/ui/button";
 import type { AssessmentResult } from "@/lib/types";
 import { DIMENSION_CATEGORIES, getCategoryAverage, type DimensionCategory } from "@/lib/constants";
 
-const ARCHETYPE_LABELS: Record<string, string> = {
-  craftsperson: "The Craftsperson",
-  strategist: "The Strategist",
-  "growth-hacker": "The Growth Hacker",
-  visionary: "The Visionary",
-  operator: "The Operator",
-};
-
 function getLevel(score: number) {
   if (score >= 86) return "Expert";
   if (score >= 71) return "Advanced";

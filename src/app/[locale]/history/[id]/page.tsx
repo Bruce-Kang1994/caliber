@@ -20,12 +20,7 @@ export default function HistoryDetailPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!user) {
-      setError("Please sign in to view this report.");
-      setLoading(false);
-      return;
-    }
+    if (authLoading || !user) return;
 
     fetch(`/api/assessments?id=${params.id}`)
       .then((res) => {
@@ -59,7 +54,9 @@ export default function HistoryDetailPage() {
     );
   }
 
-  if (error || !result) {
+  const pageError = !user ? "Please sign in to view this report." : error;
+
+  if (pageError || !result) {
     return (
       <div className="min-h-screen bg-slate-50">
         <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
@@ -71,7 +68,7 @@ export default function HistoryDetailPage() {
           </div>
         </header>
         <div className="max-w-md mx-auto px-6 py-16 text-center">
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">{error || "Not found"}</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-2">{pageError || "Not found"}</h2>
           <Link href="/history">
             <Button className="mt-4">{t("common.back")}</Button>
           </Link>

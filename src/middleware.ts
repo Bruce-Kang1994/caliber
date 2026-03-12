@@ -19,8 +19,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check if this is a protected or admin route
-  const localePrefix = pathname.match(/^\/(en|zh|ja|ko)/)?.[0] || "";
-  const pathWithoutLocale = pathname.replace(/^\/(en|zh|ja|ko)/, "") || "/";
+  const localePrefix = pathname.match(/^\/(en|zh|ja|ko|fr|es)/)?.[0] || "";
+  const pathWithoutLocale = pathname.replace(/^\/(en|zh|ja|ko|fr|es)/, "") || "/";
 
   const isProtected = PROTECTED_ROUTES.some((r) => pathWithoutLocale.startsWith(r));
   const isAdmin = ADMIN_ROUTES.some((r) => pathWithoutLocale.startsWith(r));
@@ -78,5 +78,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(en|zh|ja|ko)/:path*"],
+  matcher: ["/", "/(en|zh|ja|ko|fr|es)/:path*"],
 };

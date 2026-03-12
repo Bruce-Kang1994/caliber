@@ -8,16 +8,22 @@ interface Props {
 
 interface State {
   hasError: boolean;
+  errorMessage: string;
 }
 
 export class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorMessage: "" };
   }
 
-  static getDerivedStateFromError(): State {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, errorMessage: `${error.message}\n${error.stack}` };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("[ErrorBoundary]", error.message, error.stack);
+    console.error("[ErrorBoundary] Component stack:", errorInfo.componentStack);
   }
 
   render() {
@@ -43,9 +49,14 @@ export class ErrorBoundary extends React.Component<Props, State> {
             <h2 className="text-xl font-semibold text-slate-900 mb-2">
               Something went wrong
             </h2>
-            <p className="text-slate-600 mb-6">
+            <p className="text-slate-600 mb-4">
               An unexpected error occurred. Please try refreshing the page.
             </p>
+            {this.state.errorMessage && (
+              <pre className="text-left text-xs text-red-600 bg-red-50 p-3 rounded-lg mb-4 max-h-40 overflow-auto whitespace-pre-wrap break-all">
+                {this.state.errorMessage}
+              </pre>
+            )}
             <button
               onClick={() => window.location.reload()}
               className="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium text-sm"

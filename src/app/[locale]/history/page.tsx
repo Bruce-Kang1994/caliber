@@ -39,31 +39,28 @@ function getScoreColor(score: number) {
 export default function HistoryPage() {
   const t = useTranslations();
   const { user, loading: authLoading } = useAuth();
-  const [assessments, setAssessments] = useState<AssessmentItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [assessments, setAssessments] = useState<AssessmentItem[] | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!user) {
-      setLoading(false);
-      return;
-    }
+    if (authLoading || !user) return;
 
     fetch("/api/assessments")
       .then((res) => res.json())
       .then((data) => {
         setAssessments(data.assessments || []);
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => setAssessments([]));
   }, [user, authLoading]);
+
+  const loading = authLoading || (!!user && assessments === null);
+  const assessmentList = assessments ?? [];
 
   const handleDelete = async (id: string) => {
     if (!confirm(t("history.deleteConfirm"))) return;
     const res = await fetch(`/api/assessments?id=${id}`, { method: "DELETE" });
     if (res.ok) {
-      setAssessments((prev) => prev.filter((a) => a.id !== id));
+      setAssessments((prev) => (prev ?? []).filter((a) => a.id !== id));
     }
   };
 
@@ -76,7 +73,7 @@ export default function HistoryPage() {
     if (res.ok) {
       const data = await res.json();
       setAssessments((prev) =>
-        prev.map((a) =>
+        (prev ?? []).map((a) =>
           a.id === id ? { ...a, is_public: !currentPublic, share_token: data.share_token } : a
         )
       );
@@ -122,7 +119,7 @@ export default function HistoryPage() {
           </div>
         )}
 
-        {!loading && user && assessments.length === 0 && (
+        {!loading && user && assessmentList.length === 0 && (
           <Card>
             <CardContent className="py-12 text-center">
               <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
@@ -139,9 +136,9 @@ export default function HistoryPage() {
           </Card>
         )}
 
-        {!loading && assessments.length > 0 && (
+        {!loading && assessmentList.length > 0 && (
           <div className="space-y-4">
-            {assessments.length >= 2 && (
+            {assessmentList.length >= 2 && (
               <div className="flex items-center justify-between bg-white rounded-xl border border-slate-200 p-4">
                 <p className="text-sm text-slate-600">
                   {selected.size === 0
@@ -164,7 +161,7 @@ export default function HistoryPage() {
                 </div>
               </div>
             )}
-            {assessments.map((assessment) => (
+            {assessmentList.map((assessment) => (
               <Card
                 key={assessment.id}
                 className={`hover:shadow-md transition-shadow ${selected.has(assessment.id) ? "ring-2 ring-primary" : ""}`}
@@ -172,7 +169,7 @@ export default function HistoryPage() {
                 <CardContent className="py-5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      {assessments.length >= 2 && (
+                      {assessmentList.length >= 2 && (
                         <button
                           onClick={() => {
                             setSelected((prev) => {

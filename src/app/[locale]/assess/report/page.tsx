@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, Suspense } from "react";
+import { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -16,9 +16,17 @@ import { Badge } from "@/components/ui/badge";
 import { AppHeader } from "@/components/AppHeader";
 import { AssessmentRadarChart } from "@/components/RadarChart";
 import { ShareCard } from "@/components/ShareCard";
-import { DIMENSIONS, DIMENSION_CATEGORIES, getCategoryAverage, type DimensionCategory } from "@/lib/constants";
+import { DeepDiveDrawer } from "@/components/DeepDiveDrawer";
+import type { ScoreAdjustment } from "@/components/DeepDiveDrawer";
+import { DIMENSIONS, DIMENSION_CATEGORIES, ROLE_WEIGHTS, getCategoryAverage, type DimensionCategory } from "@/lib/constants";
 import { getTierLimits, type UserTier } from "@/lib/subscription";
-import type { AssessmentResult, RadarDataPoint } from "@/lib/types";
+import type { AssessmentResult, DimensionKey, RadarDataPoint } from "@/lib/types";
+import { isActionItemV2, isNextStepV2 } from "@/lib/types";
+
+interface StoredDeepDiveAdjustment extends ScoreAdjustment {
+  previous_score: number;
+  updated_at: string;
+}
 
 function getScoreLevel(score: number, t: (key: string) => string) {
   if (score >= 86) return { label: t("report.levelExpert"), color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-200" };
@@ -26,6 +34,27 @@ function getScoreLevel(score: number, t: (key: string) => string) {
   if (score >= 51) return { label: t("report.levelCompetent"), color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" };
   if (score >= 31) return { label: t("report.levelDeveloping"), color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-200" };
   return { label: t("report.levelBeginner"), color: "text-slate-600", bg: "bg-slate-50", border: "border-slate-200" };
+}
+
+function getTimeframeLabel(timeframe: string, t: (key: string) => string): string {
+  const map: Record<string, string> = {
+    "this week": t("report.timeframeThisWeek"),
+    "2 weeks": t("report.timeframe2Weeks"),
+    "1 month": t("report.timeframe1Month"),
+    "3 months": t("report.timeframe3Months"),
+    "ongoing": t("report.timeframeOngoing"),
+  };
+  return map[timeframe.toLowerCase()] || timeframe;
+}
+
+function TimeframeBadge({ timeframe, t }: { timeframe: string; t: (key: string) => string }) {
+  const label = getTimeframeLabel(timeframe, t);
+  const isUrgent = timeframe.toLowerCase() === "this week";
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider ${isUrgent ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-500"}`}>
+      {label}
+    </span>
+  );
 }
 
 function PaywallOverlay({ t }: { t: (key: string) => string }) {
@@ -59,6 +88,8 @@ function ReportContent() {
   const [expandedDimensions, setExpandedDimensions] = useState<Set<string>>(new Set());
   const [userTier, setUserTier] = useState<UserTier>("free");
   const [showShareCard, setShowShareCard] = useState(false);
+  const [deepDiveTarget, setDeepDiveTarget] = useState<{ key: DimensionKey; name: string; score: number; previousAdjustment?: StoredDeepDiveAdjustment | null } | null>(null);
+  const [deepDiveUsedDimensions, setDeepDiveUsedDimensions] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const stored = sessionStorage.getItem("assessmentResult");
@@ -77,6 +108,10 @@ function ReportContent() {
       }
     }
 
+    const usedDimensions = Array.isArray(parsed._deepDiveUsedDimensions)
+      ? parsed._deepDiveUsedDimensions.filter((value: unknown): value is string => typeof value === "string")
+      : [];
+    setDeepDiveUsedDimensions(new Set(usedDimensions));
     setResult(parsed);
   }, [router, locale]);
 
@@ -106,6 +141,58 @@ function ReportContent() {
 
     requestAnimationFrame(animate);
   }, [result]);
+
+  const handleDeepDiveScoreUpdate = useCallback((dimKey: DimensionKey, adjustment: ScoreAdjustment) => {
+    setResult((prev) => {
+      if (!prev) return prev;
+      const previousScore = prev.scores[dimKey] || 1.0;
+      const updatedScores = { ...prev.scores, [dimKey]: adjustment.adjusted_score };
+      const usedDimensions = Array.from(new Set([
+        ...(((prev as AssessmentResult & { _deepDiveUsedDimensions?: string[] })._deepDiveUsedDimensions) ?? []),
+        dimKey,
+      ]));
+      const priorAdjustments = ((prev as AssessmentResult & {
+        _deepDiveAdjustments?: Record<string, StoredDeepDiveAdjustment>;
+      })._deepDiveAdjustments) ?? {};
+      const nextAdjustments = {
+        ...priorAdjustments,
+        [dimKey]: {
+          ...adjustment,
+          previous_score: previousScore,
+          updated_at: new Date().toISOString(),
+        },
+      };
+
+      // Recalculate weighted score after the follow-up interview adjusts one dimension.
+      const weights = ROLE_WEIGHTS[prev.roleType];
+      let totalScore = 0;
+      let totalWeight = 0;
+      for (const dim of DIMENSIONS) {
+        const s = updatedScores[dim.key] || 1.0;
+        const w = weights[dim.key] || 1;
+        totalScore += s * w;
+        totalWeight += w;
+      }
+      const weightedScore = Math.round((totalScore / (totalWeight * 5)) * 100);
+
+      const updated = {
+        ...prev,
+        scores: updatedScores,
+        weightedScore,
+        _deepDiveUsedDimensions: usedDimensions,
+        _deepDiveAdjustments: nextAdjustments,
+      };
+      sessionStorage.setItem("assessmentResult", JSON.stringify(updated));
+      return updated;
+    });
+    setDeepDiveUsedDimensions((prev) => new Set(prev).add(dimKey));
+  }, []);
+
+  const canUseDeepDive = useCallback((dimKey: string) => {
+    if (userTier !== "free") return true;
+    if (deepDiveUsedDimensions.size === 0) return true;
+    return deepDiveUsedDimensions.has(dimKey);
+  }, [deepDiveUsedDimensions, userTier]);
 
   if (!result) {
     return (
@@ -321,6 +408,12 @@ function ReportContent() {
                       const isWeak = score <= 2;
                       const isExpanded = expandedDimensions.has(dimKey);
                       const justification = result.justifications?.[dimKey];
+                      const dimName = getDimName(dimKey);
+                      const deepDiveAllowed = canUseDeepDive(dimKey);
+                      const alreadyDived = deepDiveUsedDimensions.has(dimKey);
+                      const previousAdjustment = ((result as AssessmentResult & {
+                        _deepDiveAdjustments?: Record<string, StoredDeepDiveAdjustment>;
+                      })._deepDiveAdjustments?.[dimKey]) ?? null;
                       return (
                         <div key={dimKey}>
                           <div
@@ -338,11 +431,39 @@ function ReportContent() {
                               <svg className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                               </svg>
-                              {getDimName(dimKey)}
+                              {dimName}
                             </span>
-                            <Badge className={isStrength ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-100" : isWeak ? "bg-amber-100 text-amber-700 hover:bg-amber-100" : "bg-slate-100 text-slate-600 hover:bg-slate-100"}>
-                              {score.toFixed(1)}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <button
+                                className={`inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 ${
+                                  deepDiveAllowed
+                                    ? alreadyDived
+                                      ? "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                                      : "border-primary/20 bg-primary/10 text-primary shadow-sm hover:-translate-y-0.5 hover:bg-primary/15 hover:shadow"
+                                    : "border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed"
+                                }`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (!deepDiveAllowed) return;
+                                  setDeepDiveTarget({
+                                    key: dimKey,
+                                    name: dimName,
+                                    score,
+                                    previousAdjustment,
+                                  });
+                                }}
+                                title={deepDiveAllowed ? t("deepDive.buttonTip") : t("deepDive.paidOnly")}
+                                aria-label={deepDiveAllowed ? t("deepDive.buttonTip") : t("deepDive.paidOnly")}
+                              >
+                                <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                                </svg>
+                                {alreadyDived ? t("deepDive.reviewed") : t("deepDive.button")}
+                              </button>
+                              <Badge className={isStrength ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-100" : isWeak ? "bg-amber-100 text-amber-700 hover:bg-amber-100" : "bg-slate-100 text-slate-600 hover:bg-slate-100"}>
+                                {score.toFixed(1)}
+                              </Badge>
+                            </div>
                           </div>
                           {isExpanded && justification && (
                             <div className="px-3 py-2 mt-1 text-xs text-slate-600 leading-relaxed bg-white rounded-lg border border-slate-100 animate-in fade-in slide-in-from-top-1 duration-200">{justification}</div>
@@ -403,10 +524,31 @@ function ReportContent() {
                 <p className="text-sm text-slate-600 leading-relaxed mb-4">{w.upgradeAdvice}</p>
                 <div className="bg-white/70 rounded-lg p-3">
                   <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-2">{t("report.actionItems")}</p>
-                  <ul className="space-y-1.5">
+                  <ul className="space-y-2.5">
                     {w.actionItems.map((item, i) => (
-                      <li key={i} className="text-sm text-slate-700 flex items-start gap-2">
-                        <span className="text-amber-500 mt-0.5 shrink-0">-</span>{item}
+                      <li key={i} className="text-sm text-slate-700">
+                        {isActionItemV2(item) ? (
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-start gap-2">
+                              <span className="text-amber-500 mt-0.5 shrink-0">-</span>
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <TimeframeBadge timeframe={item.timeframe} t={t} />
+                                  <span>{item.action}</span>
+                                </div>
+                                {item.artifact && (
+                                  <p className="text-xs text-slate-500 mt-1 pl-0.5">
+                                    <span className="font-medium">{t("report.deliverable")}:</span> {item.artifact}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-start gap-2">
+                            <span className="text-amber-500 mt-0.5 shrink-0">-</span>{String(item)}
+                          </div>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -479,7 +621,21 @@ function ReportContent() {
                 {result.nextSteps.map((step, idx) => (
                   <li key={idx} className="flex items-start gap-4">
                     <span className="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center text-sm font-bold shrink-0">{idx + 1}</span>
-                    <span className="text-sm text-slate-200 leading-relaxed pt-1.5">{step}</span>
+                    {isNextStepV2(step) ? (
+                      <div className="flex-1 pt-1">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider ${step.timeframe.toLowerCase() === "this week" ? "bg-amber-400/20 text-amber-300" : "bg-white/10 text-slate-400"}`}>
+                            {getTimeframeLabel(step.timeframe, t)}
+                          </span>
+                        </div>
+                        <p className="text-sm text-slate-200 leading-relaxed">{step.action}</p>
+                        {step.rationale && (
+                          <p className="text-xs text-slate-400 mt-1">{step.rationale}</p>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-sm text-slate-200 leading-relaxed pt-1.5">{String(step)}</span>
+                    )}
                   </li>
                 ))}
               </ol>
@@ -541,6 +697,20 @@ function ReportContent() {
           </div>
         )}
       </div>
+
+      {/* Deep Dive Drawer */}
+      {deepDiveTarget && (
+        <DeepDiveDrawer
+          open={!!deepDiveTarget}
+          onClose={() => setDeepDiveTarget(null)}
+          dimensionKey={deepDiveTarget.key}
+          dimensionName={deepDiveTarget.name}
+          currentScore={deepDiveTarget.score}
+          locale={locale}
+          initialAdjustment={deepDiveTarget.previousAdjustment ?? null}
+          onScoreUpdate={handleDeepDiveScoreUpdate}
+        />
+      )}
     </div>
   );
 }

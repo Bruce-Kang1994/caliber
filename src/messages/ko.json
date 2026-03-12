@@ -131,6 +131,13 @@
     "nextStepsTitle": "다음 단계",
     "nextStepsSubtitle": "지금 바로 실행할 수 있는 구체적인 액션",
     "actionItems": "액션 아이템",
+    "timeframeThisWeek": "이번 주",
+    "timeframe2Weeks": "2주 이내",
+    "timeframe1Month": "1개월 이내",
+    "timeframe3Months": "3개월 이내",
+    "timeframeOngoing": "지속적으로",
+    "deliverable": "산출물",
+    "rationale": "왜 중요한가",
     "downloadPdf": "PDF 보고서 다운로드",
     "shareReport": "보고서 공유",
     "startNew": "새 평가 시작",
@@ -163,7 +170,8 @@
       "월 1회 평가",
       "종합 점수 + PM 아키타입",
       "5개 카테고리 레이더 차트",
-      "Top 1 강점 & Top 1 성장 영역 (요약)"
+      "Top 1 강점 & Top 1 성장 영역 (요약)",
+      "1개 차원 심층 진단 체험"
     ],
     "singlePlan": "단건 리포트",
     "singlePlanPrice": "$4.99",
@@ -173,7 +181,8 @@
       "근거 기반 점수 설명",
       "과소평가된 경험 발굴",
       "맞춤형 액션 플랜",
-      "PDF 보고서 내보내기"
+      "PDF 보고서 내보내기",
+      "전체 차원 심층 진단"
     ],
     "proPlan": "프로 플랜",
     "proPlanPrice": "$19",
@@ -183,6 +192,7 @@
       "무제한 평가",
       "단건 리포트의 모든 기능 포함",
       "평가 이력 & 성장 추적",
+      "전체 차원 심층 진단",
       "우선 AI 처리",
       "이력서 재작성 제안 (곧 출시)",
       "모의 면접 준비 (곧 출시)"
@@ -343,5 +353,22 @@
     "unlockCta": "$4.99로 잠금 해제",
     "freePreview": "무료 미리보기",
     "fullReport": "전체 보고서"
+  },
+  "deepDive": {
+    "title": "심층 진단",
+    "button": "추가질문 보정",
+    "reviewed": "보정 완료",
+    "buttonTip": "AI 면접관이 심층 질문으로 당신의 진짜 역량을 발굴합니다",
+    "paidOnly": "업그레이드하여 더 많은 차원을 심층 진단하세요",
+    "exchange": "라운드 {current}/{max}",
+    "complete": "완료",
+    "inputPlaceholder": "구체적인 경험을 설명해주세요...",
+    "backToReport": "보고서로 돌아가기",
+    "lastRecord": "이전 보정 기록",
+    "before": "조정 전",
+    "after": "조정 후",
+    "evidenceLabel": "근거",
+    "gapsLabel": "개선점",
+    "suggestionLabel": "제안"
   }
 }

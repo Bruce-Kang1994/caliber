@@ -131,6 +131,13 @@
     "nextStepsTitle": "Your Next Steps",
     "nextStepsSubtitle": "Specific actions to take now",
     "actionItems": "Action Items",
+    "timeframeThisWeek": "This Week",
+    "timeframe2Weeks": "Within 2 Weeks",
+    "timeframe1Month": "Within 1 Month",
+    "timeframe3Months": "Within 3 Months",
+    "timeframeOngoing": "Ongoing",
+    "deliverable": "Deliverable",
+    "rationale": "Why This Matters",
     "downloadPdf": "Download PDF Report",
     "shareReport": "Share Report",
     "startNew": "Start New Assessment",
@@ -163,7 +170,8 @@
       "1 assessment per month",
       "Overall Caliber Score + PM Archetype",
       "5-category radar chart",
-      "Top 1 strength & Top 1 growth area (summary)"
+      "Top 1 strength & Top 1 growth area (summary)",
+      "1 dimension deep dive trial"
     ],
     "singlePlan": "Single Report",
     "singlePlanPrice": "$4.99",
@@ -173,7 +181,8 @@
       "Evidence-based scoring justifications",
       "Hidden gems & undervalued experiences",
       "Personalized action plan",
-      "PDF report export"
+      "PDF report export",
+      "All-dimension deep dive"
     ],
     "proPlan": "Pro",
     "proPlanPrice": "$19",
@@ -183,6 +192,7 @@
       "Unlimited assessments",
       "Everything in Single Report",
       "Assessment history & progress tracking",
+      "All-dimension deep dive",
       "Priority AI processing",
       "Resume rewrite suggestions (coming soon)",
       "Mock interview prep (coming soon)"
@@ -343,5 +353,22 @@
     "unlockCta": "Unlock for $4.99",
     "freePreview": "Free Preview",
     "fullReport": "Full Report"
+  },
+  "deepDive": {
+    "title": "Deep Dive",
+    "button": "Calibrate",
+    "reviewed": "Calibrated",
+    "buttonTip": "AI interviewer digs deeper to uncover your true capability",
+    "paidOnly": "Upgrade to deep dive into more dimensions",
+    "exchange": "Round {current}/{max}",
+    "complete": "Complete",
+    "inputPlaceholder": "Describe your specific experience...",
+    "backToReport": "Back to Report",
+    "lastRecord": "Last Calibration",
+    "before": "Before",
+    "after": "After",
+    "evidenceLabel": "Evidence",
+    "gapsLabel": "Gaps",
+    "suggestionLabel": "Suggestion"
   }
 }

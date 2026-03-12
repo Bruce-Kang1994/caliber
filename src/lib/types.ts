@@ -97,7 +97,7 @@ export interface AssessmentResult {
   topWeaknesses: WeaknessItem[];
   undervaluedExperiences: string[];
   missingElements: string[];
-  nextSteps: string[];
+  nextSteps: (NextStepV2 | string)[];
   timestamp: string;
 }
 
@@ -108,12 +108,32 @@ export interface StrengthItem {
   evidence: string;
 }
 
+export interface ActionItemV2 {
+  action: string;
+  timeframe: string;    // "this week" / "2 weeks" / "1 month" / "ongoing"
+  artifact: string;     // measurable deliverable
+}
+
+export interface NextStepV2 {
+  action: string;
+  timeframe: string;
+  rationale: string;    // why this step matters
+}
+
+export function isActionItemV2(item: unknown): item is ActionItemV2 {
+  return typeof item === "object" && item !== null && "action" in item && "timeframe" in item && "artifact" in item;
+}
+
+export function isNextStepV2(step: unknown): step is NextStepV2 {
+  return typeof step === "object" && step !== null && "action" in step && "timeframe" in step && "rationale" in step;
+}
+
 export interface WeaknessItem {
   dimension: DimensionKey;
   dimensionName: string;
   score: number;
   upgradeAdvice: string;
-  actionItems: string[];
+  actionItems: (ActionItemV2 | string)[];
 }
 
 // --- Radar Chart Data ---
@@ -138,4 +158,4 @@ export interface ApiError {
 }
 
 // --- Locale ---
-export type Locale = "en" | "zh" | "ja" | "ko";
+export type Locale = "en" | "zh" | "ja" | "ko" | "fr" | "es";

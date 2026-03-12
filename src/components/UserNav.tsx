@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -60,9 +61,12 @@ export function UserNav() {
         className="flex items-center gap-2 rounded-full hover:bg-slate-100 transition-colors p-1 pr-3"
       >
         {avatarUrl ? (
-          <img
+          <Image
             src={avatarUrl}
             alt={displayName}
+            width={32}
+            height={32}
+            unoptimized
             className="w-8 h-8 rounded-full"
           />
         ) : (

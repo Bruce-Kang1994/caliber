@@ -13,7 +13,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { plan } = (await req.json()) as { plan: "single" | "pro" };
+    const { plan, locale = "en", from = "pricing" } = (await req.json()) as {
+      plan: "single" | "pro";
+      locale?: string;
+      from?: "pricing" | "report";
+    };
 
     if (plan !== "single" && plan !== "pro") {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
@@ -33,8 +37,10 @@ export async function POST(req: NextRequest) {
       mode: plan === "pro" ? "subscription" : "payment",
       customer_email: user.email ?? undefined,
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${origin}/assess/report?upgraded=true`,
-      cancel_url: `${origin}/pricing`,
+      success_url: from === "report"
+        ? `${origin}/${locale}/assess/report?upgraded=true`
+        : `${origin}/${locale}/assess`,
+      cancel_url: `${origin}/${locale}/pricing`,
       metadata: {
         user_id: user.id,
         plan,
@@ -42,10 +48,12 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error("Checkout error:", error);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error";
+    console.error("Checkout error:", message, error);
     return NextResponse.json(
-      { error: "Failed to create checkout" },
+      { error: `Failed to create checkout: ${message}` },
       { status: 500 }
     );
   }

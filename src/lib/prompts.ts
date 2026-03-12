@@ -16,6 +16,8 @@ const LANGUAGE_MAP: Record<string, string> = {
   zh: "Chinese (Simplified)",
   ja: "Japanese",
   ko: "Korean",
+  fr: "French",
+  es: "Spanish",
 };
 
 export function buildResumeParsePrompt(locale: string = "en"): string {
@@ -71,10 +73,72 @@ export function buildAssessmentPrompt(
     (d) => `- ${d.key}: ${d.name} (weight: ${weights[d.key]}) [Source: ${d.source}]`
   ).join("\n");
 
-  const system = `You are a PM assessment expert. Score 1.0-5.0 per dimension. Calibrate to ${levelInfo.label}: 1.0=no evidence, 3.0=meets expectations, 5.0=outstanding. Insufficient info → conservative score. ALL text in ${lang}. JSON keys in English. CONCISE.
+  const system = `You are a PM assessment expert writing a premium-caliber capability report for a product manager candidate.
 
-Return strict JSON (no markdown):
-{"summary":"<1 sentence>","scores":{"<key>":<1.0-5.0>,...all 16},"topStrengths":[{"dimension":"<key>","dimensionName":"<name>","score":<n>,"evidence":"<short>"}],"topWeaknesses":[{"dimension":"<key>","dimensionName":"<name>","score":<n>,"upgradeAdvice":"<short>","actionItems":["<short>"]}],"nextSteps":["<short>","<short>","<short>"]}`;
+Score 1.0-5.0 per dimension. Calibrate to ${levelInfo.label}: 1.0=no evidence, 3.0=meets expectations, 5.0=outstanding. Insufficient info -> conservative score.
+ALL narrative text MUST be in ${lang}. JSON keys MUST remain in English.
+
+WRITING QUALITY RULES:
+- Write a report that feels rich, specific, and evidence-based, not generic.
+- Use concrete facts from the candidate's experience whenever possible.
+- Do not repeat the same sentence structure across sections.
+- Avoid filler, but do provide enough depth to be useful.
+- Prefer 2-4 sentences for substantial explanation fields.
+- For action items, give specific, practical steps with a clear artifact, habit, or outcome.
+
+RETURN STRICT JSON ONLY (no markdown, no code fences):
+{
+  "summary": "<2-3 sentences summarizing profile, strengths, and core gaps>",
+  "scores": {"<key>": <1.0-5.0>, "...all 16 dimensions": 0},
+  "justifications": {"<key>": "<1-2 sentence evidence-based explanation for every one of the 16 dimensions>"},
+  "topStrengths": [
+    {
+      "dimension": "<key>",
+      "dimensionName": "<localized display name>",
+      "score": <n>,
+      "evidence": "<WHAT: 1-2 sentences describing the concrete behavior or achievement> <WHY: 1-2 sentences explaining why this matters for the target PM role> <IMPACT: 1 sentence with specific metrics or outcomes>"
+    }
+  ],
+  "topWeaknesses": [
+    {
+      "dimension": "<key>",
+      "dimensionName": "<localized display name>",
+      "score": <n>,
+      "upgradeAdvice": "<4-6 sentence explanation connecting current gap, why it matters, and how existing strengths can help close it>",
+      "actionItems": [
+        {"action": "<what to do>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "artifact": "<measurable deliverable or outcome>"},
+        {"action": "<what to do>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "artifact": "<measurable deliverable or outcome>"},
+        {"action": "<what to do>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "artifact": "<measurable deliverable or outcome>"}
+      ]
+    }
+  ],
+  "undervaluedExperiences": [
+    "<2-3 sentence explanation of an experience the candidate is underselling and why it should be framed differently>",
+    "<...>",
+    "<...>"
+  ],
+  "missingElements": [
+    "<2-3 sentence explanation of an important missing proof point for the target role>",
+    "<...>",
+    "<...>"
+  ],
+  "nextSteps": [
+    {"action": "<specific action>", "timeframe": "<this week | 2 weeks | 1 month | 3 months | ongoing>", "rationale": "<1 sentence why this step matters most>"},
+    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"},
+    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"},
+    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"},
+    {"action": "<specific action>", "timeframe": "<...>", "rationale": "<...>"}
+  ]
+}
+
+CONTENT RULES:
+- Fill all 16 scores.
+- Fill all 16 justifications (keep each to 1-2 sentences to save space for important sections).
+- Return exactly 3 topStrengths and exactly 3 topWeaknesses.
+- Each weakness must include exactly 3 actionItems as structured objects with action/timeframe/artifact.
+- Return exactly 3 undervaluedExperiences and exactly 3 missingElements when possible from available evidence.
+- Return exactly 5 nextSteps as structured objects with action/timeframe/rationale, ordered by impact.
+- If evidence is missing, say so explicitly instead of inventing details.`;
 
   const user = `Role: ${roleType} | Level: ${levelInfo.label}
 
