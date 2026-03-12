@@ -5,6 +5,7 @@ import { MOCK_EXPERIENCES } from "@/lib/mock-data";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
+export const preferredRegion = "hkg1";
 
 export async function POST(req: NextRequest) {
   const USE_MOCK = process.env.USE_MOCK?.trim() === "true";

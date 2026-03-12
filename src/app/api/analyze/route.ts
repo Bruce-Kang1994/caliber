@@ -35,6 +35,8 @@ const analyzeRequestSchema = z.object({
 });
 
 export const maxDuration = 60;
+// Deploy function to Hong Kong — closest region to DeepSeek China servers
+export const preferredRegion = "hkg1";
 
 export async function POST(req: NextRequest) {
   try {
