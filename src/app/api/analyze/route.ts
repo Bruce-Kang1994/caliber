@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
           // Stream from DeepSeek and accumulate chunks
           const streamResponse = await deepseek.chat.completions.create({
             model: "deepseek-chat",
-            max_tokens: 1800,
+            max_tokens: 2400,
             temperature: 0,
             stream: true,
             messages: [
@@ -166,10 +166,17 @@ export async function POST(req: NextRequest) {
             return;
           }
 
-          let jsonStr = text;
-          const codeBlockMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
-          if (codeBlockMatch) {
-            jsonStr = codeBlockMatch[1];
+          // Extract JSON robustly: strip code fences (even if truncated/unclosed)
+          let jsonStr = text.trim();
+          // Remove opening ```json or ```
+          jsonStr = jsonStr.replace(/^```(?:json)?\s*/, "");
+          // Remove closing ``` if present
+          jsonStr = jsonStr.replace(/```\s*$/, "");
+          // Find the first { and last } to extract JSON object
+          const firstBrace = jsonStr.indexOf("{");
+          const lastBrace = jsonStr.lastIndexOf("}");
+          if (firstBrace !== -1 && lastBrace > firstBrace) {
+            jsonStr = jsonStr.slice(firstBrace, lastBrace + 1);
           }
 
           const assessment = JSON.parse(jsonStr.trim());
