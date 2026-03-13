@@ -16,8 +16,8 @@
     "signUp": "Registrarse"
   },
   "landing": {
-    "heroTitle": "Entiende exactamente dónde estás\ny qué hacer después",
-    "heroSubtitle": "La IA analiza tu experiencia real en 16 dimensiones basadas en los marcos de Ravi Mehta/Reforge, SVPG y Google/Meta. Obtén tus fortalezas, brechas y un plan de mejora concreto en 5 minutos.",
+    "heroTitle": "Descubre Tu\nPoder de Producto",
+    "heroSubtitle": "Evaluación de competencias PM impulsada por IA",
     "heroTrust": "Gratis · Sin tarjeta · Evaluación en 5 min",
     "feature1Title": "Pesos específicos por rol",
     "feature1Desc": "Las dimensiones se ponderan dinámicamente según si apuntas a PM de B2B, Consumer, IA, Growth o Datos.",
@@ -57,8 +57,20 @@
     "proofFramework": "Marco basado en rúbricas de contratación de grandes tech",
     "proofEvidence": "Cada puntuación respaldada por tu experiencia real",
     "proofUpgrade": "Diseñado para mejorar, no desanimar",
-    "ctaTitle": "¿Listo para descubrir tu nivel?",
-    "ctaSubtitle": "Evaluación gratuita. Sin tarjeta. Resultados en menos de 5 minutos."
+    "ctaTitle": "¿Listo?",
+    "ctaSubtitle": "5 minutos para redescubrirte",
+    "sectionAssessTitle": "16 Dimensiones.\nTransparencia Total.",
+    "sectionAssessSub": "Basado en marcos de Reforge, SVPG, Google y Meta",
+    "sectionAiTitle": "Análisis IA Profundo",
+    "sectionAiSub": "No solo puntuaciones — comprensión real de tu experiencia",
+    "gridTitle1": "Adaptado al Rol",
+    "gridSub1": "B2B, C2C, IA, Growth, Data — cinco especializaciones PM con ponderación automática",
+    "gridTitle2": "Arquetipo PM",
+    "gridSub2": "Artesano, Estratega, Growth Hacker, Visionario, Operador — encuentra tu ADN PM",
+    "gridTitle3": "Ruta de Crecimiento",
+    "gridSub3": "Planes de acción concretos con cronograma, no consejos vacíos",
+    "gridTitle4": "Exportar con Un Clic",
+    "gridSub4": "Informes PDF y enlaces compartibles"
   },
   "roles": {
     "title": "¿Qué rol de PM estás buscando?",

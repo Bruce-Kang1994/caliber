@@ -16,8 +16,8 @@
     "signUp": "가입"
   },
   "landing": {
-    "heroTitle": "5분 만에 파악하는\n나의 PM 역량과 다음 스텝",
-    "heroSubtitle": "AI가 당신의 실제 경험을 16차원으로 분석합니다 (Ravi Mehta/Reforge, SVPG, Google/Meta 프레임워크 기반). 강조할 강점, 보완할 약점, 구체적인 성장 플랜을 5분 만에 받아보세요.",
+    "heroTitle": "당신의\n프로덕트 파워를 발견하세요",
+    "heroSubtitle": "AI 기반 PM 역량 평가",
     "heroTrust": "무료 · 신용카드 불필요 · 5분 완료",
     "feature1Title": "직무별 가중치 조정",
     "feature1Desc": "B2B, 컨슈머, AI, 그로스, 데이터 PM 등 목표 직무에 따라 평가 가중치를 동적으로 조정합니다.",
@@ -57,8 +57,20 @@
     "proofFramework": "탑 테크 기업 PM 채용 기준 기반 프레임워크",
     "proofEvidence": "모든 점수는 당신의 실제 경험에 기반",
     "proofUpgrade": "성장을 돕는 설계, 좌절시키지 않는",
-    "ctaTitle": "당신의 Caliber를 발견할 준비가 되셨나요?",
-    "ctaSubtitle": "무료 평가. 신용카드 불필요. 5분 이내 결과 제공."
+    "ctaTitle": "준비되셨나요?",
+    "ctaSubtitle": "5분이면 나를 다시 발견합니다",
+    "sectionAssessTitle": "16개 차원.\n완전한 투명성.",
+    "sectionAssessSub": "Reforge, SVPG, Google, Meta 4대 PM 프레임워크 통합",
+    "sectionAiTitle": "AI 심층 분석",
+    "sectionAiSub": "점수가 아닌, 당신의 경험에 대한 진정한 이해",
+    "gridTitle1": "역할 맞춤",
+    "gridSub1": "B2B, C2C, AI, 그로스, 데이터 — 5가지 PM 트랙에 자동 가중치",
+    "gridTitle2": "PM 아키타입",
+    "gridSub2": "장인, 전략가, 그로스 해커, 비전가, 오퍼레이터 — 나의 PM DNA 찾기",
+    "gridTitle3": "성장 경로",
+    "gridSub3": "타임라인 포함 구체적인 액션 플랜",
+    "gridTitle4": "원클릭 내보내기",
+    "gridSub4": "PDF 리포트와 공유 링크"
   },
   "roles": {
     "title": "목표로 하는 PM 직무는?",

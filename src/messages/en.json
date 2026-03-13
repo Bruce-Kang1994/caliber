@@ -16,8 +16,8 @@
     "signUp": "Sign up"
   },
   "landing": {
-    "heroTitle": "Know exactly where you stand\n— and what to do next",
-    "heroSubtitle": "AI analyzes your real experience against 16 dimensions based on Ravi Mehta/Reforge, SVPG, and Google/Meta frameworks. Get your strengths, gaps, and a concrete upgrade plan — in 5 minutes.",
+    "heroTitle": "Discover Your\nProduct Power",
+    "heroSubtitle": "AI-powered PM capability assessment",
     "heroTrust": "Free · No credit card · 5 min assessment",
     "feature1Title": "Role-Specific Weights",
     "feature1Desc": "Assessment dimensions dynamically weighted based on whether you're targeting B2B, Consumer, AI, Growth, or Data PM roles.",
@@ -57,8 +57,20 @@
     "proofFramework": "Framework from top tech PM hiring rubrics",
     "proofEvidence": "Every score backed by your real experience",
     "proofUpgrade": "Built to upgrade, not discourage",
-    "ctaTitle": "Ready to Discover Your Caliber?",
-    "ctaSubtitle": "Free assessment. No credit card required. Results in under 5 minutes."
+    "ctaTitle": "Ready?",
+    "ctaSubtitle": "5 minutes to rediscover yourself",
+    "sectionAssessTitle": "16 Dimensions.\nFull Transparency.",
+    "sectionAssessSub": "Built on frameworks from Reforge, SVPG, Google, and Meta",
+    "sectionAiTitle": "AI Deep Analysis",
+    "sectionAiSub": "Not just scores — real understanding of your experience",
+    "gridTitle1": "Role Tailored",
+    "gridSub1": "B2B, C2C, AI, Growth, Data — five PM tracks with auto-weighted scoring",
+    "gridTitle2": "PM Archetype",
+    "gridSub2": "Craftsperson, Strategist, Growth Hacker, Visionary, Operator — find your PM DNA",
+    "gridTitle3": "Growth Path",
+    "gridSub3": "Concrete action plans with timelines, not empty advice",
+    "gridTitle4": "One-Click Export",
+    "gridSub4": "PDF reports and shareable links to showcase your product power"
   },
   "roles": {
     "title": "What PM Role Are You Targeting?",

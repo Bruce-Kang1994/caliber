@@ -16,8 +16,8 @@
     "signUp": "S'inscrire"
   },
   "landing": {
-    "heroTitle": "Sachez exactement où vous en êtes\net quoi faire ensuite",
-    "heroSubtitle": "L'IA analyse votre expérience réelle selon 16 dimensions issues des frameworks Ravi Mehta/Reforge, SVPG et Google/Meta. Obtenez vos points forts, vos écarts et un plan de progression concret en 5 minutes.",
+    "heroTitle": "Découvrez Votre\nPuissance Produit",
+    "heroSubtitle": "Évaluation des compétences PM par IA",
     "heroTrust": "Gratuit · Sans carte bancaire · Évaluation en 5 min",
     "feature1Title": "Pondération par rôle",
     "feature1Desc": "Les dimensions d'évaluation sont pondérées dynamiquement selon que vous ciblez un poste PM B2B, Consumer, IA, Growth ou Data.",
@@ -57,8 +57,20 @@
     "proofFramework": "Cadre issu des meilleurs référentiels de recrutement tech",
     "proofEvidence": "Chaque note s'appuie sur votre expérience réelle",
     "proofUpgrade": "Conçu pour vous faire progresser, pas pour décourager",
-    "ctaTitle": "Prêt à découvrir votre niveau ?",
-    "ctaSubtitle": "Évaluation gratuite. Sans carte bancaire. Résultats en moins de 5 minutes."
+    "ctaTitle": "Prêt ?",
+    "ctaSubtitle": "5 minutes pour vous redécouvrir",
+    "sectionAssessTitle": "16 Dimensions.\nTransparence Totale.",
+    "sectionAssessSub": "Basé sur les cadres de Reforge, SVPG, Google et Meta",
+    "sectionAiTitle": "Analyse IA Approfondie",
+    "sectionAiSub": "Pas seulement des scores — une vraie compréhension de votre parcours",
+    "gridTitle1": "Adapté au Rôle",
+    "gridSub1": "B2B, C2C, IA, Croissance, Data — cinq spécialisations PM avec pondération automatique",
+    "gridTitle2": "Archétype PM",
+    "gridSub2": "Artisan, Stratège, Growth Hacker, Visionnaire, Opérateur — trouvez votre ADN PM",
+    "gridTitle3": "Parcours de Croissance",
+    "gridSub3": "Plans d'action concrets avec calendrier, pas de conseils vides",
+    "gridTitle4": "Export en Un Clic",
+    "gridSub4": "Rapports PDF et liens partageables"
   },
   "roles": {
     "title": "Quel poste PM ciblez-vous ?",

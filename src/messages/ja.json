@@ -16,8 +16,8 @@
     "signUp": "登録"
   },
   "landing": {
-    "heroTitle": "5分でわかる\nあなたのPM実力と次の一手",
-    "heroSubtitle": "AIがあなたの実際の経験を16次元で分析（Ravi Mehta/Reforge、SVPG、Google/Metaフレームワーク準拠）。強調すべき強み、対処すべきギャップ、具体的な成長プランを5分で提供します。",
+    "heroTitle": "あなたの\nプロダクト力を発見",
+    "heroSubtitle": "AI駆動のPM能力アセスメント",
     "heroTrust": "無料 · クレジットカード不要 · 5分で完了",
     "feature1Title": "職種別ウェイト調整",
     "feature1Desc": "B2B、コンシューマー、AI、グロース、データPMなど、目標職種に応じて評価の重み付けを動的に調整。",
@@ -57,8 +57,20 @@
     "proofFramework": "トップテック企業のPM採用基準に基づくフレームワーク",
     "proofEvidence": "すべてのスコアはあなたの実体験に基づく",
     "proofUpgrade": "成長を促す設計、挫折させない",
-    "ctaTitle": "あなたのCaliberを発見する準備はできましたか？",
-    "ctaSubtitle": "無料評価。クレジットカード不要。5分以内に結果をお届け。"
+    "ctaTitle": "準備はいいですか？",
+    "ctaSubtitle": "5分で自分を再発見",
+    "sectionAssessTitle": "16の評価軸。\n徹底的に可視化。",
+    "sectionAssessSub": "Reforge、SVPG、Google、Metaの4大PMフレームワークを統合",
+    "sectionAiTitle": "AIディープ分析",
+    "sectionAiSub": "スコアだけでなく、あなたの経験を本当に理解する",
+    "gridTitle1": "ロール別カスタマイズ",
+    "gridSub1": "B2B、C2C、AI、グロース、データ——5つのPM方向に自動で重み付け",
+    "gridTitle2": "PMアーキタイプ",
+    "gridSub2": "職人、戦略家、グロースハッカー、ビジョナリー、オペレーター——あなたのPM DNAを発見",
+    "gridTitle3": "成長パス",
+    "gridSub3": "具体的なアクションプランとタイムライン付き",
+    "gridTitle4": "ワンクリック出力",
+    "gridSub4": "PDFレポートとシェアリンク"
   },
   "roles": {
     "title": "目標とするPM職種は？",

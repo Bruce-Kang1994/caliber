@@ -16,8 +16,8 @@
     "signUp": "注册"
   },
   "landing": {
-    "heroTitle": "5分钟，精准定位\n你的PM能力坐标",
-    "heroSubtitle": "AI基于你的真实经历，从16个维度评估你的能力（框架源自Ravi Mehta/Reforge、SVPG、Google/Meta）。找到面试中该重点展示的长板、需要补齐的短板，以及具体的升级路径——5分钟出结果。",
+    "heroTitle": "发现你的\n产品力",
+    "heroSubtitle": "AI 驱动的产品经理能力评估",
     "heroTrust": "免费 · 无需信用卡 · 5分钟完成",
     "feature1Title": "按岗位定制权重",
     "feature1Desc": "评估维度根据你的目标方向动态调整——B端、C端、AI、增长还是数据PM，权重完全不同。",
@@ -57,8 +57,20 @@
     "proofFramework": "框架源自头部科技公司PM招聘标准",
     "proofEvidence": "每个评分都基于你的真实经历",
     "proofUpgrade": "为升级而生，不是为了打击你",
-    "ctaTitle": "准备好发现你的Caliber了吗？",
-    "ctaSubtitle": "免费评估，无需信用卡，5分钟出结果。"
+    "ctaTitle": "准备好了吗？",
+    "ctaSubtitle": "5 分钟，重新认识你自己",
+    "sectionAssessTitle": "16 个维度。\n全面透视。",
+    "sectionAssessSub": "融合 Reforge、SVPG、Google、Meta 四大产品经理能力框架",
+    "sectionAiTitle": "AI 深度分析",
+    "sectionAiSub": "不只是打分，是真正理解你的经历",
+    "gridTitle1": "角色定制",
+    "gridSub1": "B2B、C2C、AI、增长、数据——五大 PM 方向，权重自动适配",
+    "gridTitle2": "PM 原型",
+    "gridSub2": "匠人、战略家、增长黑客、愿景家、运营者——找到你的 PM DNA",
+    "gridTitle3": "成长路径",
+    "gridSub3": "不只告诉你哪里弱，还给你行动计划和时间表",
+    "gridTitle4": "一键导出",
+    "gridSub4": "PDF 报告、分享链接，随时展示你的产品力"
   },
   "roles": {
     "title": "你的目标PM方向是什么？",
