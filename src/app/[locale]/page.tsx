@@ -364,42 +364,42 @@ function DimensionBars() {
 // ─── Report mockup cards for Section 3 ───
 function ReportPreview() {
   return (
-    <div className="grid grid-cols-2 gap-3 w-full max-w-lg mx-auto text-left">
-      <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1.5">
+    <div className="grid grid-cols-2 gap-4 w-full max-w-2xl mx-auto text-left">
+      <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm">
+        <p className="text-[11px] text-slate-400 uppercase tracking-widest mb-2">
           Caliber Score
         </p>
-        <div className="text-4xl font-bold text-slate-900">82</div>
-        <p className="text-xs text-slate-400 mt-1">Advanced</p>
+        <div className="text-5xl font-bold text-slate-900">82</div>
+        <p className="text-sm text-slate-400 mt-1.5">Advanced</p>
       </div>
-      <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1.5">
+      <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm">
+        <p className="text-[11px] text-slate-400 uppercase tracking-widest mb-2">
           Archetype
         </p>
-        <div className="text-lg font-bold text-slate-900 leading-tight">
+        <div className="text-2xl font-bold text-slate-900 leading-tight">
           The Strategist
         </div>
-        <p className="text-xs text-slate-400 mt-1">35% / 28%</p>
+        <p className="text-sm text-slate-400 mt-1.5">35% / 28%</p>
       </div>
-      <div className="bg-emerald-50 rounded-2xl p-5 border border-emerald-200/60">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          <p className="text-[10px] text-emerald-600 uppercase tracking-widest">
+      <div className="bg-emerald-50 rounded-2xl p-7 border border-emerald-200/60">
+        <div className="flex items-center gap-1.5 mb-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-500" />
+          <p className="text-[11px] text-emerald-600 uppercase tracking-widest">
             Strength
           </p>
         </div>
-        <div className="text-sm font-semibold text-slate-900">Zero to One</div>
-        <p className="text-xs text-slate-400 mt-0.5">4.5 / 5.0</p>
+        <div className="text-lg font-semibold text-slate-900">Zero to One</div>
+        <p className="text-sm text-slate-400 mt-1">4.5 / 5.0</p>
       </div>
-      <div className="bg-amber-50 rounded-2xl p-5 border border-amber-200/60">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-          <p className="text-[10px] text-amber-600 uppercase tracking-widest">
+      <div className="bg-amber-50 rounded-2xl p-7 border border-amber-200/60">
+        <div className="flex items-center gap-1.5 mb-2">
+          <div className="w-2 h-2 rounded-full bg-amber-500" />
+          <p className="text-[11px] text-amber-600 uppercase tracking-widest">
             Growth
           </p>
         </div>
-        <div className="text-sm font-semibold text-slate-900">Data & Experiment</div>
-        <p className="text-xs text-slate-400 mt-0.5">2.8 → Action Plan</p>
+        <div className="text-lg font-semibold text-slate-900">Data & Experiment</div>
+        <p className="text-sm text-slate-400 mt-1">2.8 → Action Plan</p>
       </div>
     </div>
   );
@@ -421,7 +421,7 @@ function GridCard({
 }) {
   return (
     <div
-      className={`rounded-3xl min-h-[340px] flex flex-col items-center justify-center text-center px-8 py-14 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
+      className={`rounded-3xl min-h-[260px] flex flex-col items-center justify-center text-center px-8 py-10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
         dark
           ? "bg-slate-900 text-white"
           : accent
