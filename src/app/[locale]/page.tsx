@@ -30,7 +30,15 @@ function Reveal({
   );
 }
 
-// ─── Hero Radar — large animated pentagon ───
+// ─── Hero Radar — colorful animated pentagon with glow ───
+const RADAR_CATEGORIES = [
+  { label: "Product", score: 4.2, color: "#6366f1" },   // indigo
+  { label: "Insight", score: 3.6, color: "#06b6d4" },    // cyan
+  { label: "Strategy", score: 4.5, color: "#8b5cf6" },   // violet
+  { label: "People", score: 3.8, color: "#f59e0b" },     // amber
+  { label: "AI", score: 4.0, color: "#10b981" },          // emerald
+];
+
 function HeroRadar() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -38,17 +46,11 @@ function HeroRadar() {
     return () => clearTimeout(t);
   }, []);
 
-  const size = 340;
+  const size = 400;
   const cx = size / 2;
   const cy = size / 2;
-  const r = 130;
-  const data = [
-    { score: 4.2, color: "#6366f1" },
-    { score: 3.6, color: "#6366f1" },
-    { score: 4.5, color: "#6366f1" },
-    { score: 3.8, color: "#6366f1" },
-    { score: 4.0, color: "#6366f1" },
-  ];
+  const r = 145;
+  const data = RADAR_CATEGORIES;
 
   const getPoint = (i: number, ratio: number) => {
     const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2;
@@ -66,83 +68,131 @@ function HeroRadar() {
     .join(" ");
 
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      className="mx-auto"
-    >
-      <defs>
-        <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.15" />
-          <stop offset="70%" stopColor="#6366f1" stopOpacity="0.03" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="radar-fill" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.08" />
-        </linearGradient>
-      </defs>
-      <circle cx={cx} cy={cy} r={r + 40} fill="url(#hero-glow)" />
-      {/* Grid rings */}
-      {[1, 2, 3, 4, 5].map((level) => {
-        const pts = data
-          .map((_, i) => {
-            const p = getPoint(i, level / 5);
-            return `${p.x},${p.y}`;
-          })
-          .join(" ");
-        return (
-          <polygon
-            key={level}
-            points={pts}
-            fill="none"
-            stroke="#cbd5e1"
-            strokeWidth={level === 5 ? 0.8 : 0.4}
-            opacity={0.5}
-          />
-        );
-      })}
-      {/* Axes */}
-      {data.map((_, i) => {
-        const p = getPoint(i, 1);
-        return (
-          <line
-            key={i}
-            x1={cx}
-            y1={cy}
-            x2={p.x}
-            y2={p.y}
-            stroke="#cbd5e1"
-            strokeWidth={0.4}
-            opacity={0.5}
-          />
-        );
-      })}
-      {/* Data polygon */}
-      <polygon
-        points={polygon}
-        fill="url(#radar-fill)"
-        stroke="#6366f1"
-        strokeWidth={2}
-        strokeLinejoin="round"
-        style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}
-      />
-      {/* Data points */}
-      {data.map((_, i) => {
-        const p = getPoint(i, (data[i].score / 5) * progress);
-        return (
-          <circle
-            key={i}
-            cx={p.x}
-            cy={p.y}
-            r={4}
-            fill="#6366f1"
-            style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}
-          />
-        );
-      })}
-    </svg>
+    <div className="relative">
+      {/* Animated glow layers behind SVG */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-64 h-64 rounded-full bg-indigo-400/[0.07] blur-3xl animate-pulse" style={{ animationDuration: "3s" }} />
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-48 h-48 rounded-full bg-violet-400/[0.06] blur-2xl animate-pulse" style={{ animationDuration: "4s", animationDelay: "1s" }} />
+      </div>
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="relative mx-auto"
+      >
+        <defs>
+          {/* Multi-color radial glow */}
+          <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.12" />
+            <stop offset="40%" stopColor="#6366f1" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
+          </radialGradient>
+          {/* Multi-color fill gradient */}
+          <linearGradient id="radar-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18" />
+            <stop offset="25%" stopColor="#06b6d4" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.15" />
+            <stop offset="75%" stopColor="#f59e0b" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#10b981" stopOpacity="0.12" />
+          </linearGradient>
+          {/* Gradient stroke */}
+          <linearGradient id="radar-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#6366f1" />
+            <stop offset="25%" stopColor="#06b6d4" />
+            <stop offset="50%" stopColor="#8b5cf6" />
+            <stop offset="75%" stopColor="#f59e0b" />
+            <stop offset="100%" stopColor="#10b981" />
+          </linearGradient>
+        </defs>
+        {/* Background glow */}
+        <circle cx={cx} cy={cy} r={r + 50} fill="url(#hero-glow)" />
+        {/* Grid rings */}
+        {[1, 2, 3, 4, 5].map((level) => {
+          const pts = data
+            .map((_, i) => {
+              const p = getPoint(i, level / 5);
+              return `${p.x},${p.y}`;
+            })
+            .join(" ");
+          return (
+            <polygon
+              key={level}
+              points={pts}
+              fill="none"
+              stroke="#94a3b8"
+              strokeWidth={level === 5 ? 0.6 : 0.3}
+              opacity={0.25}
+            />
+          );
+        })}
+        {/* Axes with colored endpoints */}
+        {data.map((d, i) => {
+          const p = getPoint(i, 1);
+          return (
+            <g key={`axis-${i}`}>
+              <line x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#94a3b8" strokeWidth={0.3} opacity={0.25} />
+              {/* Faint axis dot at edge */}
+              <circle cx={p.x} cy={p.y} r={2} fill={d.color} opacity={0.3} />
+            </g>
+          );
+        })}
+        {/* Data polygon — multi-color */}
+        <polygon
+          points={polygon}
+          fill="url(#radar-fill)"
+          stroke="url(#radar-stroke)"
+          strokeWidth={2.5}
+          strokeLinejoin="round"
+          style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}
+        />
+        {/* Colored data points */}
+        {data.map((d, i) => {
+          const p = getPoint(i, (d.score / 5) * progress);
+          return (
+            <g key={`point-${i}`} style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}>
+              {/* Glow ring */}
+              <circle cx={p.x} cy={p.y} r={10} fill={d.color} opacity={0.1} />
+              {/* Solid dot */}
+              <circle cx={p.x} cy={p.y} r={5} fill={d.color} />
+              <circle cx={p.x} cy={p.y} r={2.5} fill="white" opacity={0.6} />
+            </g>
+          );
+        })}
+        {/* Labels */}
+        {data.map((d, i) => {
+          const labelR = r + 28;
+          const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2;
+          const lx = cx + labelR * Math.cos(angle);
+          const ly = cy + labelR * Math.sin(angle);
+          return (
+            <g key={`label-${i}`}>
+              <text
+                x={lx}
+                y={ly - 6}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-[11px] font-semibold"
+                fill={d.color}
+              >
+                {d.label}
+              </text>
+              <text
+                x={lx}
+                y={ly + 8}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-[10px]"
+                fill="#94a3b8"
+              >
+                {d.score}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
   );
 }
 
@@ -236,15 +286,17 @@ function GridCard({
   subtitle,
   dark = false,
   accent = false,
+  icon,
 }: {
   title: string;
   subtitle: string;
   dark?: boolean;
   accent?: boolean;
+  icon?: React.ReactNode;
 }) {
   return (
     <div
-      className={`rounded-3xl min-h-[380px] flex flex-col items-center justify-center text-center px-8 py-16 transition-all duration-300 ${
+      className={`rounded-3xl min-h-[340px] flex flex-col items-center justify-center text-center px-8 py-14 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
         dark
           ? "bg-slate-900 text-white"
           : accent
@@ -252,6 +304,13 @@ function GridCard({
             : "bg-white text-slate-900"
       }`}
     >
+      {icon && (
+        <div className={`mb-5 w-14 h-14 rounded-2xl flex items-center justify-center ${
+          dark ? "bg-white/[0.08]" : accent ? "bg-white/80 shadow-sm" : "bg-slate-50"
+        }`}>
+          {icon}
+        </div>
+      )}
       <h3
         className={`text-2xl md:text-3xl font-bold tracking-tight ${dark ? "text-white" : "text-slate-900"}`}
       >
@@ -304,6 +363,27 @@ export default function LandingPage() {
         </Reveal>
       </section>
 
+      {/* ═══ Stats Bar ═══ */}
+      <section className="bg-white border-t border-slate-200/60">
+        <div className="max-w-5xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { num: t("landing.stat1Number"), label: t("landing.stat1Label") },
+            { num: t("landing.stat2Number"), label: t("landing.stat2Label") },
+            { num: t("landing.stat3Number"), label: t("landing.stat3Label") },
+            { num: t("landing.stat4Number"), label: t("landing.stat4Label") },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 100}>
+              <div className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+                {s.num}
+              </div>
+              <div className="mt-1.5 text-sm text-slate-500 leading-snug">
+                {s.label}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ═══ Section 2: 16 Dimensions (white) ═══ */}
       <section className="bg-white">
         <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-24 text-center max-w-4xl mx-auto">
@@ -336,6 +416,68 @@ export default function LandingPage() {
               <DimensionBars />
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ How It Works ═══ */}
+      <section className="bg-[#f5f5f7]">
+        <div className="max-w-5xl mx-auto px-6 py-24 text-center">
+          <Reveal>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">
+              {t("landing.howItWorks")}
+            </h2>
+          </Reveal>
+          <div className="mt-16 grid md:grid-cols-3 gap-8 md:gap-12">
+            {[
+              {
+                step: "01",
+                title: t("landing.step1Title"),
+                desc: t("landing.step1Desc"),
+                icon: (
+                  <svg className="w-8 h-8 text-indigo-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                  </svg>
+                ),
+              },
+              {
+                step: "02",
+                title: t("landing.step2Title"),
+                desc: t("landing.step2Desc"),
+                icon: (
+                  <svg className="w-8 h-8 text-violet-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                  </svg>
+                ),
+              },
+              {
+                step: "03",
+                title: t("landing.step3Title"),
+                desc: t("landing.step3Desc"),
+                icon: (
+                  <svg className="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                  </svg>
+                ),
+              },
+            ].map((item, i) => (
+              <Reveal key={i} delay={i * 150}>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-5">
+                    {item.icon}
+                  </div>
+                  <div className="text-xs font-bold text-slate-300 tracking-widest mb-2">
+                    STEP {item.step}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-xs">
+                    {item.desc}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -376,21 +518,41 @@ export default function LandingPage() {
           <GridCard
             title={t("landing.gridTitle1")}
             subtitle={t("landing.gridSub1")}
+            icon={
+              <svg className="w-7 h-7 text-indigo-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+              </svg>
+            }
           />
           <GridCard
             title={t("landing.gridTitle2")}
             subtitle={t("landing.gridSub2")}
             dark
+            icon={
+              <svg className="w-7 h-7 text-violet-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
+              </svg>
+            }
           />
           <GridCard
             title={t("landing.gridTitle3")}
             subtitle={t("landing.gridSub3")}
             accent
+            icon={
+              <svg className="w-7 h-7 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+              </svg>
+            }
           />
           <GridCard
             title={t("landing.gridTitle4")}
             subtitle={t("landing.gridSub4")}
             dark
+            icon={
+              <svg className="w-7 h-7 text-amber-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+              </svg>
+            }
           />
         </div>
       </section>
