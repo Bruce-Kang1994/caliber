@@ -13,7 +13,8 @@
     "step": "{total}단계 중 {current}단계",
     "pricing": "요금제",
     "signIn": "로그인",
-    "signUp": "가입"
+    "signUp": "가입",
+    "blog": "블로그"
   },
   "landing": {
     "heroTitle": "당신의\n프로덕트 파워를 발견하세요",
@@ -382,5 +383,44 @@
     "evidenceLabel": "근거",
     "gapsLabel": "개선점",
     "suggestionLabel": "제안"
+  },
+  "blog": {
+    "title": "블로그",
+    "subtitle": "프로덕트 매니지먼트, 역량 평가, 커리어 성장에 대한 깊은 통찰",
+    "readMore": "더 읽기",
+    "readTime": "{min}분 소요",
+    "backToList": "블로그로 돌아가기",
+    "categories": {
+      "methodology": "방법론",
+      "trends": "트렌드",
+      "career": "커리어",
+      "skills": "스킬",
+      "leadership": "리더십"
+    },
+    "scientific-pm-assessment": {
+      "title": "PM 역량 평가의 과학적 방법",
+      "excerpt": "왜 대부분의 PM 면접은 직감에 의존하는가? 구조화된 프레임워크로 주관적 판단을 대체하는 방법.",
+      "content": ""
+    },
+    "ai-era-pm-skills": {
+      "title": "AI 시대, PM에게 필요한 새로운 스킬은?",
+      "excerpt": "AI가 PRD를 쓰고, 데이터를 분석하고, 프로토타입까지 생성할 수 있을 때, PM의 핵심 가치는 어디에 있는가?",
+      "content": ""
+    },
+    "pm-growth-ladder": {
+      "title": "실행에서 전략으로: PM 성장 사다리",
+      "excerpt": "5년차에도 와이어프레임을 그리는 PM과 2년 만에 프로덕트 라인을 이끄는 PM. 그 차이는 어디에?",
+      "content": ""
+    },
+    "data-driven-decision": {
+      "title": "데이터 기반 의사결정: PM의 분석 프레임워크",
+      "excerpt": "\"데이터로 말하기\"는 \"DAU가 올랐는지 확인하기\"가 아닙니다. 진정한 데이터 드리븐에 필요한 사고 모델은?",
+      "content": ""
+    },
+    "cross-cultural-pm": {
+      "title": "크로스컬처 PM: 글로벌 팀 커뮤니케이션 코드",
+      "excerpt": "엔지니어는 인도, 디자이너는 유럽, 운영은 중국에 있을 때, PM은 어떻게 효과적으로 협업하는가?",
+      "content": ""
+    }
   }
 }

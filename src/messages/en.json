@@ -13,7 +13,8 @@
     "step": "Step {current} of {total}",
     "pricing": "Pricing",
     "signIn": "Log in",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "blog": "Blog"
   },
   "landing": {
     "heroTitle": "Discover Your\nProduct Power",
@@ -382,5 +383,44 @@
     "evidenceLabel": "Evidence",
     "gapsLabel": "Gaps",
     "suggestionLabel": "Suggestion"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Deep thinking on product management, capability assessment, and career growth",
+    "readMore": "Read more",
+    "readTime": "{min} min read",
+    "backToList": "Back to Blog",
+    "categories": {
+      "methodology": "Methodology",
+      "trends": "Trends",
+      "career": "Career",
+      "skills": "Skills",
+      "leadership": "Leadership"
+    },
+    "scientific-pm-assessment": {
+      "title": "The Science of PM Capability Assessment",
+      "excerpt": "Why do most PM interviews rely on gut feeling? How structured frameworks can replace subjective judgment and make assessment truly quantifiable.",
+      "content": "In product management, capability assessment has long relied on interviewers' subjective judgment. Whether a candidate \"has product sense\" often depends on the interviewer's own experience bias.\n\n## Three Problems with Traditional Assessment\n\n**1. Missing Dimensions**\nMost interviews only test communication and case analysis, ignoring critical dimensions like system architecture understanding, data experiment design, and cross-cultural collaboration.\n\n**2. Anchoring Effect**\nInterviewers are easily anchored by a candidate's company background — big tech means \"strong,\" startup means \"needs to prove themselves.\"\n\n**3. Lack of Standardization**\nDifferent interviewers on the same team may have completely different definitions of \"excellent.\" Without unified scoring criteria, assessment results have minimal comparability.\n\n## Caliber's Methodology\n\nWe extracted 16 core dimensions across 5 categories based on frameworks from Reforge, SVPG, Google APM, and Meta RPM. Each dimension has clear 1-5 scoring standards (BARS) ensuring consistency and repeatability.\n\nThe key innovation is **dynamic weighting**: different role directions (B2B/Consumer/AI/Growth/Data) have completely different dimension weights. An AI PM and a Growth PM are assessed with entirely different emphases."
+    },
+    "ai-era-pm-skills": {
+      "title": "What New Skills Do PMs Need in the AI Era?",
+      "excerpt": "When AI can write PRDs, analyze data, and even generate prototypes, where does a PM's core value lie?",
+      "content": "GPT-4 can write structurally complete PRDs, Cursor can generate code from descriptions, Midjourney can produce design mockups — when AI takes over much of a PM's \"execution layer\" work, how should we redefine our value?\n\n## AI Isn't Replacing PMs, It's Replacing Inefficient Workflows\n\nAI won't replace product managers, but it will replace PMs who can't leverage AI. The days of spending 3 days writing a PRD or manually organizing user feedback are over.\n\n## Four Irreplaceable Capabilities\n\n**1. Problem Definition**\nAI excels at providing answers but struggles to ask the right questions. \"What problem should we solve?\" and \"Is this problem worth solving?\" still require human business intuition and user empathy.\n\n**2. AI Product Design**\nPMs who can design AI-native products will become increasingly scarce. This means understanding AI's capability boundaries, hallucination issues, user trust models, and human-AI interaction paradigms.\n\n**3. Cross-functional Influence**\nAI dramatically increases individual output, but product success still depends on team collaboration. Persuading engineers, coordinating designers, managing stakeholders — these \"soft skills\" become even more important as pace accelerates.\n\n**4. Strategic Thinking**\nWhen execution efficiency is no longer the bottleneck, the value of strategic judgment is amplified. Choosing what to build matters more than how to build it."
+    },
+    "pm-growth-ladder": {
+      "title": "From Execution to Strategy: The PM Growth Ladder",
+      "excerpt": "Why do some PMs still draw wireframes after five years while others lead product lines within two? Where's the gap?",
+      "content": "A PM's career development isn't a linear \"junior → senior → director\" path — it's a process of continuously expanding capability dimensions.\n\n## Five Archetypes, Five Paths\n\nIn Caliber's assessment framework, we define five PM archetypes. Each represents different capability emphases and growth directions:\n\n**The Craftsperson** — Exceptional product execution, can break down requirements to pixel-level detail. Growth direction: from \"doing it well\" to \"choosing the right thing.\"\n\n**The Strategist** — Excels at seeing the big picture, finding differentiated positioning in complex business environments. Growth direction: balancing strategic thinking with execution.\n\n**The Growth Hacker** — Data-driven, experiment-oriented, skilled at finding growth levers. Growth direction: from local optimization to systems thinking.\n\n**The Visionary** — Strong intuition and imagination about the future. Growth direction: grounding vision in data and evidence.\n\n**The Operator** — Exceptional cross-functional coordination. Growth direction: from \"driving execution\" to \"defining direction.\"\n\n## The Key Growth Inflection Point\n\nMost PM bottlenecks aren't about \"not trying hard enough\" — they're about not knowing where their blind spots are. This is the value of capability assessment: not labeling you, but helping you see where you stand and where to break through next."
+    },
+    "data-driven-decision": {
+      "title": "Data-Driven Decisions: Analytical Frameworks for PMs",
+      "excerpt": "\"Using data\" doesn't mean \"checking if DAU went up.\" What mental models does truly data-driven decision making require?",
+      "content": "Almost every product team claims to be \"data-driven,\" but most are merely \"data-displaying\" — looking at dashboards, running A/B tests, showing charts in presentations.\n\n## The Three-Layer Data Model\n\n**Layer 1: Descriptive Analysis (What happened)**\nThis is where most PMs stay. DAU dropped 5%, conversion fell from 3.2% to 2.8%. Describing phenomena is the foundation, but it's far from enough.\n\n**Layer 2: Diagnostic Analysis (Why it happened)**\nDid the drop come from channel quality degradation or product experience regression? Is a specific user segment churning or is it across the board? This layer requires decomposition skills.\n\n**Layer 3: Predictive Analysis (What happens next)**\nIf we make change X, how will metrics shift? What's the expected ROI? This layer requires experiment design capability.\n\n## Common Data Traps\n\n**Survivorship Bias**: Only looking at active user feedback, ignoring silently churning users.\n\n**Metric Gaming**: Optimizing vanity metrics (signups) rather than core metrics (paid conversion).\n\n**Causal Fallacy**: Two metrics changing simultaneously ≠ causation."
+    },
+    "cross-cultural-pm": {
+      "title": "Cross-Cultural Product Management: The Global Team Communication Code",
+      "excerpt": "When your engineers are in India, designers in Europe, and operations in China, how do PMs collaborate effectively?",
+      "content": "Globalization is no longer exclusive to big tech. More product teams are distributed across multiple time zones and cultural backgrounds.\n\n## Core Challenges of Cross-Cultural Communication\n\n**1. Implicit vs Explicit Communication**\nHigh-context cultures (China, Japan) tend toward indirect expression — \"let's think about this more\" might mean \"I disagree.\" Low-context cultures (US, Germany) are more direct. As a PM, you need to switch between both modes.\n\n**2. Decision-Making Style Differences**\nSome cultures prefer consensus decisions (Japan's \"nemawashi\"), others prefer fast decisions then iterate. How do you design efficient decision processes for mixed teams?\n\n**3. Feedback Culture**\nIn some cultures, giving negative feedback publicly is professional; in others, it's disrespectful. PMs need to understand team members' feedback preferences.\n\n## Practical Tips\n\n**Documentation First**: Use written docs to reduce verbal communication ambiguity.\n\n**Explicit Processes**: Don't assume \"everyone knows.\" Decision processes, review criteria, launch conditions — the clearer the better.\n\n**Regular 1:1s**: Maintain regular one-on-ones with team members from different cultural backgrounds.\n\n**Localization Mindset**: Consider cultural differences in product design. A feature validated in the US market may not directly transfer to Asia."
+    }
   }
 }

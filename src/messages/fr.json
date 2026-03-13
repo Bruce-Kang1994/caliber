@@ -13,7 +13,8 @@
     "step": "Étape {current} sur {total}",
     "pricing": "Tarifs",
     "signIn": "Se connecter",
-    "signUp": "S'inscrire"
+    "signUp": "S'inscrire",
+    "blog": "Blog"
   },
   "landing": {
     "heroTitle": "Découvrez Votre\nPuissance Produit",
@@ -382,5 +383,18 @@
     "evidenceLabel": "Preuves",
     "gapsLabel": "Écarts",
     "suggestionLabel": "Suggestion"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Réflexions approfondies sur le product management, l'évaluation des compétences et la croissance professionnelle",
+    "readMore": "Lire la suite",
+    "readTime": "{min} min de lecture",
+    "backToList": "Retour au Blog",
+    "categories": { "methodology": "Méthodologie", "trends": "Tendances", "career": "Carrière", "skills": "Compétences", "leadership": "Leadership" },
+    "scientific-pm-assessment": { "title": "L'approche scientifique de l'évaluation PM", "excerpt": "Pourquoi la plupart des entretiens PM reposent-ils sur l'intuition ?", "content": "" },
+    "ai-era-pm-skills": { "title": "Quelles nouvelles compétences pour les PM à l'ère de l'IA ?", "excerpt": "Quand l'IA peut rédiger des PRD et analyser des données, où se trouve la valeur du PM ?", "content": "" },
+    "pm-growth-ladder": { "title": "De l'exécution à la stratégie : l'échelle de croissance PM", "excerpt": "Pourquoi certains PM dessinent encore des wireframes après 5 ans ?", "content": "" },
+    "data-driven-decision": { "title": "Décisions data-driven : frameworks analytiques pour PMs", "excerpt": "\"Utiliser les données\" ne signifie pas juste vérifier si le DAU a augmenté.", "content": "" },
+    "cross-cultural-pm": { "title": "PM interculturel : le code de communication des équipes mondiales", "excerpt": "Quand votre équipe est répartie sur plusieurs fuseaux horaires et cultures.", "content": "" }
   }
 }

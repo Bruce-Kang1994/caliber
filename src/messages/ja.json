@@ -13,7 +13,8 @@
     "step": "ステップ {current}/{total}",
     "pricing": "料金",
     "signIn": "ログイン",
-    "signUp": "登録"
+    "signUp": "登録",
+    "blog": "ブログ"
   },
   "landing": {
     "heroTitle": "あなたの\nプロダクト力を発見",
@@ -382,5 +383,44 @@
     "evidenceLabel": "根拠",
     "gapsLabel": "改善点",
     "suggestionLabel": "アドバイス"
+  },
+  "blog": {
+    "title": "ブログ",
+    "subtitle": "プロダクトマネジメント、能力評価、キャリア成長についての深い洞察",
+    "readMore": "続きを読む",
+    "readTime": "{min}分で読める",
+    "backToList": "ブログに戻る",
+    "categories": {
+      "methodology": "方法論",
+      "trends": "トレンド",
+      "career": "キャリア",
+      "skills": "スキル",
+      "leadership": "リーダーシップ"
+    },
+    "scientific-pm-assessment": {
+      "title": "PM能力評価の科学的アプローチ",
+      "excerpt": "なぜ多くのPM面接は直感に頼るのか？構造化フレームワークで主観的判断を置き換え、評価を定量化する方法。",
+      "content": ""
+    },
+    "ai-era-pm-skills": {
+      "title": "AI時代、PMに必要な新スキルとは？",
+      "excerpt": "AIがPRDを書き、データ分析し、プロトタイプまで生成できる時代、PMのコアバリューはどこにあるのか？",
+      "content": ""
+    },
+    "pm-growth-ladder": {
+      "title": "実行から戦略へ：PMの成長ラダー",
+      "excerpt": "5年経ってもワイヤーフレームを描くPMと、2年でプロダクトラインを率いるPM。その差はどこにあるのか？",
+      "content": ""
+    },
+    "data-driven-decision": {
+      "title": "データドリブン意思決定：PMの分析フレームワーク",
+      "excerpt": "「データで語る」は「DAUが上がったか確認する」ことではない。真のデータドリブンに必要な思考モデルとは。",
+      "content": ""
+    },
+    "cross-cultural-pm": {
+      "title": "クロスカルチャーPM：グローバルチームのコミュニケーション術",
+      "excerpt": "エンジニアがインド、デザイナーがヨーロッパ、オペレーションが中国。PMはどう効果的に協働するか？",
+      "content": ""
+    }
   }
 }

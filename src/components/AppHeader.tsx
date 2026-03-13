@@ -41,16 +41,24 @@ export function AppHeader({
             Caliber
           </Link>
           {showNav && (
-            <Link
-              href="/pricing"
-              className={`hidden sm:inline text-sm font-medium transition-colors ${
-                activePricingLink
-                  ? "text-blue-600"
-                  : "text-slate-500 hover:text-slate-900"
-              }`}
-            >
-              {t("common.pricing")}
-            </Link>
+            <>
+              <Link
+                href="/blog"
+                className="hidden sm:inline text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+              >
+                {t("common.blog")}
+              </Link>
+              <Link
+                href="/pricing"
+                className={`hidden sm:inline text-sm font-medium transition-colors ${
+                  activePricingLink
+                    ? "text-blue-600"
+                    : "text-slate-500 hover:text-slate-900"
+                }`}
+              >
+                {t("common.pricing")}
+              </Link>
+            </>
           )}
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
@@ -93,15 +101,24 @@ export function AppHeader({
             </div>
           )}
           {showNav && (
-            <Link
-              href="/pricing"
-              className={`block text-sm font-medium ${
-                activePricingLink ? "text-blue-600" : "text-slate-700"
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t("common.pricing")}
-            </Link>
+            <>
+              <Link
+                href="/blog"
+                className="block text-sm font-medium text-slate-700"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("common.blog")}
+              </Link>
+              <Link
+                href="/pricing"
+                className={`block text-sm font-medium ${
+                  activePricingLink ? "text-blue-600" : "text-slate-700"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("common.pricing")}
+              </Link>
+            </>
           )}
           {(showAuth || showCta) && <UserNav />}
         </div>

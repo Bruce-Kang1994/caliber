@@ -13,7 +13,8 @@
     "step": "Paso {current} de {total}",
     "pricing": "Precios",
     "signIn": "Iniciar sesión",
-    "signUp": "Registrarse"
+    "signUp": "Registrarse",
+    "blog": "Blog"
   },
   "landing": {
     "heroTitle": "Descubre Tu\nPoder de Producto",
@@ -382,5 +383,18 @@
     "evidenceLabel": "Evidencia",
     "gapsLabel": "Brechas",
     "suggestionLabel": "Sugerencia"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Reflexiones profundas sobre gestión de producto, evaluación de competencias y crecimiento profesional",
+    "readMore": "Leer más",
+    "readTime": "{min} min de lectura",
+    "backToList": "Volver al Blog",
+    "categories": { "methodology": "Metodología", "trends": "Tendencias", "career": "Carrera", "skills": "Habilidades", "leadership": "Liderazgo" },
+    "scientific-pm-assessment": { "title": "El método científico de evaluación PM", "excerpt": "¿Por qué la mayoría de las entrevistas PM dependen de la intuición?", "content": "" },
+    "ai-era-pm-skills": { "title": "¿Qué nuevas habilidades necesitan los PM en la era IA?", "excerpt": "Cuando la IA puede escribir PRDs y analizar datos, ¿dónde está el valor del PM?", "content": "" },
+    "pm-growth-ladder": { "title": "De la ejecución a la estrategia: la escalera PM", "excerpt": "¿Por qué algunos PM siguen dibujando wireframes después de 5 años?", "content": "" },
+    "data-driven-decision": { "title": "Decisiones basadas en datos: frameworks analíticos para PMs", "excerpt": "\"Usar datos\" no es solo verificar si el DAU subió.", "content": "" },
+    "cross-cultural-pm": { "title": "PM intercultural: el código de comunicación global", "excerpt": "Cuando tu equipo está distribuido en múltiples zonas horarias y culturas.", "content": "" }
   }
 }
