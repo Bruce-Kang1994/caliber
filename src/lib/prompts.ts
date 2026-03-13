@@ -105,7 +105,6 @@ RETURN STRICT JSON ONLY (no markdown, no code fences):
     }
   ],
   "undervaluedExperiences": ["<1 sentence>", "<1 sentence>", "<1 sentence>"],
-  "missingElements": ["<1 sentence>", "<1 sentence>", "<1 sentence>"],
   "nextSteps": [
     {"action": "<concise>", "timeframe": "<this week|2 weeks|1 month|3 months|ongoing>", "rationale": "<1 sentence>"},
     {"action": "<...>", "timeframe": "<...>", "rationale": "<...>"},
@@ -117,7 +116,7 @@ CRITICAL: Keep output COMPACT. Total output MUST be under 1500 tokens. Use short
 
 RULES:
 - Fill all 16 dimension scores. Do NOT include justifications object (omit it entirely to save tokens).
-- Exactly 3 topStrengths, 3 topWeaknesses (each with 3 actionItems), 3 undervaluedExperiences, 3 missingElements, 3 nextSteps.
+- Exactly 3 topStrengths, 3 topWeaknesses (each with 3 actionItems), 3 undervaluedExperiences, 3 nextSteps.
 - If evidence is missing, say so instead of inventing.`;
 
   const user = `Role: ${roleType} | Level: ${levelInfo.label}

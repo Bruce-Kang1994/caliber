@@ -584,31 +584,6 @@ function ReportContent() {
           </Card>
         )}
 
-        {/* Missing Elements (paid only) */}
-        {limits.showMissingElements && result.missingElements.length > 0 && (
-          <Card className="mb-8 border-0 shadow-md">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-slate-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" /></svg>
-                </span>
-                {t("report.missingTitle")}
-              </CardTitle>
-              <CardDescription>{t("report.missingSubtitle")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                {result.missingElements.map((el, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm bg-slate-50 rounded-lg p-4 border border-slate-100">
-                    <span className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-xs font-bold shrink-0 mt-0.5">?</span>
-                    <span className="text-slate-700 leading-relaxed">{el}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        )}
-
         {/* Next Steps (paid) or Paywall CTA (free) */}
         {limits.showNextSteps ? (
           <Card className="mb-8 border-0 shadow-md bg-gradient-to-br from-slate-900 to-slate-800 text-white">
