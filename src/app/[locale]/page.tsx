@@ -321,41 +321,93 @@ function HeroRadar() {
   );
 }
 
-// ─── Animated dimension bars for Section 2 ───
-function DimensionBars() {
-  const t = useTranslations();
-  const { ref, inView } = useInView(0.2);
-  const dims: { key: string; score: number }[] = [
-    { key: "requirement-analysis", score: 4.2 },
-    { key: "product-design", score: 3.8 },
-    { key: "zero-to-one", score: 4.5 },
-    { key: "user-research", score: 3.5 },
-    { key: "data-experimentation", score: 4.0 },
-    { key: "business-decomposition", score: 3.3 },
-    { key: "product-vision", score: 4.3 },
-    { key: "ai-product-design", score: 3.6 },
-  ];
+// ─── 5 capability category cards for Section 2 ───
+const DIMENSION_CATEGORIES = [
+  {
+    key: "product-execution",
+    color: "#6366f1", // indigo
+    bgClass: "bg-indigo-50 border-indigo-100",
+    dotClass: "bg-indigo-400",
+    dims: ["requirement-analysis", "product-design", "system-architecture", "zero-to-one"],
+    icon: (
+      <svg className="w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" />
+      </svg>
+    ),
+  },
+  {
+    key: "customer-insight",
+    color: "#06b6d4", // cyan
+    bgClass: "bg-cyan-50 border-cyan-100",
+    dotClass: "bg-cyan-400",
+    dims: ["user-research", "data-experimentation"],
+    icon: (
+      <svg className="w-6 h-6 text-cyan-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+      </svg>
+    ),
+  },
+  {
+    key: "product-strategy",
+    color: "#8b5cf6", // violet
+    bgClass: "bg-violet-50 border-violet-100",
+    dotClass: "bg-violet-400",
+    dims: ["business-decomposition", "commercialization-growth", "product-vision"],
+    icon: (
+      <svg className="w-6 h-6 text-violet-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5" />
+      </svg>
+    ),
+  },
+  {
+    key: "influencing-people",
+    color: "#f59e0b", // amber
+    bgClass: "bg-amber-50 border-amber-100",
+    dotClass: "bg-amber-400",
+    dims: ["stakeholder-management", "project-management", "self-awareness"],
+    icon: (
+      <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+      </svg>
+    ),
+  },
+  {
+    key: "ai-emerging",
+    color: "#10b981", // emerald
+    bgClass: "bg-emerald-50 border-emerald-100",
+    dotClass: "bg-emerald-400",
+    dims: ["ai-product-design", "ai-tech-application", "cross-cultural", "product-sense"],
+    icon: (
+      <svg className="w-6 h-6 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
+      </svg>
+    ),
+  },
+];
 
+function DimensionCards() {
+  const t = useTranslations();
   return (
-    <div ref={ref} className="space-y-3 w-full max-w-xl mx-auto">
-      {dims.map((d, i) => (
-        <div key={d.key} className="flex items-center gap-3">
-          <span className="w-24 text-xs text-slate-500 text-right truncate shrink-0">
-            {t(`dimensions.${d.key}`)}
-          </span>
-          <div className="flex-1 h-1.5 rounded-full bg-slate-200/60 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-indigo-500 transition-all duration-1000 ease-out"
-              style={{
-                width: inView ? `${(d.score / 5) * 100}%` : "0%",
-                transitionDelay: `${i * 80}ms`,
-              }}
-            />
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 w-full max-w-5xl mx-auto">
+      {DIMENSION_CATEGORIES.map((cat, ci) => (
+        <Reveal key={cat.key} delay={ci * 100}>
+          <div className={`rounded-2xl p-5 border ${cat.bgClass} h-full`}>
+            <div className="mb-3">{cat.icon}</div>
+            <h4 className="text-sm font-bold text-slate-900 mb-3">
+              {t(`dimensionCategories.${cat.key}`)}
+            </h4>
+            <ul className="space-y-1.5">
+              {cat.dims.map((dim) => (
+                <li key={dim} className="flex items-start gap-2">
+                  <div className={`w-1.5 h-1.5 rounded-full ${cat.dotClass} mt-1.5 shrink-0`} />
+                  <span className="text-xs text-slate-500 leading-relaxed">
+                    {t(`dimensions.${dim}`)}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <span className="w-7 text-xs text-slate-400 tabular-nums">
-            {d.score}
-          </span>
-        </div>
+        </Reveal>
       ))}
     </div>
   );
@@ -536,11 +588,9 @@ export default function LandingPage() {
               </Link>
             </div>
           </Reveal>
-          <Reveal delay={400}>
-            <div className="mt-16 w-full">
-              <DimensionBars />
-            </div>
-          </Reveal>
+          <div className="mt-16 w-full">
+            <DimensionCards />
+          </div>
         </div>
       </section>
 
