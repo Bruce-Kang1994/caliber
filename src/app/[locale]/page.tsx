@@ -361,45 +361,45 @@ function DimensionBars() {
   );
 }
 
-// ─── Report mockup cards for dark Section 3 ───
+// ─── Report mockup cards for Section 3 ───
 function ReportPreview() {
   return (
     <div className="grid grid-cols-2 gap-3 w-full max-w-lg mx-auto text-left">
-      <div className="bg-white/[0.06] rounded-2xl p-5 border border-white/[0.08]">
-        <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-1.5">
+      <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1.5">
           Caliber Score
         </p>
-        <div className="text-4xl font-bold text-white">82</div>
-        <p className="text-xs text-slate-500 mt-1">Advanced</p>
+        <div className="text-4xl font-bold text-slate-900">82</div>
+        <p className="text-xs text-slate-400 mt-1">Advanced</p>
       </div>
-      <div className="bg-white/[0.06] rounded-2xl p-5 border border-white/[0.08]">
-        <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-1.5">
+      <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1.5">
           Archetype
         </p>
-        <div className="text-lg font-bold text-white leading-tight">
+        <div className="text-lg font-bold text-slate-900 leading-tight">
           The Strategist
         </div>
-        <p className="text-xs text-slate-500 mt-1">35% / 28%</p>
+        <p className="text-xs text-slate-400 mt-1">35% / 28%</p>
       </div>
-      <div className="bg-emerald-500/[0.08] rounded-2xl p-5 border border-emerald-500/[0.12]">
+      <div className="bg-emerald-50 rounded-2xl p-5 border border-emerald-200/60">
         <div className="flex items-center gap-1.5 mb-1.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <p className="text-[10px] text-emerald-400 uppercase tracking-widest">
+          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <p className="text-[10px] text-emerald-600 uppercase tracking-widest">
             Strength
           </p>
         </div>
-        <div className="text-sm font-semibold text-white">Zero to One</div>
-        <p className="text-xs text-slate-500 mt-0.5">4.5 / 5.0</p>
+        <div className="text-sm font-semibold text-slate-900">Zero to One</div>
+        <p className="text-xs text-slate-400 mt-0.5">4.5 / 5.0</p>
       </div>
-      <div className="bg-amber-500/[0.08] rounded-2xl p-5 border border-amber-500/[0.12]">
+      <div className="bg-amber-50 rounded-2xl p-5 border border-amber-200/60">
         <div className="flex items-center gap-1.5 mb-1.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-          <p className="text-[10px] text-amber-400 uppercase tracking-widest">
+          <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+          <p className="text-[10px] text-amber-600 uppercase tracking-widest">
             Growth
           </p>
         </div>
-        <div className="text-sm font-semibold text-white">Data & Experiment</div>
-        <p className="text-xs text-slate-500 mt-0.5">2.8 → Action Plan</p>
+        <div className="text-sm font-semibold text-slate-900">Data & Experiment</div>
+        <p className="text-xs text-slate-400 mt-0.5">2.8 → Action Plan</p>
       </div>
     </div>
   );
@@ -606,16 +606,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Section 3: AI Analysis (dark) ═══ */}
-      <section className="bg-[#1d1d1f] text-white">
+      {/* ═══ Section 3: AI Analysis ═══ */}
+      <section className="bg-[#f5f5f7]">
         <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-24 text-center max-w-4xl mx-auto">
           <Reveal>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight whitespace-pre-line leading-[1.1]">
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 whitespace-pre-line leading-[1.1]">
               {t("landing.sectionAiTitle")}
             </h2>
           </Reveal>
           <Reveal delay={150}>
-            <p className="mt-5 text-lg md:text-xl text-slate-400 max-w-xl">
+            <p className="mt-5 text-lg md:text-xl text-slate-500 max-w-xl">
               {t("landing.sectionAiSub")}
             </p>
           </Reveal>
@@ -623,7 +623,7 @@ export default function LandingPage() {
             <Link href="/assess" className="mt-7 inline-block">
               <Button
                 size="lg"
-                className="rounded-full px-8 bg-white text-slate-900 hover:bg-slate-100"
+                className="rounded-full px-8"
               >
                 {t("common.getStarted")}
               </Button>
