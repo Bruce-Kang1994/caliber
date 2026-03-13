@@ -30,13 +30,26 @@ function Reveal({
   );
 }
 
-// ─── Hero Radar — colorful animated pentagon with glow ───
+// ─── Hero Radar — vivid animated pentagon with orbits, particles, glow ───
 const RADAR_CATEGORIES = [
   { label: "Product", score: 4.2, color: "#6366f1" },   // indigo
   { label: "Insight", score: 3.6, color: "#06b6d4" },    // cyan
   { label: "Strategy", score: 4.5, color: "#8b5cf6" },   // violet
   { label: "People", score: 3.8, color: "#f59e0b" },     // amber
   { label: "AI", score: 4.0, color: "#10b981" },          // emerald
+];
+
+const PARTICLES = [
+  { x: 75, y: 110, r: 1.8, color: "#6366f1", dur: "5s", delay: "0s" },
+  { x: 385, y: 85, r: 1.2, color: "#06b6d4", dur: "4.5s", delay: "1.2s" },
+  { x: 410, y: 300, r: 1.6, color: "#8b5cf6", dur: "5.5s", delay: "0.6s" },
+  { x: 55, y: 340, r: 1.2, color: "#f59e0b", dur: "4s", delay: "1.8s" },
+  { x: 240, y: 430, r: 1.8, color: "#10b981", dur: "5s", delay: "0.3s" },
+  { x: 140, y: 55, r: 1, color: "#06b6d4", dur: "6s", delay: "2.1s" },
+  { x: 360, y: 400, r: 1, color: "#6366f1", dur: "4.5s", delay: "1.5s" },
+  { x: 330, y: 45, r: 1.4, color: "#f59e0b", dur: "5s", delay: "0.9s" },
+  { x: 95, y: 230, r: 0.8, color: "#10b981", dur: "5.5s", delay: "2.5s" },
+  { x: 400, y: 180, r: 0.8, color: "#8b5cf6", dur: "4s", delay: "3s" },
 ];
 
 function HeroRadar() {
@@ -46,10 +59,10 @@ function HeroRadar() {
     return () => clearTimeout(t);
   }, []);
 
-  const size = 400;
+  const size = 460;
   const cx = size / 2;
   const cy = size / 2;
-  const r = 145;
+  const r = 160;
   const data = RADAR_CATEGORIES;
 
   const getPoint = (i: number, ratio: number) => {
@@ -60,137 +73,188 @@ function HeroRadar() {
     };
   };
 
-  const polygon = data
-    .map((d, i) => {
-      const p = getPoint(i, (d.score / 5) * progress);
-      return `${p.x},${p.y}`;
-    })
-    .join(" ");
+  const dataPoints = data.map((d, i) => getPoint(i, (d.score / 5) * progress));
+  const polygon = dataPoints.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
     <div className="relative">
-      {/* Animated glow layers behind SVG */}
+      <style>{`
+        @keyframes hero-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes hero-particle {
+          0%, 100% { opacity: 0; transform: translateY(0px); }
+          15% { opacity: 0.7; }
+          85% { opacity: 0.7; }
+          100% { opacity: 0; transform: translateY(-18px); }
+        }
+        @keyframes hero-breathe {
+          0%, 100% { opacity: 0.08; transform: scale(1); }
+          50% { opacity: 0.18; transform: scale(1.06); }
+        }
+        @keyframes hero-ring-pulse {
+          0%, 100% { opacity: 0.18; }
+          50% { opacity: 0.06; }
+        }
+      `}</style>
+
+      {/* Multi-layer glow behind SVG */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-64 h-64 rounded-full bg-indigo-400/[0.07] blur-3xl animate-pulse" style={{ animationDuration: "3s" }} />
+        <div className="w-96 h-96 rounded-full bg-indigo-500/[0.07] blur-[80px]" style={{ animation: "hero-breathe 4s ease-in-out infinite" }} />
       </div>
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-48 h-48 rounded-full bg-violet-400/[0.06] blur-2xl animate-pulse" style={{ animationDuration: "4s", animationDelay: "1s" }} />
+        <div className="w-64 h-64 rounded-full bg-violet-500/[0.09] blur-[50px]" style={{ animation: "hero-breathe 5s ease-in-out infinite 1s" }} />
       </div>
-      <svg
-        width={size}
-        height={size}
-        viewBox={`0 0 ${size} ${size}`}
-        className="relative mx-auto"
-      >
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-40 h-40 rounded-full bg-cyan-400/[0.07] blur-[35px]" style={{ animation: "hero-breathe 3.5s ease-in-out infinite 0.5s" }} />
+      </div>
+
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="relative mx-auto">
         <defs>
-          {/* Multi-color radial glow */}
-          <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.12" />
-            <stop offset="40%" stopColor="#6366f1" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
-          </radialGradient>
-          {/* Multi-color fill gradient */}
-          <linearGradient id="radar-fill" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18" />
-            <stop offset="25%" stopColor="#06b6d4" stopOpacity="0.12" />
-            <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.15" />
-            <stop offset="75%" stopColor="#f59e0b" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0.12" />
-          </linearGradient>
-          {/* Gradient stroke */}
-          <linearGradient id="radar-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+          {/* Per-edge gradients for colored strokes */}
+          {data.map((d, i) => {
+            const next = data[(i + 1) % data.length];
+            const p1 = dataPoints[i];
+            const p2 = dataPoints[(i + 1) % data.length];
+            return (
+              <linearGradient key={`eg-${i}`} id={`eg-${i}`} gradientUnits="userSpaceOnUse"
+                x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y}>
+                <stop offset="0%" stopColor={d.color} />
+                <stop offset="100%" stopColor={next.color} />
+              </linearGradient>
+            );
+          })}
+          {/* Orbit gradient */}
+          <linearGradient id="orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#6366f1" />
-            <stop offset="25%" stopColor="#06b6d4" />
-            <stop offset="50%" stopColor="#8b5cf6" />
-            <stop offset="75%" stopColor="#f59e0b" />
+            <stop offset="33%" stopColor="#06b6d4" />
+            <stop offset="66%" stopColor="#8b5cf6" />
             <stop offset="100%" stopColor="#10b981" />
           </linearGradient>
+          {/* Radial fill */}
+          <radialGradient id="rfill2" cx="50%" cy="40%" r="55%">
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.25" />
+            <stop offset="40%" stopColor="#6366f1" stopOpacity="0.14" />
+            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.04" />
+          </radialGradient>
+          {/* Center core glow */}
+          <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.04" />
+            <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+          </radialGradient>
+          {/* Edge glow filter */}
+          <filter id="edge-glow">
+            <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          {/* Point glow filter */}
+          <filter id="pt-glow">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
-        {/* Background glow */}
-        <circle cx={cx} cy={cy} r={r + 50} fill="url(#hero-glow)" />
-        {/* Grid rings */}
+
+        {/* ── Rotating orbit rings ── */}
+        <circle cx={cx} cy={cy} r={r + 28} fill="none" stroke="url(#orbit-grad)"
+          strokeWidth={0.6} strokeDasharray="6 10" opacity={0.35}
+          style={{ transformOrigin: `${cx}px ${cy}px`, animation: "hero-orbit 25s linear infinite" }} />
+        <circle cx={cx} cy={cy} r={r + 40} fill="none" stroke="#94a3b8"
+          strokeWidth={0.3} strokeDasharray="2 14" opacity={0.15}
+          style={{ transformOrigin: `${cx}px ${cy}px`, animation: "hero-orbit 40s linear infinite reverse" }} />
+
+        {/* ── Center glow core ── */}
+        <circle cx={cx} cy={cy} r={90} fill="url(#core-glow)" />
+
+        {/* ── Grid rings ── */}
         {[1, 2, 3, 4, 5].map((level) => {
-          const pts = data
-            .map((_, i) => {
-              const p = getPoint(i, level / 5);
-              return `${p.x},${p.y}`;
-            })
-            .join(" ");
+          const pts = data.map((_, i) => getPoint(i, level / 5)).map((p) => `${p.x},${p.y}`).join(" ");
           return (
-            <polygon
-              key={level}
-              points={pts}
-              fill="none"
-              stroke="#94a3b8"
-              strokeWidth={level === 5 ? 0.6 : 0.3}
-              opacity={0.25}
-            />
+            <polygon key={level} points={pts} fill="none" stroke="#94a3b8"
+              strokeWidth={level === 5 ? 0.7 : 0.3} opacity={level === 5 ? 0.3 : 0.12} />
           );
         })}
-        {/* Axes with colored endpoints */}
+
+        {/* ── Axes — faint colored lines ── */}
         {data.map((d, i) => {
           const p = getPoint(i, 1);
           return (
-            <g key={`axis-${i}`}>
-              <line x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#94a3b8" strokeWidth={0.3} opacity={0.25} />
-              {/* Faint axis dot at edge */}
-              <circle cx={p.x} cy={p.y} r={2} fill={d.color} opacity={0.3} />
-            </g>
+            <line key={`ax-${i}`} x1={cx} y1={cy} x2={p.x} y2={p.y}
+              stroke={d.color} strokeWidth={0.5} opacity={0.12} />
           );
         })}
-        {/* Data polygon — multi-color */}
-        <polygon
-          points={polygon}
-          fill="url(#radar-fill)"
-          stroke="url(#radar-stroke)"
-          strokeWidth={2.5}
-          strokeLinejoin="round"
-          style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}
-        />
-        {/* Colored data points */}
-        {data.map((d, i) => {
-          const p = getPoint(i, (d.score / 5) * progress);
+
+        {/* ── Filled data polygon ── */}
+        <polygon points={polygon} fill="url(#rfill2)"
+          style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }} />
+
+        {/* ── Per-edge colored strokes with glow ── */}
+        {dataPoints.map((p, i) => {
+          const next = dataPoints[(i + 1) % data.length];
           return (
-            <g key={`point-${i}`} style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}>
-              {/* Glow ring */}
-              <circle cx={p.x} cy={p.y} r={10} fill={d.color} opacity={0.1} />
-              {/* Solid dot */}
-              <circle cx={p.x} cy={p.y} r={5} fill={d.color} />
-              <circle cx={p.x} cy={p.y} r={2.5} fill="white" opacity={0.6} />
-            </g>
+            <line key={`edge-${i}`} x1={p.x} y1={p.y} x2={next.x} y2={next.y}
+              stroke={`url(#eg-${i})`} strokeWidth={2.5} strokeLinecap="round"
+              filter="url(#edge-glow)"
+              style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }} />
           );
         })}
-        {/* Labels */}
+
+        {/* ── Floating particles ── */}
+        {PARTICLES.map((pt, i) => (
+          <circle key={`fp-${i}`} cx={pt.x} cy={pt.y} r={pt.r} fill={pt.color}
+            style={{ animation: `hero-particle ${pt.dur} ease-in-out infinite ${pt.delay}` }} />
+        ))}
+
+        {/* ── Data points with animated glow ── */}
+        {dataPoints.map((p, i) => (
+          <g key={`dp-${i}`} style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}>
+            {/* Pulsing outer ring */}
+            <circle cx={p.x} cy={p.y} r={16} fill={data[i].color} opacity={0.1}
+              style={{ animation: `hero-ring-pulse 2.5s ease-in-out infinite ${i * 0.5}s` }} />
+            {/* Soft halo */}
+            <circle cx={p.x} cy={p.y} r={10} fill={data[i].color} opacity={0.08} filter="url(#pt-glow)" />
+            {/* Main dot */}
+            <circle cx={p.x} cy={p.y} r={5.5} fill={data[i].color} />
+            {/* Inner highlight */}
+            <circle cx={p.x} cy={p.y} r={2.2} fill="white" opacity={0.85} />
+          </g>
+        ))}
+
+        {/* ── Labels ── */}
         {data.map((d, i) => {
-          const labelR = r + 28;
+          const labelR = r + 42;
           const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2;
           const lx = cx + labelR * Math.cos(angle);
           const ly = cy + labelR * Math.sin(angle);
           return (
-            <g key={`label-${i}`}>
-              <text
-                x={lx}
-                y={ly - 6}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-[11px] font-semibold"
-                fill={d.color}
-              >
+            <g key={`lbl-${i}`}>
+              <text x={lx} y={ly - 7} textAnchor="middle" dominantBaseline="middle"
+                className="text-[12px] font-bold tracking-wide" fill={d.color}>
                 {d.label}
               </text>
-              <text
-                x={lx}
-                y={ly + 8}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-[10px]"
-                fill="#94a3b8"
-              >
+              <text x={lx} y={ly + 9} textAnchor="middle" dominantBaseline="middle"
+                className="text-[11px] font-medium" fill="#94a3b8">
                 {d.score}
               </text>
             </g>
           );
         })}
+
+        {/* ── Center score ── */}
+        <text x={cx} y={cy - 6} textAnchor="middle" dominantBaseline="middle"
+          className="text-[32px] font-black tracking-tight" fill="#1e293b"
+          opacity={progress} style={{ transition: "opacity 1s ease-out 1.2s" }}>
+          82
+        </text>
+        <text x={cx} y={cy + 18} textAnchor="middle" dominantBaseline="middle"
+          className="text-[9px] font-semibold tracking-[0.25em]" fill="#94a3b8"
+          opacity={progress} style={{ transition: "opacity 1s ease-out 1.4s" }}>
+          CALIBER
+        </text>
       </svg>
     </div>
   );
