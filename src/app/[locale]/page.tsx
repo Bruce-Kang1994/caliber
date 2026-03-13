@@ -54,6 +54,7 @@ const PARTICLES = [
 
 function HeroRadar() {
   const [progress, setProgress] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
   useEffect(() => {
     const t = setTimeout(() => setProgress(1), 400);
     return () => clearTimeout(t);
@@ -75,6 +76,23 @@ function HeroRadar() {
 
   const dataPoints = data.map((d, i) => getPoint(i, (d.score / 5) * progress));
   const polygon = dataPoints.map((p) => `${p.x},${p.y}`).join(" ");
+
+  // Precompute label positions for hover hit areas
+  const labelPositions = data.map((_, i) => {
+    const labelR = r + 42;
+    const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2;
+    return {
+      x: cx + labelR * Math.cos(angle),
+      y: cy + labelR * Math.sin(angle),
+    };
+  });
+
+  // Check if an edge is adjacent to the hovered dimension
+  const isEdgeAdjacentToHovered = (edgeIndex: number) => {
+    if (hovered === null) return false;
+    const prev = (hovered - 1 + data.length) % data.length;
+    return edgeIndex === hovered || edgeIndex === prev;
+  };
 
   return (
     <div className="relative">
@@ -137,8 +155,8 @@ function HeroRadar() {
           </radialGradient>
           {/* Center core glow */}
           <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.12" />
-            <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.04" />
+            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18" />
+            <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.06" />
             <stop offset="100%" stopColor="transparent" stopOpacity="0" />
           </radialGradient>
           {/* Edge glow filter */}
@@ -157,15 +175,32 @@ function HeroRadar() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+          {/* Score glow filter (subtle) */}
+          <filter id="score-glow">
+            <feGaussianBlur stdDeviation="1.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
 
-        {/* ── Rotating orbit rings ── */}
+        {/* ── Rotating orbit rings (strengthened) ── */}
         <circle cx={cx} cy={cy} r={r + 28} fill="none" stroke="url(#orbit-grad)"
-          strokeWidth={0.6} strokeDasharray="6 10" opacity={0.35}
+          strokeWidth={1.2} strokeDasharray="8 6" opacity={0.5}
+          filter="url(#edge-glow)"
           style={{ transformOrigin: `${cx}px ${cy}px`, animation: "hero-orbit 25s linear infinite" }} />
         <circle cx={cx} cy={cy} r={r + 40} fill="none" stroke="#94a3b8"
-          strokeWidth={0.3} strokeDasharray="2 14" opacity={0.15}
+          strokeWidth={0.6} strokeDasharray="3 10" opacity={0.25}
           style={{ transformOrigin: `${cx}px ${cy}px`, animation: "hero-orbit 40s linear infinite reverse" }} />
+
+        {/* ── Orbit light points ── */}
+        <g style={{ transformOrigin: `${cx}px ${cy}px`, animation: "hero-orbit 25s linear infinite" }}>
+          <circle cx={cx} cy={cy - (r + 28)} r={3} fill="#6366f1" opacity={0.8} filter="url(#pt-glow)" />
+        </g>
+        <g style={{ transformOrigin: `${cx}px ${cy}px`, animation: "hero-orbit 40s linear infinite reverse" }}>
+          <circle cx={cx + (r + 40)} cy={cy} r={2} fill="#8b5cf6" opacity={0.6} filter="url(#pt-glow)" />
+        </g>
 
         {/* ── Center glow core ── */}
         <circle cx={cx} cy={cy} r={90} fill="url(#core-glow)" />
@@ -195,11 +230,16 @@ function HeroRadar() {
         {/* ── Per-edge colored strokes with glow ── */}
         {dataPoints.map((p, i) => {
           const next = dataPoints[(i + 1) % data.length];
+          const isAdj = isEdgeAdjacentToHovered(i);
+          const dimmed = hovered !== null && !isAdj;
           return (
             <line key={`edge-${i}`} x1={p.x} y1={p.y} x2={next.x} y2={next.y}
-              stroke={`url(#eg-${i})`} strokeWidth={2.5} strokeLinecap="round"
+              stroke={`url(#eg-${i})`}
+              strokeWidth={isAdj ? 4 : 2.5}
+              strokeLinecap="round"
               filter="url(#edge-glow)"
-              style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }} />
+              opacity={dimmed ? 0.3 : 1}
+              style={{ transition: "all 0.25s ease-out, x1 1.4s cubic-bezier(0.22, 1, 0.36, 1), y1 1.4s cubic-bezier(0.22, 1, 0.36, 1), x2 1.4s cubic-bezier(0.22, 1, 0.36, 1), y2 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }} />
           );
         })}
 
@@ -210,48 +250,69 @@ function HeroRadar() {
         ))}
 
         {/* ── Data points with animated glow ── */}
-        {dataPoints.map((p, i) => (
-          <g key={`dp-${i}`} style={{ transition: "all 1.4s cubic-bezier(0.22, 1, 0.36, 1)" }}>
-            {/* Pulsing outer ring */}
-            <circle cx={p.x} cy={p.y} r={16} fill={data[i].color} opacity={0.1}
-              style={{ animation: `hero-ring-pulse 2.5s ease-in-out infinite ${i * 0.5}s` }} />
-            {/* Soft halo */}
-            <circle cx={p.x} cy={p.y} r={10} fill={data[i].color} opacity={0.08} filter="url(#pt-glow)" />
-            {/* Main dot */}
-            <circle cx={p.x} cy={p.y} r={5.5} fill={data[i].color} />
-            {/* Inner highlight */}
-            <circle cx={p.x} cy={p.y} r={2.2} fill="white" opacity={0.85} />
-          </g>
-        ))}
-
-        {/* ── Labels ── */}
-        {data.map((d, i) => {
-          const labelR = r + 42;
-          const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2;
-          const lx = cx + labelR * Math.cos(angle);
-          const ly = cy + labelR * Math.sin(angle);
+        {dataPoints.map((p, i) => {
+          const isActive = hovered === i;
+          const dimmed = hovered !== null && !isActive;
           return (
-            <g key={`lbl-${i}`}>
+            <g key={`dp-${i}`} style={{ transition: "opacity 0.25s ease-out" }} opacity={dimmed ? 0.3 : 1}>
+              {/* Pulsing outer ring */}
+              <circle cx={p.x} cy={p.y} r={isActive ? 24 : 16} fill={data[i].color}
+                opacity={isActive ? 0.15 : 0.1}
+                style={{ transition: "r 0.25s ease-out, opacity 0.25s ease-out", animation: `hero-ring-pulse 2.5s ease-in-out infinite ${i * 0.5}s` }} />
+              {/* Soft halo */}
+              <circle cx={p.x} cy={p.y} r={10} fill={data[i].color} opacity={0.08} filter="url(#pt-glow)" />
+              {/* Main dot */}
+              <circle cx={p.x} cy={p.y} r={isActive ? 8 : 5.5} fill={data[i].color}
+                style={{ transition: "r 0.25s ease-out" }} />
+              {/* Inner highlight */}
+              <circle cx={p.x} cy={p.y} r={isActive ? 3 : 2.2} fill="white" opacity={0.85}
+                style={{ transition: "r 0.25s ease-out" }} />
+            </g>
+          );
+        })}
+
+        {/* ── Labels with hover hit areas ── */}
+        {data.map((d, i) => {
+          const lx = labelPositions[i].x;
+          const ly = labelPositions[i].y;
+          const isActive = hovered === i;
+          const dimmed = hovered !== null && !isActive;
+          return (
+            <g key={`lbl-${i}`} style={{ transition: "opacity 0.25s ease-out" }} opacity={dimmed ? 0.3 : 1}>
+              {/* Invisible hit area for hover */}
+              <circle cx={lx} cy={ly} r={30} fill="transparent" cursor="pointer"
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)} />
               <text x={lx} y={ly - 7} textAnchor="middle" dominantBaseline="middle"
-                className="text-[12px] font-bold tracking-wide" fill={d.color}>
+                className={`${isActive ? "text-[15px]" : "text-[12px]"} font-bold tracking-wide`}
+                fill={d.color}
+                filter={isActive ? "url(#edge-glow)" : undefined}
+                style={{ transition: "font-size 0.25s ease-out" }}>
                 {d.label}
               </text>
               <text x={lx} y={ly + 9} textAnchor="middle" dominantBaseline="middle"
-                className="text-[11px] font-medium" fill="#94a3b8">
+                className={`${isActive ? "text-[13px]" : "text-[11px]"} font-medium`}
+                fill={isActive ? d.color : "#94a3b8"}
+                style={{ transition: "font-size 0.25s ease-out, fill 0.25s ease-out" }}>
                 {d.score}
               </text>
             </g>
           );
         })}
 
-        {/* ── Center score ── */}
-        <text x={cx} y={cy - 6} textAnchor="middle" dominantBaseline="middle"
+        {/* ── Center score (enhanced) ── */}
+        <text x={cx} y={cy - 8} textAnchor="middle" dominantBaseline="middle"
           className="text-[32px] font-black tracking-tight" fill="#1e293b"
+          filter="url(#score-glow)"
           opacity={progress} style={{ transition: "opacity 1s ease-out 1.2s" }}>
           82
         </text>
-        <text x={cx} y={cy + 18} textAnchor="middle" dominantBaseline="middle"
-          className="text-[9px] font-semibold tracking-[0.25em]" fill="#94a3b8"
+        {/* Decorative divider line */}
+        <rect x={cx - 15} y={cy + 5} width={30} height={1} rx={0.5}
+          fill="#6366f1" opacity={progress ? 0.3 : 0}
+          style={{ transition: "opacity 1s ease-out 1.3s" }} />
+        <text x={cx} y={cy + 20} textAnchor="middle" dominantBaseline="middle"
+          className="text-[11px] font-semibold tracking-[0.3em]" fill="#6366f1"
           opacity={progress} style={{ transition: "opacity 1s ease-out 1.4s" }}>
           CALIBER
         </text>
