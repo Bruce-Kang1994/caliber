@@ -43,6 +43,18 @@ export function AppHeader({
           {showNav && (
             <>
               <Link
+                href="/framework"
+                className="hidden sm:inline text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+              >
+                {t("common.framework")}
+              </Link>
+              <Link
+                href="/use-cases"
+                className="hidden sm:inline text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+              >
+                {t("common.useCases")}
+              </Link>
+              <Link
                 href="/blog"
                 className="hidden sm:inline text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
               >
@@ -102,6 +114,20 @@ export function AppHeader({
           )}
           {showNav && (
             <>
+              <Link
+                href="/framework"
+                className="block text-sm font-medium text-slate-700"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("common.framework")}
+              </Link>
+              <Link
+                href="/use-cases"
+                className="block text-sm font-medium text-slate-700"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("common.useCases")}
+              </Link>
               <Link
                 href="/blog"
                 className="block text-sm font-medium text-slate-700"
