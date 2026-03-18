@@ -413,45 +413,72 @@ function DimensionCards() {
   );
 }
 
-// ─── Report mockup cards for Section 3 ───
-function ReportPreview() {
+// ─── Dimension justification demo for Section 3 ───
+function DimensionJustificationDemo() {
+  const t = useTranslations("landing");
+  const score = 4.2;
+  const maxScore = 5;
   return (
-    <div className="grid grid-cols-2 gap-4 w-full max-w-2xl mx-auto text-left">
-      <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm">
-        <p className="text-[11px] text-slate-400 uppercase tracking-widest mb-2">
-          Caliber Score
-        </p>
-        <div className="text-5xl font-bold text-slate-900">82</div>
-        <p className="text-sm text-slate-400 mt-1.5">Advanced</p>
-      </div>
-      <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm">
-        <p className="text-[11px] text-slate-400 uppercase tracking-widest mb-2">
-          Archetype
-        </p>
-        <div className="text-2xl font-bold text-slate-900 leading-tight">
-          The Strategist
+    <div className="w-full max-w-4xl mx-auto">
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div className="grid md:grid-cols-[280px_1fr]">
+          {/* Left: dimension card */}
+          <div className="bg-gradient-to-br from-indigo-50 to-violet-50 p-8 flex flex-col justify-center border-b md:border-b-0 md:border-r border-slate-200/60">
+            <p className="text-[11px] text-indigo-400 uppercase tracking-widest font-semibold mb-3">
+              Dimension
+            </p>
+            <h4 className="text-xl font-bold text-slate-900 mb-4">
+              {t("sectionAiDimLabel")}
+            </h4>
+            <div className="flex items-baseline gap-2 mb-3">
+              <span className="text-4xl font-bold text-indigo-600">{t("sectionAiDimScore")}</span>
+              <span className="text-lg text-slate-400">/ {maxScore}</span>
+            </div>
+            <div className="w-full h-2 bg-slate-200/60 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full"
+                style={{ width: `${(score / maxScore) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Right: AI justification */}
+          <div className="p-8 text-left space-y-5">
+            {/* Evidence */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-5 h-5 rounded-md bg-emerald-100 flex items-center justify-center">
+                  <svg className="w-3 h-3 text-emerald-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                  </svg>
+                </div>
+                <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
+                  {t("sectionAiEvidenceLabel")}
+                </span>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed italic pl-7">
+                {t("sectionAiEvidence")}
+              </p>
+            </div>
+
+            {/* Reasoning */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-5 h-5 rounded-md bg-indigo-100 flex items-center justify-center">
+                  <svg className="w-3 h-3 text-indigo-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                  </svg>
+                </div>
+                <span className="text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                  {t("sectionAiReasoningLabel")}
+                </span>
+              </div>
+              <p className="text-sm text-slate-500 leading-relaxed pl-7">
+                {t("sectionAiReasoning")}
+              </p>
+            </div>
+          </div>
         </div>
-        <p className="text-sm text-slate-400 mt-1.5">35% / 28%</p>
-      </div>
-      <div className="bg-emerald-50 rounded-2xl p-7 border border-emerald-200/60">
-        <div className="flex items-center gap-1.5 mb-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-500" />
-          <p className="text-[11px] text-emerald-600 uppercase tracking-widest">
-            Strength
-          </p>
-        </div>
-        <div className="text-lg font-semibold text-slate-900">Zero to One</div>
-        <p className="text-sm text-slate-400 mt-1">4.5 / 5.0</p>
-      </div>
-      <div className="bg-amber-50 rounded-2xl p-7 border border-amber-200/60">
-        <div className="flex items-center gap-1.5 mb-2">
-          <div className="w-2 h-2 rounded-full bg-amber-500" />
-          <p className="text-[11px] text-amber-600 uppercase tracking-widest">
-            Growth
-          </p>
-        </div>
-        <div className="text-lg font-semibold text-slate-900">Data & Experiment</div>
-        <p className="text-sm text-slate-400 mt-1">2.8 → Action Plan</p>
       </div>
     </div>
   );
@@ -656,32 +683,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Section 3: AI Analysis ═══ */}
+      {/* ═══ Section 3: Score Justification ═══ */}
       <section className="bg-[#f5f5f7]">
-        <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-24 text-center max-w-4xl mx-auto">
+        <div className="flex flex-col items-center px-6 py-24 text-center max-w-5xl mx-auto">
           <Reveal>
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 whitespace-pre-line leading-[1.1]">
               {t("landing.sectionAiTitle")}
             </h2>
           </Reveal>
           <Reveal delay={150}>
-            <p className="mt-5 text-lg md:text-xl text-slate-500 max-w-xl">
+            <p className="mt-5 text-lg md:text-xl text-slate-500 max-w-2xl">
               {t("landing.sectionAiSub")}
             </p>
           </Reveal>
-          <Reveal delay={250}>
-            <Link href="/assess" className="mt-7 inline-block">
-              <Button
-                size="lg"
-                className="rounded-full px-8"
-              >
-                {t("common.getStarted")}
-              </Button>
-            </Link>
-          </Reveal>
-          <Reveal delay={400}>
-            <div className="mt-16 w-full">
-              <ReportPreview />
+          <Reveal delay={300}>
+            <div className="mt-14 w-full">
+              <DimensionJustificationDemo />
             </div>
           </Reveal>
         </div>
