@@ -32,7 +32,14 @@ function AnalyzingContent() {
       return;
     }
 
-    const parsed = JSON.parse(input);
+    let parsed: { roleType?: string; level?: string; experiences?: unknown[]; inputMethod?: string };
+    try {
+      parsed = JSON.parse(input);
+    } catch {
+      sessionStorage.removeItem("assessmentInput");
+      router.push("/assess");
+      return;
+    }
 
     // Animate progress: accelerate at first, then slow down approaching 90%
     const startTime = Date.now();

@@ -27,8 +27,9 @@ export async function GET(request: NextRequest) {
     const admin = createAdminClient();
     const { searchParams } = new URL(request.url);
     const tab = searchParams.get("tab") || "overview";
-    const search = searchParams.get("search") || "";
-    const page = parseInt(searchParams.get("page") || "1");
+    const search = (searchParams.get("search") || "").slice(0, 200);
+    const rawPage = parseInt(searchParams.get("page") || "1");
+    const page = Number.isFinite(rawPage) && rawPage >= 1 ? rawPage : 1;
     const pageSize = 20;
     const offset = (page - 1) * pageSize;
 
@@ -213,14 +214,26 @@ export async function DELETE(request: NextRequest) {
       if (id === adminUser.id) {
         return NextResponse.json({ error: "Cannot delete yourself" }, { status: 400 });
       }
-      // Delete profile (cascade deletes assessments) then auth user
-      await admin.from("profiles").delete().eq("id", id);
-      await admin.auth.admin.deleteUser(id);
+      // Delete auth user first (this is the harder-to-undo operation)
+      const { error: authDeleteError } = await admin.auth.admin.deleteUser(id);
+      if (authDeleteError) {
+        console.error("Failed to delete auth user:", authDeleteError);
+        return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
+      }
+      // Then delete profile (cascade deletes assessments)
+      const { error: profileDeleteError } = await admin.from("profiles").delete().eq("id", id);
+      if (profileDeleteError) {
+        console.error("Failed to delete profile (auth user already deleted):", profileDeleteError);
+      }
       return NextResponse.json({ success: true });
     }
 
     if (type === "assessment" && id) {
-      await admin.from("assessments").delete().eq("id", id);
+      const { error: deleteError } = await admin.from("assessments").delete().eq("id", id);
+      if (deleteError) {
+        console.error("Failed to delete assessment:", deleteError);
+        return NextResponse.json({ error: "Failed to delete assessment" }, { status: 500 });
+      }
       return NextResponse.json({ success: true });
     }
 

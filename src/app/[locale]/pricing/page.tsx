@@ -42,19 +42,20 @@ export default function PricingPage() {
   async function handleCheckout(plan: "single" | "pro") {
     setLoading(plan);
     try {
+      const currentLocale = window.location.pathname.match(/^\/(en|zh|ja|ko|fr|es)/)?.[1] || "en";
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           plan,
-          locale: window.location.pathname.match(/^\/(en|zh|ja|ko|fr|es)/)?.[1] || "en",
+          locale: currentLocale,
           from: document.referrer.includes("/assess/report") ? "report" : "pricing",
         }),
       });
 
       if (res.status === 401) {
         // Not logged in — redirect to sign in
-        window.location.href = "/auth/login?redirect=/pricing";
+        window.location.href = `/${currentLocale}/auth`;
         return;
       }
 
@@ -62,10 +63,10 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.error || "Something went wrong");
+        alert(data.error || t("common.error"));
       }
     } catch {
-      alert("Network error. Please try again.");
+      alert(t("common.error"));
     } finally {
       setLoading(null);
     }

@@ -181,7 +181,14 @@ export async function POST(req: NextRequest) {
             jsonStr = jsonStr.slice(firstBrace, lastBrace + 1);
           }
 
-          const assessment = JSON.parse(jsonStr.trim());
+          let assessment;
+          try {
+            assessment = JSON.parse(jsonStr.trim());
+          } catch (parseErr) {
+            send({ type: "error", error: "AI returned invalid response. Please try again." });
+            controller.close();
+            return;
+          }
 
           // Validate and clamp AI-returned scores to valid range
           const validatedScores: Record<string, number> = {};

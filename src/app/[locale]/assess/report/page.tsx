@@ -97,13 +97,25 @@ function ReportContent() {
       router.push("/assess");
       return;
     }
-    const parsed = JSON.parse(stored);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(stored);
+    } catch {
+      sessionStorage.removeItem("assessmentResult");
+      router.push("/assess");
+      return;
+    }
 
     if (parsed._locale && parsed._locale !== locale) {
       const input = sessionStorage.getItem("assessmentInput");
       if (input) {
-        const inputData = JSON.parse(input);
-        router.push(`/assess/analyzing?role=${inputData.roleType || parsed.roleType}`);
+        try {
+          const inputData = JSON.parse(input);
+          router.push(`/assess/analyzing?role=${inputData.roleType || parsed.roleType}`);
+        } catch {
+          router.push("/assess");
+        }
         return;
       }
     }
@@ -273,7 +285,7 @@ function ReportContent() {
       pdf.save(`Caliber-Report-${new Date().toISOString().slice(0, 10)}.pdf`);
     } catch (err) {
       console.error("PDF export error:", err);
-      alert("Failed to export PDF. Please try again.");
+      alert(t("common.error"));
     } finally {
       setExporting(false);
     }
@@ -318,14 +330,14 @@ function ReportContent() {
       await navigator.share(shareData);
     } else {
       await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
-      alert("Link copied to clipboard!");
+      alert(t("report.linkCopied"));
     }
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError("Please enter a valid email");
+      setEmailError(t("report.invalidEmail"));
       return;
     }
     setEmailError("");
@@ -375,7 +387,7 @@ function ReportContent() {
                 <div className={`inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full ${scoreLevel.bg} ${scoreLevel.border} border`}>
                   <span className={`text-sm font-semibold ${scoreLevel.color}`}>{scoreLevel.label}</span>
                 </div>
-                <p className="text-sm text-slate-400 mt-3">Caliber Score: <span className="text-white font-semibold">{displayScore}</span>/100</p>
+                <p className="text-sm text-slate-400 mt-3">{t("report.caliberScoreLabel")} <span className="text-white font-semibold">{displayScore}</span>/100</p>
               </>
             ) : (
               <>

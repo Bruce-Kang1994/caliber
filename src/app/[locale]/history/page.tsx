@@ -105,7 +105,7 @@ export default function HistoryPage() {
         {!user && !authLoading && (
           <Card>
             <CardContent className="py-12 text-center">
-              <p className="text-slate-600 mb-4">Please sign in to view your assessment history.</p>
+              <p className="text-slate-600 mb-4">{t("history.signInRequired")}</p>
               <Link href="/auth">
                 <Button>{t("common.signIn")}</Button>
               </Link>
@@ -207,7 +207,7 @@ export default function HistoryPage() {
                             {assessment.input_method === "resume" ? t("history.resume") : t("history.manual")}
                           </Badge>
                           {assessment.is_public && (
-                            <Badge className="text-xs bg-blue-100 text-blue-700">Shared</Badge>
+                            <Badge className="text-xs bg-blue-100 text-blue-700">{t("history.shared")}</Badge>
                           )}
                         </div>
                         <p className="text-sm text-slate-500 mt-0.5">

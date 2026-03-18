@@ -7,12 +7,21 @@ import OpenAI from "openai";
 
 const provider = process.env.AI_PROVIDER || "deepseek";
 
+function getRequiredKey(name: string): string {
+  const key = process.env[name];
+  if (!key) {
+    console.error(`Missing required environment variable: ${name}. AI features will not work.`);
+    return "MISSING_API_KEY";
+  }
+  return key;
+}
+
 function createClient(): { client: OpenAI; model: string } {
   if (provider === "groq") {
     return {
       client: new OpenAI({
         baseURL: "https://api.groq.com/openai/v1",
-        apiKey: process.env.GROQ_API_KEY || "",
+        apiKey: getRequiredKey("GROQ_API_KEY"),
       }),
       model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
     };
@@ -21,7 +30,7 @@ function createClient(): { client: OpenAI; model: string } {
   if (provider === "openai") {
     return {
       client: new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY || "",
+        apiKey: getRequiredKey("OPENAI_API_KEY"),
       }),
       model: process.env.OPENAI_MODEL || "gpt-4o-mini",
     };
@@ -31,7 +40,7 @@ function createClient(): { client: OpenAI; model: string } {
   return {
     client: new OpenAI({
       baseURL: "https://api.deepseek.com",
-      apiKey: process.env.DEEPSEEK_API_KEY || "",
+      apiKey: getRequiredKey("DEEPSEEK_API_KEY"),
     }),
     model: "deepseek-chat",
   };

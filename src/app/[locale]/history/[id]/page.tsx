@@ -41,8 +41,9 @@ export default function HistoryDetailPage() {
   // This reuses the existing rich report rendering
   useEffect(() => {
     if (result) {
-      sessionStorage.setItem("assessmentResult", JSON.stringify({ ...result, _locale: "en" }));
-      window.location.href = `/${params.locale || "en"}/assess/report?role=${result.roleType}&from=history`;
+      const locale = params.locale || "en";
+      sessionStorage.setItem("assessmentResult", JSON.stringify({ ...result, _locale: locale }));
+      window.location.href = `/${locale}/assess/report?role=${result.roleType}&from=history`;
     }
   }, [result, params.locale]);
 
@@ -54,7 +55,7 @@ export default function HistoryDetailPage() {
     );
   }
 
-  const pageError = !user ? "Please sign in to view this report." : error;
+  const pageError = !user ? t("history.signInRequired") : error;
 
   if (pageError || !result) {
     return (
@@ -68,7 +69,7 @@ export default function HistoryDetailPage() {
           </div>
         </header>
         <div className="max-w-md mx-auto px-6 py-16 text-center">
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">{pageError || "Not found"}</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-2">{pageError || t("share.notFound")}</h2>
           <Link href="/history">
             <Button className="mt-4">{t("common.back")}</Button>
           </Link>
@@ -81,7 +82,7 @@ export default function HistoryDetailPage() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center">
       <div className="text-center">
         <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-slate-600">Loading report...</p>
+        <p className="text-slate-600">{t("common.loading")}</p>
       </div>
     </div>
   );

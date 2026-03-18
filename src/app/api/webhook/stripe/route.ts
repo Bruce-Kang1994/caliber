@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Update user tier
-      await supabase.from("user_subscriptions").upsert(
+      const { error: upsertError } = await supabase.from("user_subscriptions").upsert(
         {
           user_id: userId,
           tier: plan === "pro" ? "pro" : "single",
@@ -44,6 +44,10 @@ export async function POST(req: NextRequest) {
         },
         { onConflict: "user_id" }
       );
+      if (upsertError) {
+        console.error("Failed to update user tier:", upsertError);
+        return NextResponse.json({ error: "Failed to update subscription" }, { status: 500 });
+      }
 
       // For subscriptions, copy user_id to subscription metadata
       // so we can identify the user in future webhook events
@@ -69,13 +73,17 @@ export async function POST(req: NextRequest) {
         subscription.status === "active" ||
         subscription.status === "trialing";
 
-      await supabase
+      const { error: updateError } = await supabase
         .from("user_subscriptions")
         .update({
           tier: isActive ? "pro" : "free",
           updated_at: new Date().toISOString(),
         })
         .eq("user_id", userId);
+      if (updateError) {
+        console.error("Failed to update subscription status:", updateError);
+        return NextResponse.json({ error: "Failed to update subscription" }, { status: 500 });
+      }
     }
 
     return NextResponse.json({ received: true });

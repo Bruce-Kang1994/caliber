@@ -4,6 +4,8 @@ import { useState, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "@/i18n/navigation";
+import { AppHeader } from "@/components/AppHeader";
+import { AppFooter } from "@/components/AppFooter";
 
 // ─── Types ───
 type ArchetypeKey =
@@ -393,62 +395,76 @@ function calculateResults(answers: number[]) {
 // ─── Intro Screen ───
 function IntroScreen({ onStart }: { onStart: () => void }) {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
-      {/* Decorative background blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-indigo-100/50 blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-violet-100/50 blur-[100px]" />
-      </div>
-
-      <div className="relative z-10 max-w-2xl">
-        <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium text-indigo-600 mb-8">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
-          </span>
-          2 分钟 · 10 道情景题
-        </div>
-
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
-          你是哪种
-          <br />
-          <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
-            产品经理？
-          </span>
-        </h1>
-
-        <p className="mt-6 text-lg md:text-xl text-slate-500 max-w-lg mx-auto leading-relaxed">
-          不是自评打分，而是真实场景下的直觉选择。
-          <br />
-          发现你的 PM 原型，了解你的独特优势和成长方向。
+    <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
+      {/* Hero */}
+      <div className="text-center max-w-2xl mx-auto mb-20">
+        <p className="text-sm font-medium text-slate-400 tracking-wide mb-5">
+          2 分钟 · 10 道真实场景题
         </p>
-
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <h1 className="text-4xl md:text-[3.25rem] font-bold tracking-tight text-slate-900 leading-[1.15]">
+          你是哪种产品经理？
+        </h1>
+        <p className="mt-5 text-base md:text-lg text-slate-500 leading-relaxed max-w-md mx-auto">
+          10 道真实工作场景，没有标准答案。
+          <br className="hidden md:block" />
+          你的直觉选择会揭示你的 PM 原型。
+        </p>
+        <div className="mt-8">
           <Button
             size="lg"
             onClick={onStart}
-            className="rounded-full px-10 h-13 text-base shadow-lg shadow-primary/20"
+            className="rounded-full px-10 h-12 text-sm font-medium"
           >
             开始测试
           </Button>
         </div>
+      </div>
 
-        <div className="mt-12 grid grid-cols-5 gap-4 max-w-md mx-auto">
-          {(Object.keys(ARCHETYPES) as ArchetypeKey[]).map((key) => (
-            <div key={key} className="text-center">
-              <div className="text-2xl mb-1">{ARCHETYPES[key].emoji}</div>
-              <div className="text-[11px] text-slate-400 leading-tight">
-                {ARCHETYPES[key].name}
-              </div>
+      {/* 5 Archetype preview cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto">
+        {(Object.keys(ARCHETYPES) as ArchetypeKey[]).map((key) => {
+          const a = ARCHETYPES[key];
+          return (
+            <div
+              key={key}
+              className="group rounded-2xl border border-slate-150 bg-white p-4 text-center hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <div className="text-2xl mb-2">{a.emoji}</div>
+              <div className="text-sm font-semibold text-slate-800 mb-0.5">{a.name}</div>
+              <div className="text-[11px] text-slate-400 leading-snug">{a.tagline}</div>
             </div>
-          ))}
-        </div>
+          );
+        })}
+      </div>
+
+      {/* Trust signals */}
+      <div className="mt-16 flex items-center justify-center gap-6 text-xs text-slate-400">
+        <span className="flex items-center gap-1.5">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+          </svg>
+          无需注册
+        </span>
+        <span className="flex items-center gap-1.5">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          约 2 分钟
+        </span>
+        <span className="flex items-center gap-1.5">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+          </svg>
+          结果即时生成
+        </span>
       </div>
     </div>
   );
 }
 
 // ─── Question Screen ───
+const OPTION_LABELS = ["A", "B", "C", "D"];
+
 function QuestionScreen({
   question,
   index,
@@ -469,66 +485,51 @@ function QuestionScreen({
   const progress = ((index + 1) / total) * 100;
 
   return (
-    <div className="min-h-[80vh] flex flex-col px-6 py-8 max-w-2xl mx-auto">
-      {/* Progress */}
-      <div className="mb-2 flex items-center justify-between text-sm text-slate-400">
-        <span>
-          {index + 1} / {total}
-        </span>
-        <span>{Math.round(progress)}%</span>
+    <div className="min-h-[calc(100vh-56px)] flex flex-col">
+      {/* Top progress bar — full width, thin */}
+      <div className="w-full bg-slate-100 h-1">
+        <div
+          className="h-full bg-slate-900 transition-all duration-500 ease-out"
+          style={{ width: `${progress}%` }}
+        />
       </div>
-      <Progress value={progress} className="h-1.5 mb-10" />
 
-      {/* Scenario */}
-      <div className="flex-1 flex flex-col justify-center">
-        <p className="text-[11px] font-semibold text-indigo-500 uppercase tracking-widest mb-3">
-          情景 {String(index + 1).padStart(2, "0")}
-        </p>
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 leading-snug mb-8">
+      <div className="flex-1 flex flex-col px-6 py-8 md:py-12 max-w-[640px] mx-auto w-full">
+        {/* Question number */}
+        <div className="mb-8">
+          <span className="text-xs font-medium text-slate-400">
+            {index + 1} / {total}
+          </span>
+        </div>
+
+        {/* Scenario */}
+        <h2 className="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed mb-8">
           {question.scenario}
         </h2>
 
         {/* Options */}
-        <div className="space-y-3">
+        <div className="space-y-2.5 flex-1">
           {question.options.map((option, oi) => {
             const isSelected = selectedOption === oi;
             return (
               <button
                 key={oi}
                 onClick={() => onSelect(oi)}
-                className={`w-full text-left rounded-2xl px-5 py-4 border-2 transition-all duration-200 cursor-pointer
+                className={`w-full text-left rounded-xl px-4 py-3.5 border transition-all duration-150 cursor-pointer
                   ${
                     isSelected
-                      ? "border-indigo-500 bg-indigo-50/80 shadow-sm shadow-indigo-100"
-                      : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 hover:shadow-sm hover:-translate-y-0.5"
+                      ? "border-slate-900 bg-slate-900 text-white"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-white"
                   }`}
               >
                 <div className="flex items-start gap-3">
-                  <div
-                    className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors duration-200
-                    ${
-                      isSelected
-                        ? "border-indigo-500 bg-indigo-500"
-                        : "border-slate-300"
-                    }`}
-                  >
-                    {isSelected && (
-                      <svg
-                        className="w-3 h-3 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                  </div>
                   <span
-                    className={`text-sm md:text-base leading-relaxed ${isSelected ? "text-slate-900 font-medium" : "text-slate-600"}`}
+                    className={`text-xs font-semibold mt-0.5 w-5 h-5 rounded flex items-center justify-center shrink-0
+                    ${isSelected ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400"}`}
                   >
+                    {OPTION_LABELS[oi]}
+                  </span>
+                  <span className="text-sm leading-relaxed">
                     {option.text}
                   </span>
                 </div>
@@ -536,53 +537,25 @@ function QuestionScreen({
             );
           })}
         </div>
-      </div>
 
-      {/* Navigation */}
-      <div className="mt-8 flex items-center justify-between">
-        <Button
-          variant="ghost"
-          onClick={onPrev}
-          disabled={index === 0}
-          className="rounded-full text-slate-400"
-        >
-          <svg
-            className="w-4 h-4 mr-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
+        {/* Navigation */}
+        <div className="mt-10 flex items-center justify-between">
+          <button
+            onClick={onPrev}
+            disabled={index === 0}
+            className="text-sm text-slate-400 hover:text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5 8.25 12l7.5-7.5"
-            />
-          </svg>
-          上一题
-        </Button>
-        <Button
-          onClick={onNext}
-          disabled={selectedOption === null}
-          className="rounded-full px-8"
-        >
-          {index === total - 1 ? "查看结果" : "下一题"}
-          {index < total - 1 && (
-            <svg
-              className="w-4 h-4 ml-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m8.25 4.5 7.5 7.5-7.5 7.5"
-              />
-            </svg>
-          )}
-        </Button>
+            ← 上一题
+          </button>
+          <Button
+            onClick={onNext}
+            disabled={selectedOption === null}
+            size="sm"
+            className="rounded-full px-6 h-9 text-sm"
+          >
+            {index === total - 1 ? "查看结果" : "下一题 →"}
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -606,217 +579,131 @@ function ResultScreen({
   const s = ARCHETYPES[secondary];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero result card */}
-      <div
-        className={`relative overflow-hidden bg-gradient-to-br ${p.gradient} text-white`}
-      >
-        {/* Decorative circles */}
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-white/[0.06] -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-white/[0.04] translate-y-1/3 -translate-x-1/4" />
-
-        <div className="relative z-10 max-w-2xl mx-auto px-6 pt-16 pb-20 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur-sm px-4 py-1.5 text-sm font-medium mb-8">
-            <span>你的 PM 原型</span>
-          </div>
-
-          <div className="text-6xl mb-4">{p.emoji}</div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-            {p.name}
-          </h1>
-          <p className="mt-3 text-lg text-white/80">{p.tagline}</p>
-
-          {/* Primary + Secondary badges */}
-          <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
-            <span className="rounded-full bg-white/20 backdrop-blur-sm px-4 py-1.5 text-sm font-medium">
-              主要原型: {p.name} {percentages[primary]}%
-            </span>
-            <span className="rounded-full bg-white/10 backdrop-blur-sm px-4 py-1.5 text-sm">
-              次要原型: {s.name} {percentages[secondary]}%
-            </span>
-          </div>
+    <div className="max-w-2xl mx-auto px-6 py-12 md:py-16">
+      {/* Hero — simple, typography-driven */}
+      <div className="text-center mb-12">
+        <p className="text-sm text-slate-400 mb-3">你的 PM 原型</p>
+        <div className="text-5xl mb-3">{p.emoji}</div>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+          {p.name}
+        </h1>
+        <p className="mt-2 text-base text-slate-500">{p.tagline}</p>
+        <div className="mt-5 flex items-center justify-center gap-2">
+          <span className="text-xs font-medium text-slate-500 bg-slate-100 rounded-full px-3 py-1">
+            {percentages[primary]}% 匹配
+          </span>
+          <span className="text-xs text-slate-400">·</span>
+          <span className="text-xs text-slate-400">
+            次要: {s.name} {percentages[secondary]}%
+          </span>
         </div>
       </div>
 
-      {/* Distribution bars */}
-      <div className="max-w-2xl mx-auto px-6 -mt-6">
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-200/80 p-6">
-          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-5">
-            原型分布
-          </h3>
-          <div className="space-y-4">
-            {sorted.map(([key]) => {
-              const a = ARCHETYPES[key];
-              const pct = percentages[key];
-              return (
-                <div key={key}>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{a.emoji}</span>
-                      <span
-                        className={`text-sm font-semibold ${key === primary ? "text-slate-900" : "text-slate-500"}`}
-                      >
-                        {a.name}
-                      </span>
-                    </div>
-                    <span
-                      className={`text-sm font-bold ${key === primary ? "text-slate-900" : "text-slate-400"}`}
-                    >
-                      {pct}%
-                    </span>
-                  </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full bg-gradient-to-r ${a.gradient} transition-all duration-1000 ease-out`}
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
+      {/* Distribution */}
+      <div className="rounded-xl border border-slate-200 bg-white p-5 mb-6">
+        <h3 className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-4">
+          原型分布
+        </h3>
+        <div className="space-y-3">
+          {sorted.map(([key]) => {
+            const a = ARCHETYPES[key];
+            const pct = percentages[key];
+            const isPrimary = key === primary;
+            return (
+              <div key={key} className="flex items-center gap-3">
+                <span className="text-base w-6 text-center">{a.emoji}</span>
+                <span className={`text-sm w-24 shrink-0 ${isPrimary ? "font-semibold text-slate-900" : "text-slate-500"}`}>
+                  {a.name}
+                </span>
+                <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-700 ease-out ${isPrimary ? "bg-slate-900" : "bg-slate-300"}`}
+                    style={{ width: `${pct}%` }}
+                  />
                 </div>
-              );
-            })}
-          </div>
+                <span className={`text-xs w-8 text-right tabular-nums ${isPrimary ? "font-semibold text-slate-900" : "text-slate-400"}`}>
+                  {pct}%
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Traits & strengths */}
-      <div className="max-w-2xl mx-auto px-6 mt-8 space-y-6">
-        {/* Traits */}
-        <div className="bg-slate-50 rounded-2xl p-6">
-          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">
-            性格特点
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {p.traits.map((trait) => (
-              <span
-                key={trait}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium bg-white ${p.textColor} border border-slate-200`}
-              >
-                {trait}
-              </span>
-            ))}
-          </div>
-        </div>
+      {/* Traits */}
+      <div className="flex flex-wrap gap-1.5 mb-6">
+        {p.traits.map((trait) => (
+          <span
+            key={trait}
+            className="rounded-full px-3 py-1 text-xs font-medium text-slate-600 bg-slate-100"
+          >
+            {trait}
+          </span>
+        ))}
+      </div>
 
-        {/* Strengths */}
-        <div className="bg-emerald-50/60 rounded-2xl p-6 border border-emerald-100/60">
-          <h3 className="text-sm font-semibold text-emerald-600 uppercase tracking-widest mb-4">
+      {/* Strengths & Blind Spots — side by side on md */}
+      <div className="grid md:grid-cols-2 gap-4 mb-6">
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <h3 className="text-xs font-medium text-emerald-600 uppercase tracking-wider mb-3">
             核心优势
           </h3>
-          <ul className="space-y-3">
-            {p.strengths.map((s, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
-                  <svg
-                    className="w-3 h-3 text-emerald-600"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <span className="text-sm text-slate-700 leading-relaxed">
-                  {s}
-                </span>
+          <ul className="space-y-2.5">
+            {p.strengths.map((str, i) => (
+              <li key={i} className="flex items-start gap-2.5">
+                <span className="text-emerald-500 mt-0.5 shrink-0">+</span>
+                <span className="text-sm text-slate-600 leading-relaxed">{str}</span>
               </li>
             ))}
           </ul>
         </div>
-
-        {/* Blind Spots */}
-        <div className="bg-amber-50/60 rounded-2xl p-6 border border-amber-100/60">
-          <h3 className="text-sm font-semibold text-amber-600 uppercase tracking-widest mb-4">
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <h3 className="text-xs font-medium text-amber-600 uppercase tracking-wider mb-3">
             成长盲区
           </h3>
-          <ul className="space-y-3">
+          <ul className="space-y-2.5">
             {p.blindSpots.map((b, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
-                  <svg
-                    className="w-3 h-3 text-amber-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                    />
-                  </svg>
-                </div>
-                <span className="text-sm text-slate-700 leading-relaxed">
-                  {b}
-                </span>
+              <li key={i} className="flex items-start gap-2.5">
+                <span className="text-amber-500 mt-0.5 shrink-0">!</span>
+                <span className="text-sm text-slate-600 leading-relaxed">{b}</span>
               </li>
             ))}
           </ul>
         </div>
+      </div>
 
-        {/* Secondary archetype note */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-2xl">{s.emoji}</span>
-            <div>
-              <h3 className="text-sm font-semibold text-slate-900">
-                你的次要原型：{s.name}
-              </h3>
-              <p className="text-xs text-slate-400 mt-0.5">{s.tagline}</p>
-            </div>
-          </div>
-          <p className="text-sm text-slate-500 leading-relaxed">
-            你在「{s.name}」维度上也表现出色（{percentages[secondary]}%），
-            这意味着你不仅有{p.name}的核心能力，还兼具{s.traits[0]}和
-            {s.traits[1]}等特质。 这种组合在团队中非常有价值。
-          </p>
+      {/* Secondary archetype */}
+      <div className="rounded-xl border border-slate-200 bg-white p-5 mb-10">
+        <div className="flex items-center gap-2.5 mb-2">
+          <span className="text-lg">{s.emoji}</span>
+          <span className="text-sm font-semibold text-slate-800">次要原型: {s.name}</span>
         </div>
+        <p className="text-sm text-slate-500 leading-relaxed">
+          你在「{s.name}」维度也有 {percentages[secondary]}% 的匹配度，
+          兼具{s.traits[0]}和{s.traits[1]}特质。这种{p.name} + {s.name}的组合让你在团队中具备独特优势。
+        </p>
       </div>
 
       {/* CTA */}
-      <div className="max-w-2xl mx-auto px-6 mt-12 mb-16">
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 text-center text-white">
-          <h3 className="text-xl md:text-2xl font-bold mb-3">
-            想基于真实经历获得 AI 深度评估？
-          </h3>
-          <p className="text-slate-400 text-sm mb-6 max-w-md mx-auto">
-            Caliber 完整评估基于你的真实工作经历，通过 AI 分析 16 个 PM
-            维度，生成专业报告、成长建议和行动计划。
-          </p>
-          <div className="flex items-center justify-center gap-3 flex-wrap">
-            <Link href="/assess">
-              <Button
-                size="lg"
-                className="rounded-full px-8 bg-white text-slate-900 hover:bg-slate-100"
-              >
-                免费开始完整评估
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="lg"
-              onClick={onRestart}
-              className="rounded-full px-6 text-slate-400 hover:text-white hover:bg-white/10"
-            >
-              重新测试
+      <div className="rounded-xl bg-slate-900 p-6 md:p-8 text-center">
+        <h3 className="text-lg font-semibold text-white mb-2">
+          想要基于真实经历的深度评估？
+        </h3>
+        <p className="text-sm text-slate-400 mb-5 max-w-sm mx-auto">
+          Caliber 通过 AI 分析你的工作经历，从 16 个维度生成专业报告和行动计划。
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <Link href="/assess">
+            <Button size="sm" className="rounded-full px-6 bg-white text-slate-900 hover:bg-slate-100">
+              免费开始评估 →
             </Button>
-          </div>
+          </Link>
+          <button
+            onClick={onRestart}
+            className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
+          >
+            重测
+          </button>
         </div>
       </div>
     </div>
@@ -870,57 +757,38 @@ export default function ArchetypeQuizPage() {
   }, [phase, answers]);
 
   return (
-    <div className="min-h-screen bg-white relative">
-      {/* Minimal top bar */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60">
-        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-sm font-semibold text-slate-900 tracking-tight"
-          >
-            Caliber
-          </Link>
-          {phase === "quiz" && (
-            <span className="text-xs text-slate-400">
-              {currentQ + 1} / {QUESTIONS.length}
-            </span>
-          )}
-          {phase !== "quiz" && (
-            <Link href="/assess">
-              <Button variant="ghost" size="sm" className="rounded-full text-xs">
-                完整评估 →
-              </Button>
-            </Link>
-          )}
-        </div>
-      </header>
+    <div className="min-h-screen bg-[#fafafa] flex flex-col">
+      <AppHeader showNav showAuth />
 
-      {/* Content */}
-      {phase === "intro" && (
-        <IntroScreen onStart={() => setPhase("quiz")} />
-      )}
+      <main className="flex-1">
+        {phase === "intro" && (
+          <IntroScreen onStart={() => setPhase("quiz")} />
+        )}
 
-      {phase === "quiz" && (
-        <QuestionScreen
-          question={QUESTIONS[currentQ]}
-          index={currentQ}
-          total={QUESTIONS.length}
-          selectedOption={answers[currentQ]}
-          onSelect={handleSelect}
-          onNext={handleNext}
-          onPrev={handlePrev}
-        />
-      )}
+        {phase === "quiz" && (
+          <QuestionScreen
+            question={QUESTIONS[currentQ]}
+            index={currentQ}
+            total={QUESTIONS.length}
+            selectedOption={answers[currentQ]}
+            onSelect={handleSelect}
+            onNext={handleNext}
+            onPrev={handlePrev}
+          />
+        )}
 
-      {phase === "result" && result && (
-        <ResultScreen
-          primary={result.primary}
-          secondary={result.secondary}
-          percentages={result.percentages}
-          sorted={result.sorted}
-          onRestart={handleRestart}
-        />
-      )}
+        {phase === "result" && result && (
+          <ResultScreen
+            primary={result.primary}
+            secondary={result.secondary}
+            percentages={result.percentages}
+            sorted={result.sorted}
+            onRestart={handleRestart}
+          />
+        )}
+      </main>
+
+      {phase !== "quiz" && <AppFooter />}
     </div>
   );
 }

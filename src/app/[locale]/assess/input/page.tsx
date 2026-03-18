@@ -56,7 +56,7 @@ function InputPageContent() {
   const handleFileUpload = useCallback(
     async (file: File) => {
       if (!file.name.toLowerCase().endsWith(".pdf")) {
-        setUploadError("Please upload a PDF file");
+        setUploadError(t("input.uploadPdfOnly"));
         return;
       }
 

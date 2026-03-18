@@ -111,7 +111,14 @@ export async function POST(req: NextRequest) {
             return;
           }
 
-          const experiences = JSON.parse(jsonMatch[0]);
+          let experiences;
+          try {
+            experiences = JSON.parse(jsonMatch[0]);
+          } catch (parseErr) {
+            send({ type: "error", error: "Failed to parse resume data. Please try again or use manual input." });
+            controller.close();
+            return;
+          }
 
           const mapped = experiences.map(
             (exp: {
