@@ -17,6 +17,9 @@
     "blog": "ブログ",
     "framework": "評価フレームワーク",
     "useCases": "活用シーン",
+    "freeTools": "無料ツール",
+    "archetypeQuiz": "PMタイプ診断",
+    "skillsRadar": "スキルレーダー",
     "about": "概要",
     "learnMore": "詳しく見る",
     "startAssessment": "評価を開始"
@@ -124,7 +127,8 @@
     "achievementsHint": "データを伴う重要な実績（1行に1つ）",
     "addMoreDetail": "プロジェクトと実績を追加して、より正確な評価を得る",
     "startAssessment": "AI評価を開始",
-    "minContentHint": "正確な評価のため、少なくとも100文字の経験情報を入力してください。"
+    "minContentHint": "正確な評価のため、少なくとも100文字の経験情報を入力してください。",
+    "uploadPdfOnly": "PDFファイルをアップロードしてください。"
   },
   "analyzing": {
     "title": "プロフィールを分析中...",
@@ -176,7 +180,10 @@
     "archetype_visionary": "ビジョナリー",
     "archetype_visionary_desc": "技術的な深さとプロダクト直感を組み合わせ、次の一手を描く。",
     "archetype_operator": "オペレーター",
-    "archetype_operator_desc": "組織を動かす力——部門横断の調整と実行力が強み。"
+    "archetype_operator_desc": "組織を動かす力——部門横断の調整と実行力が強み。",
+    "linkCopied": "リンクをクリップボードにコピーしました！",
+    "invalidEmail": "有効なメールアドレスを入力してください。",
+    "caliberScoreLabel": "Caliberスコア："
   },
   "pricing": {
     "title": "シンプルで透明な料金",
@@ -305,7 +312,9 @@
     "selectOneMore": "もう1つ選択してください",
     "readyToCompare": "比較の準備ができました！",
     "clearSelection": "クリア",
-    "compare": "比較"
+    "compare": "比較",
+    "signInRequired": "評価履歴を表示するにはログインしてください。",
+    "shared": "共有済み"
   },
   "compare": {
     "title": "成長比較",

@@ -17,6 +17,9 @@
     "blog": "Blog",
     "framework": "Méthodologie",
     "useCases": "Cas d'Usage",
+    "freeTools": "Outils Gratuits",
+    "archetypeQuiz": "Quiz Archétype PM",
+    "skillsRadar": "Radar Compétences",
     "about": "À propos",
     "learnMore": "En savoir plus",
     "startAssessment": "Commencer l'Évaluation"
@@ -124,7 +127,8 @@
     "achievementsHint": "Réalisations notables avec données (une par ligne)",
     "addMoreDetail": "Ajoutez des projets et réalisations pour une évaluation plus précise",
     "startAssessment": "Lancer l'évaluation IA",
-    "minContentHint": "Veuillez fournir au moins 100 caractères d'expérience pour une évaluation précise."
+    "minContentHint": "Veuillez fournir au moins 100 caractères d'expérience pour une évaluation précise.",
+    "uploadPdfOnly": "Veuillez télécharger un fichier PDF."
   },
   "analyzing": {
     "title": "Analyse de votre profil...",
@@ -176,7 +180,10 @@
     "archetype_visionary": "Le Visionnaire",
     "archetype_visionary_desc": "Vous combinez profondeur technique et intuition produit pour imaginer la suite.",
     "archetype_operator": "L'Opérateur",
-    "archetype_operator_desc": "Vous faites tourner la machine — coordination, exécution et alignement transversal sont vos forces."
+    "archetype_operator_desc": "Vous faites tourner la machine — coordination, exécution et alignement transversal sont vos forces.",
+    "linkCopied": "Lien copié dans le presse-papiers !",
+    "invalidEmail": "Veuillez entrer un email valide.",
+    "caliberScoreLabel": "Score Caliber :"
   },
   "pricing": {
     "title": "Choisissez le plan adapté à votre progression",
@@ -305,7 +312,9 @@
     "selectOneMore": "Sélectionnez-en une de plus pour comparer",
     "readyToCompare": "Prêt à comparer !",
     "clearSelection": "Effacer",
-    "compare": "Comparer"
+    "compare": "Comparer",
+    "signInRequired": "Veuillez vous connecter pour voir votre historique d'évaluation.",
+    "shared": "Partagé"
   },
   "compare": {
     "title": "Comparaison de progression",

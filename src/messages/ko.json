@@ -17,6 +17,9 @@
     "blog": "블로그",
     "framework": "평가 프레임워크",
     "useCases": "활용 사례",
+    "freeTools": "무료 도구",
+    "archetypeQuiz": "PM 유형 테스트",
+    "skillsRadar": "역량 레이더",
     "about": "소개",
     "learnMore": "자세히 보기",
     "startAssessment": "평가 시작"
@@ -124,7 +127,8 @@
     "achievementsHint": "데이터가 포함된 주요 성과 (한 줄에 하나씩)",
     "addMoreDetail": "프로젝트와 성과를 추가하여 더 정확한 평가 받기",
     "startAssessment": "AI 평가 시작",
-    "minContentHint": "정확한 평가를 위해 최소 100자 이상의 경험 정보를 입력해주세요."
+    "minContentHint": "정확한 평가를 위해 최소 100자 이상의 경험 정보를 입력해주세요.",
+    "uploadPdfOnly": "PDF 파일을 업로드해주세요."
   },
   "analyzing": {
     "title": "프로필 분석 중...",
@@ -176,7 +180,10 @@
     "archetype_visionary": "비전가형",
     "archetype_visionary_desc": "기술적 깊이와 프로덕트 직관을 결합해 다음 단계를 그림.",
     "archetype_operator": "오퍼레이터형",
-    "archetype_operator_desc": "조직을 움직이는 힘 — 크로스펑셔널 조율과 실행력이 강점."
+    "archetype_operator_desc": "조직을 움직이는 힘 — 크로스펑셔널 조율과 실행력이 강점.",
+    "linkCopied": "링크가 클립보드에 복사되었습니다!",
+    "invalidEmail": "유효한 이메일 주소를 입력해주세요.",
+    "caliberScoreLabel": "Caliber 점수:"
   },
   "pricing": {
     "title": "심플하고 투명한 요금제",
@@ -305,7 +312,9 @@
     "selectOneMore": "하나 더 선택하세요",
     "readyToCompare": "비교할 준비가 되었습니다!",
     "clearSelection": "지우기",
-    "compare": "비교"
+    "compare": "비교",
+    "signInRequired": "평가 이력을 보려면 로그인해 주세요.",
+    "shared": "공유됨"
   },
   "compare": {
     "title": "성장 비교",

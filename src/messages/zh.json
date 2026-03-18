@@ -17,6 +17,9 @@
     "blog": "博客",
     "framework": "评估方法论",
     "useCases": "使用场景",
+    "freeTools": "免费工具",
+    "archetypeQuiz": "PM 原型测试",
+    "skillsRadar": "能力雷达自评",
     "about": "关于",
     "learnMore": "了解更多",
     "startAssessment": "开始评估"
@@ -124,7 +127,8 @@
     "achievementsHint": "有数据的重要成果（每行一个）",
     "addMoreDetail": "添加项目和成就，获得更准确的评估",
     "startAssessment": "开始AI评估",
-    "minContentHint": "请至少提供100个字符的经历信息，以获得准确评估。"
+    "minContentHint": "请至少提供100个字符的经历信息，以获得准确评估。",
+    "uploadPdfOnly": "请上传 PDF 格式文件。"
   },
   "analyzing": {
     "title": "正在分析你的档案...",
@@ -176,7 +180,10 @@
     "archetype_visionary": "远见型",
     "archetype_visionary_desc": "技术深度与产品直觉的结合，善于想象下一步。",
     "archetype_operator": "操盘型",
-    "archetype_operator_desc": "让机器运转——跨职能协调、高效执行是你的核心优势。"
+    "archetype_operator_desc": "让机器运转——跨职能协调、高效执行是你的核心优势。",
+    "linkCopied": "链接已复制到剪贴板！",
+    "invalidEmail": "请输入有效的邮箱地址。",
+    "caliberScoreLabel": "Caliber 评分："
   },
   "pricing": {
     "title": "简单透明的定价",
@@ -305,7 +312,9 @@
     "selectOneMore": "再选一条进行对比",
     "readyToCompare": "可以开始对比了！",
     "clearSelection": "清除",
-    "compare": "对比"
+    "compare": "对比",
+    "signInRequired": "请先登录以查看你的评估历史。",
+    "shared": "已分享"
   },
   "compare": {
     "title": "成长对比",

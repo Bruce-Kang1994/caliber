@@ -17,6 +17,9 @@
     "blog": "Blog",
     "framework": "Framework",
     "useCases": "Use Cases",
+    "freeTools": "Free Tools",
+    "archetypeQuiz": "PM Archetype Quiz",
+    "skillsRadar": "Skills Radar",
     "about": "About",
     "learnMore": "Learn More",
     "startAssessment": "Start Assessment"
@@ -124,7 +127,8 @@
     "achievementsHint": "Notable achievements with data (one per line)",
     "addMoreDetail": "Add projects & achievements for a more accurate assessment",
     "startAssessment": "Start AI Assessment",
-    "minContentHint": "Please provide at least 100 characters of experience details for accurate assessment."
+    "minContentHint": "Please provide at least 100 characters of experience details for accurate assessment.",
+    "uploadPdfOnly": "Please upload a PDF file."
   },
   "analyzing": {
     "title": "Analyzing Your Profile...",
@@ -176,7 +180,10 @@
     "archetype_visionary": "The Visionary",
     "archetype_visionary_desc": "You combine technical depth with product intuition to imagine what's next.",
     "archetype_operator": "The Operator",
-    "archetype_operator_desc": "You keep the machine running — coordination, execution, and cross-functional alignment are your strengths."
+    "archetype_operator_desc": "You keep the machine running — coordination, execution, and cross-functional alignment are your strengths.",
+    "linkCopied": "Link copied to clipboard!",
+    "invalidEmail": "Please enter a valid email.",
+    "caliberScoreLabel": "Caliber Score:"
   },
   "pricing": {
     "title": "Simple, Transparent Pricing",
@@ -305,7 +312,9 @@
     "selectOneMore": "Select one more to compare",
     "readyToCompare": "Ready to compare!",
     "clearSelection": "Clear",
-    "compare": "Compare"
+    "compare": "Compare",
+    "signInRequired": "Please sign in to view your assessment history.",
+    "shared": "Shared"
   },
   "compare": {
     "title": "Progress Comparison",

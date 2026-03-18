@@ -17,6 +17,9 @@
     "blog": "Blog",
     "framework": "Marco de Evaluación",
     "useCases": "Casos de Uso",
+    "freeTools": "Herramientas Gratis",
+    "archetypeQuiz": "Quiz Arquetipo PM",
+    "skillsRadar": "Radar de Habilidades",
     "about": "Acerca de",
     "learnMore": "Saber más",
     "startAssessment": "Iniciar Evaluación"
@@ -124,7 +127,8 @@
     "achievementsHint": "Logros destacados con datos (uno por línea)",
     "addMoreDetail": "Agrega proyectos y logros para una evaluación más precisa",
     "startAssessment": "Iniciar evaluación con IA",
-    "minContentHint": "Proporciona al menos 100 caracteres de experiencia para una evaluación precisa."
+    "minContentHint": "Proporciona al menos 100 caracteres de experiencia para una evaluación precisa.",
+    "uploadPdfOnly": "Por favor, sube un archivo PDF."
   },
   "analyzing": {
     "title": "Analizando tu perfil...",
@@ -176,7 +180,10 @@
     "archetype_visionary": "El Visionario",
     "archetype_visionary_desc": "Combinas profundidad técnica con intuición de producto para imaginar lo que viene.",
     "archetype_operator": "El Operador",
-    "archetype_operator_desc": "Mantienes la máquina en marcha — coordinación, ejecución y alineación interfuncional son tus fortalezas."
+    "archetype_operator_desc": "Mantienes la máquina en marcha — coordinación, ejecución y alineación interfuncional son tus fortalezas.",
+    "linkCopied": "¡Enlace copiado al portapapeles!",
+    "invalidEmail": "Por favor, ingresa un email válido.",
+    "caliberScoreLabel": "Puntuación Caliber:"
   },
   "pricing": {
     "title": "Elige el plan adecuado para tu crecimiento",
@@ -305,7 +312,9 @@
     "selectOneMore": "Selecciona una más para comparar",
     "readyToCompare": "¡Listo para comparar!",
     "clearSelection": "Limpiar",
-    "compare": "Comparar"
+    "compare": "Comparar",
+    "signInRequired": "Inicia sesión para ver tu historial de evaluaciones.",
+    "shared": "Compartido"
   },
   "compare": {
     "title": "Comparación de progreso",
