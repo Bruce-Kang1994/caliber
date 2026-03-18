@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Link } from "@/i18n/navigation";
 import { AppHeader } from "@/components/AppHeader";
 import { AppFooter } from "@/components/AppFooter";
@@ -30,10 +29,9 @@ const ARCHETYPES: Record<
   ArchetypeKey,
   {
     name: string;
-    emoji: string;
-    gradient: string;
-    textColor: string;
     tagline: string;
+    description: string;
+    cardGradient: string;
     traits: string[];
     strengths: string[];
     blindSpots: string[];
@@ -41,10 +39,10 @@ const ARCHETYPES: Record<
 > = {
   craftsperson: {
     name: "匠心产品人",
-    emoji: "🔧",
-    gradient: "from-indigo-500 via-blue-500 to-cyan-400",
-    textColor: "text-indigo-600",
     tagline: "用户体验的极致追求者",
+    description:
+      "你是那种会为一个交互细节反复打磨的人。不是因为谁要求，而是因为你知道——好产品和伟大产品之间的距离，往往就在别人觉得「差不多了」的地方。你的用户同理心和对质量的执着，是团队最珍贵的资产。",
+    cardGradient: "linear-gradient(135deg, #4338ca, #3b82f6)",
     traits: ["注重细节", "用户同理心强", "高交付标准", "技术敏感度高"],
     strengths: [
       "能把模糊需求转化为精确的产品方案",
@@ -59,10 +57,10 @@ const ARCHETYPES: Record<
   },
   strategist: {
     name: "全局战略家",
-    emoji: "♟️",
-    gradient: "from-violet-500 via-purple-500 to-fuchsia-400",
-    textColor: "text-violet-600",
     tagline: "商业与产品的桥梁建造者",
+    description:
+      "当所有人都在讨论下个 sprint 做什么的时候，你的脑子里已经在推演明年的市场格局了。你能在复杂的商业环境中找到那个「一切都说得通」的逻辑，把它变成路线图上清晰的每一步。",
+    cardGradient: "linear-gradient(135deg, #7c3aed, #a855f7)",
     traits: ["全局思维", "商业嗅觉敏锐", "擅长优先级决策", "长期主义"],
     strengths: [
       "能在复杂环境中找到核心杠杆点",
@@ -77,10 +75,10 @@ const ARCHETYPES: Record<
   },
   "growth-hacker": {
     name: "增长黑客",
-    emoji: "📈",
-    gradient: "from-emerald-500 via-green-500 to-teal-400",
-    textColor: "text-emerald-600",
     tagline: "用数据驱动一切决策",
+    description:
+      "你看到的不是产品，而是一个由数据驱动的增长系统。每个按钮、每条推送、每个定价策略在你眼里都是可以优化的变量。你的实验思维让团队总能找到别人没发现的增长路径。",
+    cardGradient: "linear-gradient(135deg, #059669, #10b981)",
     traits: ["数据驱动", "实验思维", "结果导向", "快速迭代"],
     strengths: [
       "用数据发现别人看不到的机会",
@@ -95,10 +93,10 @@ const ARCHETYPES: Record<
   },
   visionary: {
     name: "未来洞察者",
-    emoji: "🔮",
-    gradient: "from-amber-500 via-orange-500 to-rose-400",
-    textColor: "text-amber-600",
     tagline: "看到别人看不到的可能性",
+    description:
+      "别人看到的是当下的产品，你看到的是三年后的可能性。你对技术趋势有近乎直觉的敏感，能在 AI、新平台、新范式中看到别人还没看到的产品机会。你描绘的愿景，让团队知道为什么而战。",
+    cardGradient: "linear-gradient(135deg, #d97706, #f59e0b)",
     traits: ["前瞻性强", "创新驱动", "技术直觉好", "善于描绘愿景"],
     strengths: [
       "能预判技术趋势并提前布局",
@@ -113,10 +111,10 @@ const ARCHETYPES: Record<
   },
   operator: {
     name: "卓越运营者",
-    emoji: "⚙️",
-    gradient: "from-sky-500 via-blue-500 to-indigo-400",
-    textColor: "text-sky-600",
     tagline: "让复杂的事情有序发生",
+    description:
+      "混乱是你的舞台。当项目陷入僵局、团队意见不合、截止日期逼近的时候，你反而越冷静。你能在混沌中建立秩序，让对的事情按对的顺序发生。没有你，再好的想法都只是停留在白板上的便利贴。",
+    cardGradient: "linear-gradient(135deg, #0284c7, #38bdf8)",
     traits: ["高执行力", "擅长协调", "流程思维", "沟通能力强"],
     strengths: [
       "能在混乱中建立秩序和流程",
@@ -396,7 +394,6 @@ function calculateResults(answers: number[]) {
 function IntroScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
-      {/* Hero */}
       <div className="text-center max-w-2xl mx-auto mb-20">
         <p className="text-sm font-medium text-slate-400 tracking-wide mb-5">
           2 分钟 · 10 道真实场景题
@@ -420,43 +417,45 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         </div>
       </div>
 
-      {/* 5 Archetype preview cards */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto">
         {(Object.keys(ARCHETYPES) as ArchetypeKey[]).map((key) => {
           const a = ARCHETYPES[key];
           return (
             <div
               key={key}
-              className="group rounded-2xl border border-slate-150 bg-white p-4 text-center hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+              className="group rounded-2xl border border-slate-200 bg-white p-4 text-center hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
             >
-              <div className="text-2xl mb-2">{a.emoji}</div>
-              <div className="text-sm font-semibold text-slate-800 mb-0.5">{a.name}</div>
+              <div className="text-sm font-semibold text-slate-800 mb-1">{a.name}</div>
               <div className="text-[11px] text-slate-400 leading-snug">{a.tagline}</div>
             </div>
           );
         })}
       </div>
 
-      {/* Trust signals */}
-      <div className="mt-16 flex items-center justify-center gap-6 text-xs text-slate-400">
-        <span className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-          </svg>
-          无需注册
-        </span>
-        <span className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>
-          约 2 分钟
-        </span>
-        <span className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-          </svg>
-          结果即时生成
-        </span>
+      <div className="mt-16 text-center">
+        <div className="flex items-center justify-center gap-6 text-xs text-slate-400 mb-6">
+          <span className="flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+            无需注册
+          </span>
+          <span className="flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            约 2 分钟
+          </span>
+          <span className="flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+            </svg>
+            结果即时生成
+          </span>
+        </div>
+        <p className="text-[11px] text-slate-300">
+          评估框架参考 Reforge PM Competency Model 与 SVPG Product Management Framework
+        </p>
       </div>
     </div>
   );
@@ -486,7 +485,6 @@ function QuestionScreen({
 
   return (
     <div className="min-h-[calc(100vh-56px)] flex flex-col">
-      {/* Top progress bar — full width, thin */}
       <div className="w-full bg-slate-100 h-1">
         <div
           className="h-full bg-slate-900 transition-all duration-500 ease-out"
@@ -495,19 +493,16 @@ function QuestionScreen({
       </div>
 
       <div className="flex-1 flex flex-col px-6 py-8 md:py-12 max-w-[640px] mx-auto w-full">
-        {/* Question number */}
         <div className="mb-8">
           <span className="text-xs font-medium text-slate-400">
             {index + 1} / {total}
           </span>
         </div>
 
-        {/* Scenario */}
         <h2 className="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed mb-8">
           {question.scenario}
         </h2>
 
-        {/* Options */}
         <div className="space-y-2.5 flex-1">
           {question.options.map((option, oi) => {
             const isSelected = selectedOption === oi;
@@ -538,7 +533,6 @@ function QuestionScreen({
           })}
         </div>
 
-        {/* Navigation */}
         <div className="mt-10 flex items-center justify-between">
           <button
             onClick={onPrev}
@@ -577,26 +571,130 @@ function ResultScreen({
 }) {
   const p = ARCHETYPES[primary];
   const s = ARCHETYPES[secondary];
+  const shareCardRef = useRef<HTMLDivElement>(null);
+  const [saving, setSaving] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleSaveImage = useCallback(async () => {
+    if (!shareCardRef.current || saving) return;
+    setSaving(true);
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(shareCardRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+      });
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `caliber-pm-${primary}.png`;
+      a.click();
+    } finally {
+      setSaving(false);
+    }
+  }, [primary, saving]);
+
+  const handleCopyLink = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+    }
+  }, []);
+
+  const handleShare = useCallback(async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `我是「${p.name}」— Caliber PM 原型测试`,
+          text: `${p.tagline}。来测测你是哪种产品经理？`,
+          url: window.location.href,
+        });
+      } catch {
+        // user cancelled
+      }
+    } else {
+      handleCopyLink();
+    }
+  }, [p.name, p.tagline, handleCopyLink]);
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-12 md:py-16">
-      {/* Hero — simple, typography-driven */}
-      <div className="text-center mb-12">
-        <p className="text-sm text-slate-400 mb-3">你的 PM 原型</p>
-        <div className="text-5xl mb-3">{p.emoji}</div>
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-          {p.name}
-        </h1>
-        <p className="mt-2 text-base text-slate-500">{p.tagline}</p>
-        <div className="mt-5 flex items-center justify-center gap-2">
-          <span className="text-xs font-medium text-slate-500 bg-slate-100 rounded-full px-3 py-1">
-            {percentages[primary]}% 匹配
-          </span>
-          <span className="text-xs text-slate-400">·</span>
-          <span className="text-xs text-slate-400">
-            次要: {s.name} {percentages[secondary]}%
-          </span>
+      {/* Share card — visible as hero, also used for image capture */}
+      <div
+        ref={shareCardRef}
+        className="rounded-2xl overflow-hidden mb-8"
+        style={{ background: p.cardGradient }}
+      >
+        <div className="px-8 py-12 md:py-16 text-center text-white">
+          <p className="text-sm font-medium text-white/60 mb-6 tracking-wide">
+            你的 PM 原型
+          </p>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            {p.name}
+          </h1>
+          <p className="text-base text-white/75 mb-8">{p.tagline}</p>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            {p.traits.map((t) => (
+              <span
+                key={t}
+                className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <span className="text-sm font-semibold bg-white/20 rounded-full px-4 py-1">
+              {percentages[primary]}% 匹配
+            </span>
+            <span className="text-xs text-white/50">
+              次要: {s.name} {percentages[secondary]}%
+            </span>
+          </div>
+          <p className="mt-6 text-[11px] text-white/30 tracking-wider">
+            CALIBER · PM ARCHETYPE ASSESSMENT
+          </p>
         </div>
+      </div>
+
+      {/* Share actions */}
+      <div className="flex items-center justify-center gap-2 mb-10">
+        <button
+          onClick={handleSaveImage}
+          disabled={saving}
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-white border border-slate-200 rounded-full px-4 py-2 transition-colors"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+          {saving ? "生成中..." : "保存图片"}
+        </button>
+        <button
+          onClick={handleShare}
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-white border border-slate-200 rounded-full px-4 py-2 transition-colors"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+          </svg>
+          {copied ? "已复制链接" : "分享"}
+        </button>
+        <button
+          onClick={onRestart}
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-600 bg-white border border-slate-200 rounded-full px-4 py-2 transition-colors"
+        >
+          重测
+        </button>
+      </div>
+
+      {/* Warm description */}
+      <div className="mb-8">
+        <p className="text-base text-slate-600 leading-[1.8]">
+          {p.description}
+        </p>
       </div>
 
       {/* Distribution */}
@@ -611,8 +709,7 @@ function ResultScreen({
             const isPrimary = key === primary;
             return (
               <div key={key} className="flex items-center gap-3">
-                <span className="text-base w-6 text-center">{a.emoji}</span>
-                <span className={`text-sm w-24 shrink-0 ${isPrimary ? "font-semibold text-slate-900" : "text-slate-500"}`}>
+                <span className={`text-sm w-28 shrink-0 ${isPrimary ? "font-semibold text-slate-900" : "text-slate-500"}`}>
                   {a.name}
                 </span>
                 <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
@@ -630,19 +727,7 @@ function ResultScreen({
         </div>
       </div>
 
-      {/* Traits */}
-      <div className="flex flex-wrap gap-1.5 mb-6">
-        {p.traits.map((trait) => (
-          <span
-            key={trait}
-            className="rounded-full px-3 py-1 text-xs font-medium text-slate-600 bg-slate-100"
-          >
-            {trait}
-          </span>
-        ))}
-      </div>
-
-      {/* Strengths & Blind Spots — side by side on md */}
+      {/* Strengths & Blind Spots */}
       <div className="grid md:grid-cols-2 gap-4 mb-6">
         <div className="rounded-xl border border-slate-200 bg-white p-5">
           <h3 className="text-xs font-medium text-emerald-600 uppercase tracking-wider mb-3">
@@ -651,7 +736,7 @@ function ResultScreen({
           <ul className="space-y-2.5">
             {p.strengths.map((str, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="text-emerald-500 mt-0.5 shrink-0">+</span>
+                <span className="text-emerald-500 mt-0.5 shrink-0 text-sm">+</span>
                 <span className="text-sm text-slate-600 leading-relaxed">{str}</span>
               </li>
             ))}
@@ -664,7 +749,7 @@ function ResultScreen({
           <ul className="space-y-2.5">
             {p.blindSpots.map((b, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="text-amber-500 mt-0.5 shrink-0">!</span>
+                <span className="text-amber-500 mt-0.5 shrink-0 text-sm">!</span>
                 <span className="text-sm text-slate-600 leading-relaxed">{b}</span>
               </li>
             ))}
@@ -675,12 +760,11 @@ function ResultScreen({
       {/* Secondary archetype */}
       <div className="rounded-xl border border-slate-200 bg-white p-5 mb-10">
         <div className="flex items-center gap-2.5 mb-2">
-          <span className="text-lg">{s.emoji}</span>
           <span className="text-sm font-semibold text-slate-800">次要原型: {s.name}</span>
+          <span className="text-xs text-slate-400">{percentages[secondary]}%</span>
         </div>
         <p className="text-sm text-slate-500 leading-relaxed">
-          你在「{s.name}」维度也有 {percentages[secondary]}% 的匹配度，
-          兼具{s.traits[0]}和{s.traits[1]}特质。这种{p.name} + {s.name}的组合让你在团队中具备独特优势。
+          你同时具备{s.traits[0]}和{s.traits[1]}特质。{p.name}的核心能力加上{s.name}的辅助视角，让你在面对复杂问题时有更多维度的思考方式。
         </p>
       </div>
 
@@ -692,20 +776,17 @@ function ResultScreen({
         <p className="text-sm text-slate-400 mb-5 max-w-sm mx-auto">
           Caliber 通过 AI 分析你的工作经历，从 16 个维度生成专业报告和行动计划。
         </p>
-        <div className="flex items-center justify-center gap-3">
-          <Link href="/assess">
-            <Button size="sm" className="rounded-full px-6 bg-white text-slate-900 hover:bg-slate-100">
-              免费开始评估 →
-            </Button>
-          </Link>
-          <button
-            onClick={onRestart}
-            className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
-          >
-            重测
-          </button>
-        </div>
+        <Link href="/assess">
+          <Button size="sm" className="rounded-full px-6 bg-white text-slate-900 hover:bg-slate-100">
+            免费开始评估 →
+          </Button>
+        </Link>
       </div>
+
+      {/* Framework note */}
+      <p className="text-center text-[11px] text-slate-300 mt-8">
+        原型模型参考 Reforge PM Competency Model 与 SVPG Product Management Framework
+      </p>
     </div>
   );
 }
