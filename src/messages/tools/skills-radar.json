@@ -1,0 +1,203 @@
+{
+  "_note": "Reference translation file. Actual page uses hardcoded Chinese text. This file is for future i18n integration.",
+  "meta": {
+    "en": { "title": "PM Skills Radar Self-Assessment", "description": "3-minute self-assessment to discover your PM capability profile" },
+    "zh": { "title": "PM 能力雷达自评", "description": "3 分钟快速了解你的 PM 能力画像，找到提升方向" },
+    "ja": { "title": "PMスキルレーダー自己評価", "description": "3分間の自己評価でPM能力プロファイルを把握" },
+    "ko": { "title": "PM 역량 레이더 자기평가", "description": "3분 자기평가로 PM 역량 프로필 파악" }
+  },
+  "step1": {
+    "badge": {
+      "en": "Free · No login · 3 min",
+      "zh": "免费 · 无需登录 · 3 分钟",
+      "ja": "無料 · ログイン不要 · 3分",
+      "ko": "무료 · 로그인 불필요 · 3분"
+    },
+    "selectRole": {
+      "en": "Select Target Role",
+      "zh": "选择目标角色",
+      "ja": "目標の役割を選択",
+      "ko": "목표 역할 선택"
+    },
+    "selectLevel": {
+      "en": "Select Seniority Level",
+      "zh": "选择资历级别",
+      "ja": "経験レベルを選択",
+      "ko": "경력 레벨 선택"
+    },
+    "startButton": {
+      "en": "Start Assessment",
+      "zh": "开始自评",
+      "ja": "自己評価を開始",
+      "ko": "자기평가 시작"
+    }
+  },
+  "step2": {
+    "title": {
+      "en": "Rate Each Dimension",
+      "zh": "为每个维度打分",
+      "ja": "各項目を評価",
+      "ko": "각 항목 평가"
+    },
+    "subtitle": {
+      "en": "Rate yourself 1-5 on 16 PM capability dimensions based on your real experience",
+      "zh": "基于你的真实经验，对 16 个 PM 能力维度进行 1-5 分自评",
+      "ja": "実務経験に基づいて16のPM能力を1〜5で自己評価",
+      "ko": "실무 경험을 기반으로 16개 PM 역량을 1-5점으로 자기평가"
+    },
+    "back": {
+      "en": "Back",
+      "zh": "返回",
+      "ja": "戻る",
+      "ko": "뒤로"
+    },
+    "viewResults": {
+      "en": "View Results",
+      "zh": "查看结果",
+      "ja": "結果を見る",
+      "ko": "결과 보기"
+    }
+  },
+  "step3": {
+    "heroLabel": {
+      "en": "PM Capability Assessment",
+      "zh": "PM 能力评估",
+      "ja": "PM能力評価",
+      "ko": "PM 역량 평가"
+    },
+    "radarTitle": {
+      "en": "Five-Dimension Capability Radar",
+      "zh": "五维能力雷达",
+      "ja": "5次元能力レーダー",
+      "ko": "5차원 역량 레이더"
+    },
+    "strengths": {
+      "en": "Top 3 Strengths",
+      "zh": "Top 3 优势",
+      "ja": "Top 3 強み",
+      "ko": "Top 3 강점"
+    },
+    "weaknesses": {
+      "en": "Top 3 Gaps",
+      "zh": "Top 3 短板",
+      "ja": "Top 3 弱み",
+      "ko": "Top 3 약점"
+    },
+    "gapAnalysis": {
+      "en": "Gap Analysis",
+      "zh": "差距分析",
+      "ja": "ギャップ分析",
+      "ko": "갭 분석"
+    },
+    "adjustScores": {
+      "en": "Adjust Scores",
+      "zh": "调整评分",
+      "ja": "スコアを調整",
+      "ko": "점수 조정"
+    },
+    "restart": {
+      "en": "Start Over",
+      "zh": "重新评估",
+      "ja": "やり直す",
+      "ko": "다시 시작"
+    }
+  },
+  "cta": {
+    "title": {
+      "en": "Self-assessment is just the beginning",
+      "zh": "自评只是开始",
+      "ja": "自己評価はスタートに過ぎない",
+      "ko": "자기평가는 시작일 뿐"
+    },
+    "description": {
+      "en": "Let AI provide a more objective and comprehensive PM assessment based on your real work experience. Discover blind spots and get personalized improvement advice.",
+      "zh": "让 AI 基于你的真实工作经历，给出更客观、更全面的能力评估。发现自评盲区，获取个性化提升建议。",
+      "ja": "AIが実務経験に基づいた、より客観的で包括的な能力評価を提供。自己評価の盲点を発見し、パーソナライズされた改善提案を取得。",
+      "ko": "AI가 실제 업무 경험을 기반으로 더 객관적이고 종합적인 역량 평가를 제공합니다. 자기평가의 사각지대를 발견하고 맞춤형 개선 제안을 받으세요."
+    },
+    "button": {
+      "en": "Try Caliber AI Assessment",
+      "zh": "试试 Caliber AI 评估",
+      "ja": "Caliber AI評価を試す",
+      "ko": "Caliber AI 평가 체험"
+    },
+    "trust": {
+      "en": "Free trial · 3-min results · 16-dimension deep analysis",
+      "zh": "免费试用 · 3 分钟出结果 · 16 维度深度分析",
+      "ja": "無料体験 · 3分で結果 · 16次元深層分析",
+      "ko": "무료 체험 · 3분 결과 · 16차원 심층 분석"
+    }
+  },
+  "scoreLabels": {
+    "1": { "en": "Entry", "zh": "入门", "ja": "入門", "ko": "입문" },
+    "2": { "en": "Basic", "zh": "基础", "ja": "基礎", "ko": "기초" },
+    "3": { "en": "Competent", "zh": "熟练", "ja": "習熟", "ko": "숙련" },
+    "4": { "en": "Advanced", "zh": "精通", "ja": "精通", "ko": "숙달" },
+    "5": { "en": "Expert", "zh": "专家", "ja": "専門家", "ko": "전문가" }
+  },
+  "categories": {
+    "product-execution": { "en": "Product Execution", "zh": "产品执行力", "ja": "プロダクト実行力", "ko": "제품 실행력" },
+    "customer-insight": { "en": "Customer & Data Insight", "zh": "用户与数据洞察", "ja": "顧客・データ洞察", "ko": "고객 및 데이터 인사이트" },
+    "product-strategy": { "en": "Product Strategy & Business", "zh": "产品战略与商业", "ja": "プロダクト戦略・ビジネス", "ko": "제품 전략 및 비즈니스" },
+    "influencing-people": { "en": "Influencing People", "zh": "影响力与领导力", "ja": "影響力・リーダーシップ", "ko": "영향력 및 리더십" },
+    "ai-emerging": { "en": "AI & Emerging", "zh": "AI 与新兴能力", "ja": "AI・新興能力", "ko": "AI 및 신흥 역량" }
+  },
+  "dimensions": {
+    "requirement-analysis": { "en": "Requirement Analysis", "zh": "需求分析与规格", "ja": "要件分析", "ko": "요구사항 분석" },
+    "product-design": { "en": "Product Design & UX", "zh": "产品设计与UX", "ja": "プロダクトデザイン・UX", "ko": "제품 디자인 및 UX" },
+    "system-architecture": { "en": "System Architecture", "zh": "系统架构理解", "ja": "システムアーキテクチャ", "ko": "시스템 아키텍처" },
+    "zero-to-one": { "en": "0-to-1 Delivery", "zh": "从0到1交付", "ja": "ゼロイチ実現力", "ko": "0→1 딜리버리" },
+    "user-research": { "en": "User Research", "zh": "用户研究与洞察", "ja": "ユーザーリサーチ", "ko": "사용자 리서치" },
+    "data-experimentation": { "en": "Data & Experimentation", "zh": "数据驱动与实验", "ja": "データ・実験", "ko": "데이터 및 실험" },
+    "business-decomposition": { "en": "Business Decomposition", "zh": "商业问题拆解", "ja": "ビジネス課題分解", "ko": "비즈니스 문제 분해" },
+    "commercialization-growth": { "en": "Commercialization & Growth", "zh": "商业化与增长", "ja": "収益化・成長", "ko": "수익화 및 성장" },
+    "product-vision": { "en": "Product Vision & Strategy", "zh": "产品愿景与战略", "ja": "プロダクトビジョン・戦略", "ko": "제품 비전 및 전략" },
+    "stakeholder-management": { "en": "Stakeholder Management", "zh": "干系人管理", "ja": "ステークホルダー管理", "ko": "이해관계자 관리" },
+    "project-management": { "en": "Project Management", "zh": "项目管理与执行", "ja": "プロジェクト管理", "ko": "프로젝트 관리" },
+    "self-awareness": { "en": "Self-Awareness & Communication", "zh": "自我认知与沟通", "ja": "自己認識・コミュニケーション", "ko": "자기인식 및 커뮤니케이션" },
+    "ai-product-design": { "en": "AI Product Design", "zh": "AI 产品设计", "ja": "AIプロダクトデザイン", "ko": "AI 제품 디자인" },
+    "ai-tech-application": { "en": "AI Technical Application", "zh": "AI 技术应用", "ja": "AI技術応用", "ko": "AI 기술 응용" },
+    "cross-cultural": { "en": "Cross-Cultural & Localization", "zh": "跨文化与本地化", "ja": "異文化・ローカライズ", "ko": "다문화 및 현지화" },
+    "product-sense": { "en": "Product Sense & Creativity", "zh": "产品直觉与创造力", "ja": "プロダクトセンス・創造性", "ko": "제품 감각 및 창의성" }
+  },
+  "roles": {
+    "b2b-pm": {
+      "name": { "en": "B2B Product Manager", "zh": "B2B 产品经理", "ja": "B2Bプロダクトマネージャー", "ko": "B2B 프로덕트 매니저" },
+      "desc": { "en": "Enterprise tools, SaaS platforms, internal systems", "zh": "企业工具、SaaS 平台、内部系统", "ja": "エンタープライズツール・SaaSプラットフォーム", "ko": "기업 도구, SaaS 플랫폼, 내부 시스템" }
+    },
+    "c2c-pm": {
+      "name": { "en": "Consumer PM", "zh": "消费者产品经理", "ja": "コンシューマーPM", "ko": "소비자 PM" },
+      "desc": { "en": "Consumer apps, social products, e-commerce", "zh": "消费级应用、社交产品、电商", "ja": "コンシューマーアプリ・ソーシャル・EC", "ko": "소비자 앱, 소셜, 이커머스" }
+    },
+    "ai-pm": {
+      "name": { "en": "AI Product Manager", "zh": "AI 产品经理", "ja": "AIプロダクトマネージャー", "ko": "AI 프로덕트 매니저" },
+      "desc": { "en": "AI-native products, LLM apps, ML platforms", "zh": "AI 原生产品、LLM 应用、ML 平台", "ja": "AIネイティブプロダクト・LLMアプリ・MLプラットフォーム", "ko": "AI 네이티브 제품, LLM 앱, ML 플랫폼" }
+    },
+    "growth-pm": {
+      "name": { "en": "Growth PM", "zh": "增长产品经理", "ja": "グロースPM", "ko": "그로스 PM" },
+      "desc": { "en": "Acquisition, activation, retention, monetization", "zh": "用户获取、激活、留存、变现", "ja": "獲得・活性化・継続・収益化", "ko": "획득, 활성화, 리텐션, 수익화" }
+    },
+    "data-pm": {
+      "name": { "en": "Data PM", "zh": "数据产品经理", "ja": "データPM", "ko": "데이터 PM" },
+      "desc": { "en": "Data platforms, analytics tools, BI dashboards", "zh": "数据平台、分析工具、BI 仪表盘", "ja": "データプラットフォーム・分析ツール・BIダッシュボード", "ko": "데이터 플랫폼, 분석 도구, BI 대시보드" }
+    }
+  },
+  "levels": {
+    "junior": {
+      "name": { "en": "Junior PM / APM", "zh": "初级 PM / APM", "ja": "ジュニアPM / APM", "ko": "주니어 PM / APM" },
+      "desc": { "en": "0-2y · Learning, executing defined tasks", "zh": "0-2年 · 学习阶段，执行明确任务", "ja": "0-2年 · 学習段階、定義されたタスクの実行", "ko": "0-2년 · 학습 단계, 정의된 업무 수행" }
+    },
+    "mid": {
+      "name": { "en": "Product Manager", "zh": "产品经理", "ja": "プロダクトマネージャー", "ko": "프로덕트 매니저" },
+      "desc": { "en": "2-5y · Owns a product area independently", "zh": "2-5年 · 独立负责产品模块", "ja": "2-5年 · プロダクト領域を独立担当", "ko": "2-5년 · 제품 영역 독립 담당" }
+    },
+    "senior": {
+      "name": { "en": "Senior PM / Lead", "zh": "高级 PM / Lead", "ja": "シニアPM / リード", "ko": "시니어 PM / 리드" },
+      "desc": { "en": "5-10y · Drives strategy, cross-team influence", "zh": "5-10年 · 驱动战略，跨团队影响力", "ja": "5-10年 · 戦略推進、クロスチーム影響力", "ko": "5-10년 · 전략 주도, 크로스팀 영향력" }
+    },
+    "director": {
+      "name": { "en": "Director / VP", "zh": "总监 / VP", "ja": "ディレクター / VP", "ko": "디렉터 / VP" },
+      "desc": { "en": "10y+ · Product portfolio, org leadership", "zh": "10年+ · 产品组合，组织级领导力", "ja": "10年以上 · プロダクトポートフォリオ、組織リーダーシップ", "ko": "10년+ · 제품 포트폴리오, 조직 리더십" }
+    }
+  }
+}

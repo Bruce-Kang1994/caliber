@@ -1,0 +1,475 @@
+{
+  "en": {
+    "meta": {
+      "title": "What Type of PM Are You?",
+      "description": "A 2-minute scenario quiz to discover your PM archetype"
+    },
+    "intro": {
+      "badge": "2 min · 10 scenarios",
+      "title1": "What Type of",
+      "title2": "Product Manager",
+      "title3": "Are You?",
+      "subtitle": "Not self-scoring — real scenarios, gut reactions. Discover your PM archetype and growth path.",
+      "startButton": "Start Quiz"
+    },
+    "quiz": {
+      "scenarioLabel": "SCENARIO",
+      "prevButton": "Previous",
+      "nextButton": "Next",
+      "viewResult": "View Results"
+    },
+    "result": {
+      "yourArchetype": "Your PM Archetype",
+      "primaryLabel": "Primary",
+      "secondaryLabel": "Secondary",
+      "distribution": "Archetype Distribution",
+      "traits": "Personality Traits",
+      "strengths": "Core Strengths",
+      "blindSpots": "Growth Blind Spots",
+      "secondaryNote": "Your Secondary Archetype",
+      "ctaTitle": "Want a deep AI assessment based on your real experience?",
+      "ctaDesc": "Caliber's full assessment analyzes 16 PM dimensions based on your real work experience, generating a professional report with growth advice and action plans.",
+      "ctaButton": "Start Free Full Assessment",
+      "restartButton": "Retake Quiz"
+    },
+    "archetypes": {
+      "craftsperson": {
+        "name": "The Craftsperson",
+        "tagline": "Relentless pursuer of user experience excellence",
+        "traits": ["Detail-oriented", "Strong user empathy", "High delivery standards", "Tech-savvy"],
+        "strengths": [
+          "Translates vague requirements into precise product specs",
+          "Natural intuition for user experience",
+          "Consistently reliable delivery quality"
+        ],
+        "blindSpots": [
+          "May over-polish details while losing sight of the big picture",
+          "Room to improve business acumen",
+          "Sometimes struggles to ship 'imperfect' solutions"
+        ]
+      },
+      "strategist": {
+        "name": "The Strategist",
+        "tagline": "Bridge builder between business and product",
+        "traits": ["Big-picture thinking", "Sharp business instinct", "Prioritization expert", "Long-term oriented"],
+        "strengths": [
+          "Finds the core leverage point in complex environments",
+          "Translates business goals into product roadmaps",
+          "Strong cross-functional influence"
+        ],
+        "blindSpots": [
+          "May overlook execution-level details",
+          "Can get caught up in grand narratives",
+          "Frontline user pain perception could be deeper"
+        ]
+      },
+      "growth-hacker": {
+        "name": "The Growth Hacker",
+        "tagline": "Data drives every decision",
+        "traits": ["Data-driven", "Experiment mindset", "Results-oriented", "Fast iteration"],
+        "strengths": [
+          "Spots opportunities others miss through data",
+          "Expert at designing and analyzing A/B tests",
+          "Superb intuition for conversion funnels"
+        ],
+        "blindSpots": [
+          "May over-rely on data while missing qualitative insights",
+          "Tends to chase short-term metric gains",
+          "Limited patience for long-term product experience"
+        ]
+      },
+      "visionary": {
+        "name": "The Visionary",
+        "tagline": "Sees possibilities others can't",
+        "traits": ["Forward-thinking", "Innovation-driven", "Tech intuition", "Vision storyteller"],
+        "strengths": [
+          "Anticipates tech trends and positions ahead",
+          "Excels at 0-to-1 product creation",
+          "Inspires teams and stakeholders with vision"
+        ],
+        "blindSpots": [
+          "May drift from current user needs",
+          "Gap between ideals and execution",
+          "Sometimes underestimates 'boring but important' foundational work"
+        ]
+      },
+      "operator": {
+        "name": "The Operator",
+        "tagline": "Making complex things happen in order",
+        "traits": ["High execution", "Coordination expert", "Process-minded", "Strong communicator"],
+        "strengths": [
+          "Creates order from chaos",
+          "Top-tier cross-team coordination and driving ability",
+          "Delivers projects on time with high quality"
+        ],
+        "blindSpots": [
+          "May over-rely on process at the expense of innovation",
+          "Tends to fall into firefighting mode",
+          "Product intuition and strategic thinking have room to grow"
+        ]
+      }
+    },
+    "questions": [
+      {
+        "scenario": "The CEO suddenly announces: 'We need to cut 50% of the product roadmap.' Your first reaction?",
+        "options": [
+          "Pull up the data immediately — find which features have the lowest retention and ROI, use data to decide what to cut",
+          "Map each project's alignment with company strategy — keep what's most critical to the long-term vision",
+          "Talk to core users first — find out what they can't live without, decide from the user's perspective",
+          "Call a meeting with team leads to align priorities — make sure cuts don't disrupt ongoing critical deliveries"
+        ]
+      },
+      {
+        "scenario": "A competitor just launched a viral AI feature. Everyone's asking 'should we follow?'",
+        "options": [
+          "Study the underlying tech stack first — is there a more cutting-edge approach to leapfrog them?",
+          "Pull their user reviews and growth data — analyze if it's actually working for retention and acquisition",
+          "Go back to our user scenarios — do users need this specific feature or the underlying need behind it?",
+          "Assess our resources and roadmap — can we follow quickly without derailing core deliveries?"
+        ]
+      },
+      {
+        "scenario": "Your product has been live for 3 months but DAU is flat. The boss is getting impatient.",
+        "options": [
+          "Build a complete data funnel — find the biggest drop-off point and design targeted experiments",
+          "Step back and ask: are we fighting in the wrong market? Should we redefine the target user?",
+          "Interview 20 churned users in depth — find the real reasons they left, fix experience issues one by one",
+          "Align marketing, ops, and engineering — create a 30-day sprint plan to break through together"
+        ]
+      },
+      {
+        "scenario": "Engineering says 'technically possible, but at least 3 months.' Your response?",
+        "options": [
+          "Dive into the technical approach with engineers — can we break it into smaller deliverables and ship an MVP first?",
+          "Re-evaluate business value — if the market window closes in 3 months, is it still worth building?",
+          "Look for shortcuts or third-party solutions — validate the hypothesis with minimum cost first",
+          "Evaluate whether we can reallocate resources or reprioritize parallel projects to accelerate"
+        ]
+      },
+      {
+        "scenario": "The company is entering a brand-new market (e.g., expanding overseas). How do you approach it?",
+        "options": [
+          "Research tech trends and user behavior differences in the target market — can new tech create differentiation?",
+          "Run a simple landing page + paid ads test to validate market demand with minimum cost",
+          "Analyze competitive landscape, regulations, and business models — develop a phased entry strategy",
+          "Find benchmark users in the target market, deeply understand their workflows and pain points"
+        ]
+      },
+      {
+        "scenario": "Designer presents a beautiful but complex interaction scheme. How do you decide?",
+        "options": [
+          "Sketch a simplified flow yourself — ensure every step matches user mental models and habits",
+          "Run a quick A/B test — compare conversion data between the complex and simplified versions",
+          "Judge from positioning — does this complex interaction reinforce our core value proposition?",
+          "Pull in design and engineering to discuss — find the optimal trade-off between dev cost, timeline, and UX"
+        ]
+      },
+      {
+        "scenario": "An internal tool is severely slowing down the team, but nobody wants to fix it.",
+        "options": [
+          "Build a prototype over the weekend — prove how much efficiency improves, use facts to drive the decision",
+          "Do the math: wasted team labor cost vs. renovation investment — write a business case for leadership",
+          "Research automation tools or AI solutions — see if low-code/AI can solve it quickly",
+          "Launch a cross-team improvement project — set clear milestones and owners to drive formal delivery"
+        ]
+      },
+      {
+        "scenario": "In a user interview, someone describes a use case you never imagined. It's niche but they're very excited.",
+        "options": [
+          "Dig deeper into the underlying need — could this evolve into the next core feature?",
+          "Note it, then check the database for similar behavior patterns — use data to prioritize",
+          "Listen carefully, document the full user story — think about how to elegantly support it within existing architecture",
+          "Evaluate it against the broader product vision and market positioning — does it open a new market segment?"
+        ]
+      },
+      {
+        "scenario": "Boss wants a new feature in 2 weeks, but you know quality will suffer.",
+        "options": [
+          "Scope down — find the core experience path, do only the critical 20% but make that 20% perfect",
+          "Design a minimal experiment — ship a gray-release version in 2 days, let data decide how much more to invest",
+          "Show the boss full-version vs. minimal-version ROI comparison — negotiate for reasonable timeline or resources",
+          "Create a detailed 2-week sprint plan with daily deliverables — coordinate the team for all-out delivery"
+        ]
+      },
+      {
+        "scenario": "You just took over a product line. Previous PM left zero documentation, codebase is messy. First move?",
+        "options": [
+          "Use the entire product end-to-end — document every UX issue and bug to establish a quality baseline",
+          "Pull all user data and business metrics — figure out how much value this product actually creates",
+          "Chat with every engineer, designer, and ops person involved — understand history and team dynamics",
+          "Research the market and competitors — rethink the strategic positioning and future possibilities"
+        ]
+      }
+    ]
+  },
+  "zh": {
+    "meta": {
+      "title": "你是哪种PM？",
+      "description": "2分钟情景测试，发现你的PM原型"
+    },
+    "intro": {
+      "badge": "2 分钟 · 10 道情景题",
+      "title1": "你是哪种",
+      "title2": "产品经理？",
+      "subtitle": "不是自评打分，而是真实场景下的直觉选择。发现你的 PM 原型，了解你的独特优势和成长方向。",
+      "startButton": "开始测试"
+    },
+    "quiz": {
+      "scenarioLabel": "情景",
+      "prevButton": "上一题",
+      "nextButton": "下一题",
+      "viewResult": "查看结果"
+    },
+    "result": {
+      "yourArchetype": "你的 PM 原型",
+      "primaryLabel": "主要原型",
+      "secondaryLabel": "次要原型",
+      "distribution": "原型分布",
+      "traits": "性格特点",
+      "strengths": "核心优势",
+      "blindSpots": "成长盲区",
+      "secondaryNote": "你的次要原型",
+      "ctaTitle": "想基于真实经历获得 AI 深度评估？",
+      "ctaDesc": "Caliber 完整评估基于你的真实工作经历，通过 AI 分析 16 个 PM 维度，生成专业报告、成长建议和行动计划。",
+      "ctaButton": "免费开始完整评估",
+      "restartButton": "重新测试"
+    },
+    "archetypes": {
+      "craftsperson": {
+        "name": "匠心产品人",
+        "tagline": "用户体验的极致追求者",
+        "traits": ["注重细节", "用户同理心强", "高交付标准", "技术敏感度高"],
+        "strengths": [
+          "能把模糊需求转化为精确的产品方案",
+          "对用户体验有天然直觉",
+          "交付质量稳定可靠"
+        ],
+        "blindSpots": [
+          "可能过度打磨细节而忽视大局",
+          "商业敏感度有提升空间",
+          "有时难以割舍「不完美」的方案"
+        ]
+      },
+      "strategist": {
+        "name": "全局战略家",
+        "tagline": "商业与产品的桥梁建造者",
+        "traits": ["全局思维", "商业嗅觉敏锐", "擅长优先级决策", "长期主义"],
+        "strengths": [
+          "能在复杂环境中找到核心杠杆点",
+          "将商业目标转化为产品路线图",
+          "跨部门影响力强"
+        ],
+        "blindSpots": [
+          "可能忽视执行层面的细节",
+          "容易被宏大叙事带偏节奏",
+          "对一线用户痛点的感知可能不够深"
+        ]
+      },
+      "growth-hacker": {
+        "name": "增长黑客",
+        "tagline": "用数据驱动一切决策",
+        "traits": ["数据驱动", "实验思维", "结果导向", "快速迭代"],
+        "strengths": [
+          "用数据发现别人看不到的机会",
+          "擅长设计和分析 A/B 测试",
+          "对转化漏斗有超强直觉"
+        ],
+        "blindSpots": [
+          "可能过度依赖数据而忽视定性洞察",
+          "容易追求短期指标增长",
+          "对长期产品体验的耐心有限"
+        ]
+      },
+      "visionary": {
+        "name": "未来洞察者",
+        "tagline": "看到别人看不到的可能性",
+        "traits": ["前瞻性强", "创新驱动", "技术直觉好", "善于描绘愿景"],
+        "strengths": [
+          "能预判技术趋势并提前布局",
+          "擅长从 0 到 1 创造新产品",
+          "用愿景激发团队和利益相关者"
+        ],
+        "blindSpots": [
+          "可能脱离当前用户的实际需求",
+          "理想与执行之间容易出现落差",
+          "有时低估「无聊但重要」的基础工作"
+        ]
+      },
+      "operator": {
+        "name": "卓越运营者",
+        "tagline": "让复杂的事情有序发生",
+        "traits": ["高执行力", "擅长协调", "流程思维", "沟通能力强"],
+        "strengths": [
+          "能在混乱中建立秩序和流程",
+          "跨团队协调和推动能力一流",
+          "让项目按时高质量交付"
+        ],
+        "blindSpots": [
+          "可能过于依赖流程而限制创新",
+          "容易陷入「救火」模式",
+          "产品直觉和战略思维有提升空间"
+        ]
+      }
+    },
+    "questions": [
+      {
+        "scenario": "CEO 突然宣布：「我们要砍掉 50% 的产品路线图。」你的第一反应是？",
+        "options": [
+          "立刻拉数据，看哪些功能的用户留存和 ROI 最低，用数据说服老板砍哪些",
+          "先梳理每个项目和公司战略目标的关联度，保留对长期愿景最关键的项目",
+          "找核心用户聊聊，搞清楚他们最离不开的功能是什么，从用户视角决定",
+          "召集各团队 lead 开会，对齐优先级，确保砍掉的部分不会打断正在进行的关键交付"
+        ]
+      },
+      {
+        "scenario": "竞品刚发布了一个火爆的 AI 功能，团队都在问「我们要不要跟？」",
+        "options": [
+          "先研究这个功能的底层技术路线，思考有没有更前沿的方式弯道超车",
+          "拉竞品的用户评价数据，分析他们的获客和留存变化，判断是否真的有效",
+          "回到我们的用户场景，想想用户真正需要的是这个功能还是背后的需求",
+          "评估我们的资源和路线图，判断在不影响核心交付的前提下能否快速跟进"
+        ]
+      },
+      {
+        "scenario": "你负责的产品上线三个月了，DAU 一直涨不动，老板开始不耐烦了。你怎么办？",
+        "options": [
+          "搭建完整的数据漏斗，找到流失最严重的环节，设计针对性的实验来优化",
+          "退后一步看看：我们是不是在错误的市场里打仗？是否需要重新定义目标用户",
+          "深入访谈 20 个流失用户，找到他们不回来的真正原因，逐一修复体验问题",
+          "拉齐市场、运营、研发团队，制定一个 30 天冲刺计划，集中火力突破"
+        ]
+      },
+      {
+        "scenario": "工程团队说「这个需求技术上可以做，但至少要 3 个月」。你的反应是？",
+        "options": [
+          "和工程师一起深入技术方案，看能不能拆分成更小的可交付单元，先上 MVP",
+          "重新评估这个需求的业务价值——如果 3 个月后市场窗口关闭了还值得做吗？",
+          "考虑有没有技术捷径或第三方方案，用最小成本先验证假设",
+          "评估是否可以调配更多资源或调整并行项目的优先级来加速交付"
+        ]
+      },
+      {
+        "scenario": "公司准备进入一个全新市场（比如从国内走向海外），你会怎么切入？",
+        "options": [
+          "研究目标市场的技术趋势和用户习惯差异，思考能不能用新技术建立差异化优势",
+          "先做一个简单的落地页 + 付费广告测试，用最低成本验证市场需求",
+          "全面分析目标市场的竞争格局、监管环境和商业模式，制定分阶段进入策略",
+          "找到目标市场的标杆用户，深入了解他们的工作流和痛点，打造本地化产品体验"
+        ]
+      },
+      {
+        "scenario": "设计师拿出了一个方案，视觉上很好看但交互逻辑复杂。你怎么决策？",
+        "options": [
+          "自己画一个简化的交互方案，确保每一步都符合用户心智模型和使用习惯",
+          "做一个快速的 A/B 测试，看用户在复杂方案和简化方案上的转化数据对比",
+          "从产品定位角度判断——这个复杂交互是否强化了我们的核心价值主张？",
+          "拉上设计和工程一起讨论，在开发成本、上线时间和体验之间找到最优折中"
+        ]
+      },
+      {
+        "scenario": "公司有一个内部工具严重拖慢了团队效率，但没有人愿意花精力去改。你的选择是？",
+        "options": [
+          "趁周末自己先做个原型，证明改进后效率能提升多少，用事实推动决策",
+          "算一笔经济账：团队因此浪费的人力成本 vs 改造投入，写一份 business case 给管理层",
+          "研究市场上的自动化工具或 AI 方案，看能否用低代码/AI 方式快速解决",
+          "发起一个跨团队改进项目，设定明确的里程碑和 owner，推动它作为正式项目落地"
+        ]
+      },
+      {
+        "scenario": "用户访谈中，有个用户提了一个你从没想过的使用场景，看起来很小众但他非常激动。你会？",
+        "options": [
+          "深入挖掘这个场景背后的需求本质，思考是否能演化成下一个核心功能",
+          "先记录下来，然后去数据库里查有多少用户有类似行为，用数据判断优先级",
+          "认真倾听并记录完整的用户故事，思考如何在现有产品框架内优雅地支持它",
+          "把它放到更大的产品愿景和市场定位中评估，判断它是否打开了新的市场空间"
+        ]
+      },
+      {
+        "scenario": "老板要求你在两周内上一个新功能，但你知道质量肯定会打折扣。怎么处理？",
+        "options": [
+          "拆分功能范围，找出核心体验路径，只做最关键的 20%，但确保这 20% 完美",
+          "设计一个最小可行实验，用 2 天上线一个灰度版本，根据数据反馈再决定投入多少",
+          "向老板展示完整版和极简版的 ROI 对比，争取合理的时间线或资源",
+          "制定详细的两周冲刺计划，明确每天的交付物，协调团队全力以赴按时交付"
+        ]
+      },
+      {
+        "scenario": "你刚接手一个新产品线，发现前任 PM 留下的文档几乎为零，代码库也很混乱。第一步做什么？",
+        "options": [
+          "先把产品完整地用一遍，记录每一个体验问题和技术 bug，建立质量基线",
+          "调取所有用户数据和业务指标，搞清楚这个产品到底为公司创造了多少价值",
+          "和所有相关的工程师、设计师、运营人员聊一圈，了解历史背景和团队现状",
+          "研究这个产品所在的市场和竞品，重新思考它的战略定位和未来可能性"
+        ]
+      }
+    ]
+  },
+  "ja": {
+    "meta": {
+      "title": "あなたはどのタイプのPM？",
+      "description": "2分間のシナリオテストで、あなたのPMアーキタイプを発見"
+    },
+    "intro": {
+      "badge": "2分 · 10のシナリオ",
+      "title1": "あなたはどの",
+      "title2": "プロダクトマネージャー",
+      "title3": "タイプ？",
+      "subtitle": "自己評価ではなく、リアルなシナリオでの直感的な選択。PMアーキタイプを発見し、成長の方向を見つけましょう。",
+      "startButton": "テストを始める"
+    },
+    "quiz": {
+      "scenarioLabel": "シナリオ",
+      "prevButton": "前へ",
+      "nextButton": "次へ",
+      "viewResult": "結果を見る"
+    },
+    "result": {
+      "yourArchetype": "あなたのPMアーキタイプ",
+      "primaryLabel": "メイン",
+      "secondaryLabel": "サブ",
+      "distribution": "アーキタイプ分布",
+      "traits": "性格特性",
+      "strengths": "コア強み",
+      "blindSpots": "成長のブラインドスポット",
+      "secondaryNote": "サブアーキタイプ",
+      "ctaTitle": "実際の経験に基づくAI深層評価を受けてみませんか？",
+      "ctaDesc": "Caliberの完全評価は、あなたの実際の業務経験に基づいてAIが16のPMディメンションを分析し、プロフェッショナルなレポートと成長アドバイスを生成します。",
+      "ctaButton": "無料で完全評価を始める",
+      "restartButton": "もう一度テスト"
+    }
+  },
+  "ko": {
+    "meta": {
+      "title": "당신은 어떤 유형의 PM인가요?",
+      "description": "2분 시나리오 테스트로 당신의 PM 원형을 발견하세요"
+    },
+    "intro": {
+      "badge": "2분 · 10개 시나리오",
+      "title1": "당신은 어떤",
+      "title2": "프로덕트 매니저",
+      "title3": "유형인가요?",
+      "subtitle": "자기 평가가 아닌, 실제 시나리오에서의 직관적 선택. PM 원형을 발견하고 성장 방향을 찾아보세요.",
+      "startButton": "테스트 시작"
+    },
+    "quiz": {
+      "scenarioLabel": "시나리오",
+      "prevButton": "이전",
+      "nextButton": "다음",
+      "viewResult": "결과 보기"
+    },
+    "result": {
+      "yourArchetype": "당신의 PM 원형",
+      "primaryLabel": "주요",
+      "secondaryLabel": "부차",
+      "distribution": "원형 분포",
+      "traits": "성격 특성",
+      "strengths": "핵심 강점",
+      "blindSpots": "성장 사각지대",
+      "secondaryNote": "부차 원형",
+      "ctaTitle": "실제 경험에 기반한 AI 심층 평가를 받아보시겠어요?",
+      "ctaDesc": "Caliber 완전 평가는 실제 업무 경험을 바탕으로 AI가 16개 PM 차원을 분석하여 전문 보고서와 성장 조언을 생성합니다.",
+      "ctaButton": "무료 완전 평가 시작",
+      "restartButton": "다시 테스트"
+    }
+  }
+}
