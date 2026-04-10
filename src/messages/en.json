@@ -22,7 +22,10 @@
     "skillsRadar": "Skills Radar",
     "about": "About",
     "learnMore": "Learn More",
-    "startAssessment": "Start Assessment"
+    "startAssessment": "Start Assessment",
+    "builtBy": "Built by",
+    "builtByName": "Bruce Kang",
+    "openExperiment": "An open experiment in AI-powered PM assessment"
   },
   "landing": {
     "heroTitle": "Discover Your\nProduct Power",
@@ -192,11 +195,11 @@
     "caliberScoreLabel": "Caliber Score:"
   },
   "pricing": {
-    "title": "Simple, Transparent Pricing",
-    "subtitle": "Start free. Unlock the full report when you're ready.",
-    "freePlan": "Free",
-    "freePlanPrice": "$0",
-    "freePlanDesc": "See where you stand",
+    "title": "Everything is Free",
+    "subtitle": "No paywalls, no credit cards. Use every feature at no cost.",
+    "freePlan": "Basic",
+    "freePlanPrice": "/bin/zsh",
+    "freePlanDesc": "Quick snapshot",
     "freePlanFeatures": [
       "1 assessment per month",
       "Overall Caliber Score + PM Archetype",
@@ -204,9 +207,9 @@
       "Top 1 strength & Top 1 growth area (summary)",
       "1 dimension deep dive trial"
     ],
-    "singlePlan": "Single Report",
-    "singlePlanPrice": "$4.99",
-    "singlePlanDesc": "One-time deep dive",
+    "singlePlan": "Detailed",
+    "singlePlanPrice": "/bin/zsh",
+    "singlePlanDesc": "Full deep dive",
     "singlePlanFeatures": [
       "Full 16-dimension analysis",
       "Evidence-based scoring justifications",
@@ -215,33 +218,31 @@
       "PDF report export",
       "All-dimension deep dive"
     ],
-    "proPlan": "Pro",
-    "proPlanPrice": "$19",
-    "proPlanPeriod": "/month",
-    "proPlanDesc": "For serious job seekers",
+    "proPlan": "Unlimited",
+    "proPlanPrice": "/bin/zsh",
+    "proPlanPeriod": "",
+    "proPlanDesc": "No limits",
     "proPlanFeatures": [
       "Unlimited assessments",
-      "Everything in Single Report",
+      "Everything in Detailed",
       "Assessment history & progress tracking",
       "All-dimension deep dive",
-      "Priority AI processing",
-      "Resume rewrite suggestions (coming soon)",
-      "Mock interview prep (coming soon)"
+      "Priority AI processing"
     ],
-    "currentPlan": "Current Plan",
-    "getFullReport": "Get Full Report",
-    "upgrade": "Upgrade to Pro",
+    "currentPlan": "Start Free",
+    "getFullReport": "Start Free",
+    "upgrade": "Start Free",
     "comingSoon": "Coming Soon",
     "mostPopular": "Most Popular",
     "faq": "Frequently Asked Questions",
-    "faq1Q": "Is the free plan really free?",
-    "faq1A": "Yes! You get 1 assessment per month at no cost. You'll see your score, archetype, and a summary of your top strength and growth area. No credit card required.",
-    "faq2Q": "What's included in a Single Report?",
-    "faq2A": "The full 16-dimension breakdown with evidence-based justifications, hidden gems you're undervaluing, and a personalized action plan. You also get PDF export.",
-    "faq3Q": "Can I cancel Pro anytime?",
-    "faq3A": "Absolutely. Cancel your Pro subscription anytime with no questions asked.",
+    "faq1Q": "Why is everything free?",
+    "faq1A": "Caliber is an open experiment, not a commercial product. I built it to explore how AI can make PM capability assessment more accessible. There are no hidden fees or future paywalls.",
+    "faq2Q": "What's included in the Detailed tier?",
+    "faq2A": "The full 16-dimension breakdown with evidence-based justifications, hidden gems in your experience, and a personalized action plan. Plus PDF export.",
+    "faq3Q": "Do I need to create an account?",
+    "faq3A": "No. You can run an assessment without signing up. Creating an account lets you save history and track progress over time.",
     "faq4Q": "What AI model powers the assessment?",
-    "faq4A": "We use state-of-the-art large language models to analyze your experience across 16 PM capability dimensions, based on industry-standard frameworks from Ravi Mehta/Reforge, SVPG, and Google/Meta."
+    "faq4A": "We use state-of-the-art large language models to analyze your experience across 16 PM competency dimensions, based on frameworks from Reforge, SVPG, Google, and Meta."
   },
   "levels": {
     "title": "What's Your Seniority Level?",
@@ -539,5 +540,15 @@
     "contactTitle": "Contact Us",
     "contactContent": "Have suggestions, feedback, or partnership ideas? Reach out anytime.",
     "contactEmail": "hello@caliber.pm"
+  },
+  "builder": {
+    "sectionTitle": "Why I Built This",
+    "p1": "Product managers are one of the hardest roles to evaluate objectively. There is no universal certification, no standardized competency model, and every company defines \"great PM\" differently.",
+    "p2": "I studied four assessment frameworks — Ravi Mehta/Reforge, SVPG, Google APM, and Meta RPM — and found they each capture a different slice of the PM role. None covers the full picture. Caliber merges the best of all four into a single 16-dimension system with dynamic weights that shift based on your target role.",
+    "p3": "This is not a commercial product. It is an open experiment in using AI to make capability assessment more transparent, more evidence-based, and more accessible — so every PM can see clearly where they stand and where to go next.",
+    "authorName": "Bruce Kang",
+    "authorRole": "Product Owner, PostMem · Former B2B PM",
+    "authorCta": "More about me",
+    "authorCtaUrl": "https://kangxin.me/"
   }
 }

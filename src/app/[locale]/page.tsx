@@ -749,7 +749,49 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Section 5: Final CTA ═══ */}
+      {/* ═══ Section 5: Why I Built This ═══ */}
+      <section className="bg-white">
+        <div className="max-w-3xl mx-auto px-6 py-24">
+          <Reveal>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 text-center">
+              {t("builder.sectionTitle")}
+            </h2>
+          </Reveal>
+          <div className="mt-12 space-y-6 text-base md:text-lg text-slate-600 leading-relaxed">
+            <Reveal delay={100}>
+              <p>{t("builder.p1")}</p>
+            </Reveal>
+            <Reveal delay={200}>
+              <p>{t("builder.p2")}</p>
+            </Reveal>
+            <Reveal delay={300}>
+              <p>{t("builder.p3")}</p>
+            </Reveal>
+          </div>
+          {/* Author card */}
+          <Reveal delay={400}>
+            <div className="mt-12 flex items-center gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
+              <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
+                <span className="text-lg font-bold text-indigo-600">BK</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-slate-900">{t("builder.authorName")}</div>
+                <div className="text-sm text-slate-500">{t("builder.authorRole")}</div>
+              </div>
+              <a
+                href={t("builder.authorCtaUrl")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors shrink-0"
+              >
+                {t("builder.authorCta")} &rarr;
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ Section 6: Final CTA ═══ */}
       <section className="min-h-[50vh] flex flex-col items-center justify-center px-6 py-24 text-center">
         <Reveal>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900">

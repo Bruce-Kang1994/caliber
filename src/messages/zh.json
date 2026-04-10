@@ -22,7 +22,10 @@
     "skillsRadar": "能力雷达自评",
     "about": "关于",
     "learnMore": "了解更多",
-    "startAssessment": "开始评估"
+    "startAssessment": "开始评估",
+    "builtBy": "作者",
+    "builtByName": "Bruce Kang",
+    "openExperiment": "一次 AI 驱动的 PM 能力评估开放实验"
   },
   "landing": {
     "heroTitle": "发现你的\n产品力",
@@ -192,56 +195,54 @@
     "caliberScoreLabel": "Caliber 评分："
   },
   "pricing": {
-    "title": "简单透明的定价",
-    "subtitle": "免费体验，准备好时再解锁完整报告。",
-    "freePlan": "免费版",
+    "title": "全部免费",
+    "subtitle": "没有付费墙，不需要信用卡。所有功能免费使用。",
+    "freePlan": "基础版",
     "freePlanPrice": "¥0",
-    "freePlanDesc": "看看自己的水平",
+    "freePlanDesc": "快速了解",
     "freePlanFeatures": [
-      "每月1次评估",
-      "总分 + PM原型",
-      "5大类雷达图",
+      "每月 1 次评估",
+      "总分 + PM 原型",
+      "5 大类雷达图",
       "Top 1 长板 + Top 1 短板（摘要版）",
-      "1个维度深度诊断体验"
+      "1 个维度深度诊断体验"
     ],
-    "singlePlan": "单次报告",
-    "singlePlanPrice": "¥29.9",
-    "singlePlanDesc": "一次深度解析",
+    "singlePlan": "详细版",
+    "singlePlanPrice": "¥0",
+    "singlePlanDesc": "完整深度解析",
     "singlePlanFeatures": [
-      "完整16维度分析",
+      "完整 16 维度分析",
       "证据支撑的评分说明",
       "被低估经历挖掘",
       "个性化行动计划",
-      "PDF报告导出",
+      "PDF 报告导出",
       "全维度深度诊断"
     ],
-    "proPlan": "专业版",
-    "proPlanPrice": "¥99",
-    "proPlanPeriod": "/月",
-    "proPlanDesc": "适合认真求职的你",
+    "proPlan": "无限版",
+    "proPlanPrice": "¥0",
+    "proPlanPeriod": "",
+    "proPlanDesc": "没有任何限制",
     "proPlanFeatures": [
       "无限次评估",
-      "包含单次报告全部功能",
+      "包含详细版全部功能",
       "评估历史和成长追踪",
       "全维度深度诊断",
-      "优先AI处理",
-      "简历重写建议（即将上线）",
-      "模拟面试准备（即将上线）"
+      "优先 AI 处理"
     ],
-    "currentPlan": "当前方案",
-    "getFullReport": "获取完整报告",
-    "upgrade": "升级到专业版",
+    "currentPlan": "免费使用",
+    "getFullReport": "免费使用",
+    "upgrade": "免费使用",
     "comingSoon": "即将上线",
     "mostPopular": "最受欢迎",
     "faq": "常见问题",
-    "faq1Q": "免费版真的免费吗？",
-    "faq1A": "是的！每月1次免费评估，可以看到总分、PM原型和核心优劣势摘要。无需信用卡。",
-    "faq2Q": "单次报告包含什么？",
-    "faq2A": "完整16维度分析，带证据的评分说明，被低估的经历挖掘，以及个性化行动计划。还可以导出PDF。",
-    "faq3Q": "专业版可以随时取消吗？",
-    "faq3A": "当然可以，随时取消订阅，没有任何附加条件。",
-    "faq4Q": "评估使用什么AI模型？",
-    "faq4A": "我们使用最先进的大语言模型，基于Ravi Mehta/Reforge、SVPG和Google/Meta等行业标准框架，从16个PM能力维度分析你的经历。"
+    "faq1Q": "为什么全部免费？",
+    "faq1A": "Caliber 是一次开放实验，不是商业产品。我做它是为了探索 AI 如何让产品经理的能力评估更可及。没有隐藏收费，也不会有付费墙。",
+    "faq2Q": "详细版包含什么？",
+    "faq2A": "完整 16 维度分析，带证据的评分说明，被低估的经历挖掘，以及个性化行动计划。还可以导出 PDF。",
+    "faq3Q": "需要注册账号吗？",
+    "faq3A": "不需要。你可以不注册直接做评估。注册账号可以保存历史记录、追踪成长变化。",
+    "faq4Q": "评估使用什么 AI 模型？",
+    "faq4A": "我们使用最先进的大语言模型，基于 Reforge、SVPG、Google、Meta 等行业标准框架，从 16 个 PM 能力维度分析你的经历。"
   },
   "levels": {
     "title": "你的资历级别？",
@@ -539,5 +540,15 @@
     "contactTitle": "联系我们",
     "contactContent": "有建议、反馈或合作意向？随时联系我们。",
     "contactEmail": "hello@caliber.pm"
+  },
+  "builder": {
+    "sectionTitle": "为什么做这个",
+    "p1": "产品经理是科技行业最难客观评估的角色之一。没有统一认证，没有标准化能力模型，每家公司对「好 PM」的定义都不同。",
+    "p2": "我研究了四套评估框架——Ravi Mehta/Reforge、SVPG、Google APM、Meta RPM——发现每套都只覆盖了 PM 角色的一个切面，没有哪套是完整的。Caliber 把四者的精华融合为一套 16 维度体系，并根据目标岗位动态调整权重。",
+    "p3": "这不是一个商业产品。它是一次开放实验——探索 AI 能否让能力评估变得更透明、更有据可依、更可及，让每个产品人都能看清自己的位置和方向。",
+    "authorName": "Bruce Kang",
+    "authorRole": "PostMem 产品负责人 · 前 B 端产品经理",
+    "authorCta": "了解更多",
+    "authorCtaUrl": "https://kangxin.me/"
   }
 }

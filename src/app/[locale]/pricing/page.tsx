@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -26,7 +25,6 @@ function CheckIcon({ className }: { className?: string }) {
 
 export default function PricingPage() {
   const t = useTranslations();
-  const [loading, setLoading] = useState<"single" | "pro" | null>(null);
 
   const freeFeatures = t.raw("pricing.freePlanFeatures") as string[];
   const singleFeatures = t.raw("pricing.singlePlanFeatures") as string[];
@@ -38,39 +36,6 @@ export default function PricingPage() {
     { q: t("pricing.faq3Q"), a: t("pricing.faq3A") },
     { q: t("pricing.faq4Q"), a: t("pricing.faq4A") },
   ];
-
-  async function handleCheckout(plan: "single" | "pro") {
-    setLoading(plan);
-    try {
-      const currentLocale = window.location.pathname.match(/^\/(en|zh|ja|ko|fr|es)/)?.[1] || "en";
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          plan,
-          locale: currentLocale,
-          from: document.referrer.includes("/assess/report") ? "report" : "pricing",
-        }),
-      });
-
-      if (res.status === 401) {
-        // Not logged in — redirect to sign in
-        window.location.href = `/${currentLocale}/auth`;
-        return;
-      }
-
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || t("common.error"));
-      }
-    } catch {
-      alert(t("common.error"));
-    } finally {
-      setLoading(null);
-    }
-  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -87,9 +52,9 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* 3-Tier Plans */}
+        {/* 3-Tier Plans — all free */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {/* Free Plan */}
+          {/* Basic */}
           <Card className="border-slate-200">
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-lg text-slate-700">
@@ -123,7 +88,7 @@ export default function PricingPage() {
             </CardContent>
           </Card>
 
-          {/* Single Report Plan — Highlighted */}
+          {/* Detailed — Highlighted */}
           <Card className="border-blue-200 ring-2 ring-blue-600 relative">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
               <Badge className="bg-blue-600 text-white px-3 py-1">
@@ -153,25 +118,16 @@ export default function PricingPage() {
                 ))}
               </ul>
               <div className="mt-8">
-                <Button
-                  className="w-full"
-                  onClick={() => handleCheckout("single")}
-                  disabled={loading !== null}
-                >
-                  {loading === "single" ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      {t("pricing.getFullReport")}
-                    </span>
-                  ) : (
-                    t("pricing.getFullReport")
-                  )}
-                </Button>
+                <Link href="/assess" className="block">
+                  <Button className="w-full">
+                    {t("pricing.getFullReport")}
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
 
-          {/* Pro Plan */}
+          {/* Unlimited */}
           <Card className="border-slate-200">
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-lg text-slate-700">
@@ -180,9 +136,6 @@ export default function PricingPage() {
               <div className="mt-4">
                 <span className="text-4xl font-bold text-slate-900">
                   {t("pricing.proPlanPrice")}
-                </span>
-                <span className="text-slate-500 text-sm">
-                  {t("pricing.proPlanPeriod")}
                 </span>
               </div>
               <p className="text-sm text-slate-500 mt-2">
@@ -199,21 +152,11 @@ export default function PricingPage() {
                 ))}
               </ul>
               <div className="mt-8">
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleCheckout("pro")}
-                  disabled={loading !== null}
-                >
-                  {loading === "pro" ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
-                      {t("pricing.upgrade")}
-                    </span>
-                  ) : (
-                    t("pricing.upgrade")
-                  )}
-                </Button>
+                <Link href="/assess" className="block">
+                  <Button variant="outline" className="w-full">
+                    {t("pricing.upgrade")}
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
